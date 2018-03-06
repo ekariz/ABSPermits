@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- *
+
 $config['protocol']     = 'smtp';
 $config['smtp_host']    = 'smtp.zoho.com';
 $config['smtp_port']    = '587';
@@ -15,7 +14,7 @@ $config['wordwrap']     = TRUE;
 $config['newline']      = "\r\n";
 $config['useragent']    = "EnvisageMailer";
 $config['smtp_timeout'] = '60';
-**/
+
 
 /*
 $config['protocol'] = 'smtp';
@@ -30,16 +29,6 @@ $config['wordwrap'] = TRUE;
 $config['newline'] = "\r\n";
 **/
 
-$config = Array(
-  'protocol'   => 'smtp',
-  'smtp_host'  => 'smtp.mailtrap.io',
-  'smtp_port'  => 2525,
-  'smtp_user'  => '39b0f472b43142',
-  'smtp_pass'  => '54700bc480f41d',
-  'crlf'       => "\r\n",
-  'newline'    => "\r\n",
-  'useragent'  => "EnvisageMailer",
-  'mailtype'   => "html",
-);
+
 
 

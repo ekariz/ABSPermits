@@ -1,0 +1,75 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the
+ * later versions of this theme.
+ *
+ * We advise that you use use this CSS to override
+ * SmartAdmin styles.
+ *
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ *
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+
+body.smart-style-6 #logo-group>span#logo:before {
+    content: "ABS";
+}
+
+div#content {
+    background: url(/assets/img/mybg.png);
+}
+
+table.dataTable > thead > tr > th.sorting_asc, .dataTable > thead > tr > th.sorting_desc {
+    background-image: -webkit-linear-gradient(top,#EFF3F8 0,#E3E7ED 100%);
+    background-image: -o-linear-gradient(top,#EFF3F8 0,#E3E7ED 100%);
+    background-image: linear-gradient(to bottom,#EFF3F8 0,#E3E7ED 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeff3f8', endColorstr='#ffe3e7ed', GradientType=0);
+}
+
+table.dataTable > thead > tr > th[class*="sorting_"] {
+    color: #307ECC;
+    cursor: pointer;
+}
+
+table.dataTable > tbody > tr > td[class*="sorting_"] {
+    background-color: #fafafa;
+}
+
+table.dataTable thead th {
+    /*background-color: #333;
+    color:#fff;*/
+}
+
+.table-condensed.table > tbody > tr > td{
+    padding: 4px !important;
+}
+
+table.dataTable > thead > tr {
+    color: #707070;
+    font-weight: 400;
+    background: repeat-x #F2F2F2;
+    background-image: -webkit-linear-gradient(top,#F8F8F8 0,#ECECEC 100%);
+    background-image: -o-linear-gradient(top,#F8F8F8 0,#ECECEC 100%);
+    background-image: linear-gradient(to bottom,#F8F8F8 0,#ECECEC 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff8f8f8', endColorstr='#ffececec', GradientType=0);
+}
+
+.cg-comboItem {
+    height: 30px;
+    font-size: 12px;
+    text-align: left;
+}
+
+i.danger   { color:#900; }
+i.success  { color:#090; }
+i.gray     { color:#ccc; }
+
+

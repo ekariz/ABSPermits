@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<schema version="0.3">
+
+
+<table name="sysusers">
+ <descr>sys users</descr>
+  <field name="id"         type="I" size="10"  ><NOTNULL/></field>
+  <field name="email"      type="C" size="30"  ><KEY/><NOTNULL/></field>
+  <field name="rolecode"   type="C" size="5"   ><NOTNULL/><constraint>REFERENCES sysurl(rolecode) </constraint> </field>
+  <field name="username"   type="C" size="50"  ><NOTNULL/></field>
+  <field name="mobile"     type="C" size="20"  ><NULL/></field>
+  <field name="password"   type="C" size="100" ><NULL/></field>
+  <field name="resetcode"  type="C" size="100" ><NULL/></field>
+  <field name="instcode"   type="C" size="10" ><NULL/></field>
+  <field name="disabled"   type="D"  ><NULL/></field>
+
+  <field name="audituser"  type="C"  size="20"/>
+  <field name="auditdate"  type="D" />
+  <field name="audittime"  type="I" size="10"/>
+  <field name="auditip"    type="C" size="15"/>
+
+  <index name="idx_pk">
+   <col>email</col>
+   <UNIQUE/>
+  </index>
+
+  <index name="idx_search">
+     <col>email</col>
+     <col>username</col>
+     <col>rolecode</col>
+     <FULLTEXT/>
+     <BITMAP/>
+     <NONCLUSTERED/>
+  </index>
+
+</table>
+
+</schema>

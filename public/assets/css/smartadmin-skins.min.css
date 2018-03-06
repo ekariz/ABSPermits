@@ -1,0 +1,966 @@
+/*!
+ * SmartAdmin v1.8.2 ()
+ * Copyright 2011-2016
+ */
+
+body.smart-style-6 {
+    background: #edecec;
+    font-family: RobotoDraft, Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased
+}
+body.smart-style-6 .txt-color-green {
+    color: #4CAF50!important
+}
+body.smart-style-6 .bg-color-greenDark {
+    background: #2E7D32!important
+}
+body.smart-style-6 .txt-color-greenDark {
+    color: #2E7D32!important
+}
+body.smart-style-6 .bg-color-greenLight {
+    background: #43A047!important
+}
+body.smart-style-6 .txt-color-greenLight {
+    color: #43A047!important
+}
+body.smart-style-6 .bg-color-purple {
+    background: #9C27B0!important
+}
+body.smart-style-6 .txt-color-purple {
+    color: #9C27B0!important
+}
+body.smart-style-6 .bg-color-magenta,
+body.smart-style-6 .jarviswidget-color-magenta>header {
+    background: #A0F!important
+}
+body.smart-style-6 .jarviswidget-color-magenta>header {
+    border-color: #A0F!important
+}
+body.smart-style-6 .txt-color-magenta,
+body.smart-style-6 nav ul li.active>a:before {
+    color: #A0F!important
+}
+body.smart-style-6 .bg-color-pink {
+    background: #E91E63!important
+}
+body.smart-style-6 .txt-color-pink {
+    color: #E91E63!important
+}
+body.smart-style-6 .bg-color-pinkDark {
+    background: #AD1457!important
+}
+body.smart-style-6 .txt-color-pinkDark {
+    color: #AD1457!important
+}
+body.smart-style-6 .bg-color-blue,
+body.smart-style-6 .bootstrap-tagsinput>span,
+body.smart-style-6 .onoffswitch-inner:before,
+body.smart-style-6 .open>.dropdown-toggle.btn-primary,
+body.smart-style-6 .select2-container-multi .select2-choices .select2-search-choice {
+    background: #2196F3!important
+}
+body.smart-style-6 .txt-color-blue {
+    color: #2196F3!important
+}
+body.smart-style-6 .bg-color-blueLight,
+body.smart-style-6 .label-primary,
+body.smart-style-6 .noUi-connect,
+body.smart-style-6 .pagination>.active>a,
+body.smart-style-6 .pagination>.active>a:focus,
+body.smart-style-6 .pagination>.active>a:hover,
+body.smart-style-6 .pagination>.active>span,
+body.smart-style-6 .pagination>.active>span:focus,
+body.smart-style-6 .pagination>.active>span:hover,
+body.smart-style-6 .slider-selection {
+    background: #03A9F4!important
+}
+body.smart-style-6 .btn-primary {
+    background: #2196F3;
+    border-color: #0c7cd5!important
+}
+body.smart-style-6 .btn-primary:active,
+body.smart-style-6 .btn-primary:focus,
+body.smart-style-6 .btn-primary:hover {
+    background: #0c7cd5!important
+}
+body.smart-style-6 .btn-primary.active,
+body.smart-style-6 .btn-primary:active,
+body.smart-style-6 .btn-primary:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-primary {
+    border-color: #0c7cd5!important
+}
+body.smart-style-6 .btn-primary.active.focus,
+body.smart-style-6 .btn-primary.active:focus,
+body.smart-style-6 .btn-primary.active:hover,
+body.smart-style-6 .btn-primary:active.focus,
+body.smart-style-6 .btn-primary:active:focus,
+body.smart-style-6 .btn-primary:active:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-primary.focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-primary:focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-primary:hover {
+    background: #0c7cd5!important;
+    border-color: #0c7cd5!important
+}
+body.smart-style-6 .btn-warning {
+    background: #FF9800;
+    border-color: #cc7a00!important
+}
+body.smart-style-6 .btn-warning:active,
+body.smart-style-6 .btn-warning:focus,
+body.smart-style-6 .btn-warning:hover {
+    background: #cc7a00!important
+}
+body.smart-style-6 .btn-warning.active,
+body.smart-style-6 .btn-warning:active,
+body.smart-style-6 .btn-warning:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-warning {
+    border-color: #cc7a00!important
+}
+body.smart-style-6 .btn-warning.active.focus,
+body.smart-style-6 .btn-warning.active:focus,
+body.smart-style-6 .btn-warning.active:hover,
+body.smart-style-6 .btn-warning:active.focus,
+body.smart-style-6 .btn-warning:active:focus,
+body.smart-style-6 .btn-warning:active:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-warning.focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-warning:focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-warning:hover {
+    background: #cc7a00!important;
+    border-color: #cc7a00!important
+}
+body.smart-style-6 .pagination>li>a,
+body.smart-style-6 .pagination>li>span {
+    color: #03A9F4
+}
+body.smart-style-6 .pagination>.active>a,
+body.smart-style-6 .pagination>.active>a:focus,
+body.smart-style-6 .pagination>.active>a:hover,
+body.smart-style-6 .pagination>.active>span,
+body.smart-style-6 .pagination>.active>span:focus,
+body.smart-style-6 .pagination>.active>span:hover {
+    color: #fff;
+    border-color: #0398db
+}
+body.smart-style-6 .btn-danger {
+    color: #fff;
+    background-color: #F44336;
+    border-color: #f32c1e
+}
+body.smart-style-6 .btn-danger:active,
+body.smart-style-6 .btn-danger:focus,
+body.smart-style-6 .btn-danger:hover {
+    background-color: #ba160a
+}
+body.smart-style-6 .btn-danger.active,
+body.smart-style-6 .btn-danger:active,
+body.smart-style-6 .btn-danger:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-warning {
+    border-color: #ea1c0d!important
+}
+body.smart-style-6 .btn-danger.active.focus,
+body.smart-style-6 .btn-danger.active:focus,
+body.smart-style-6 .btn-danger.active:hover,
+body.smart-style-6 .btn-danger:active.focus,
+body.smart-style-6 .btn-danger:active:focus,
+body.smart-style-6 .btn-danger:active:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-danger.focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-danger:focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-danger:hover {
+    background: #ea1c0d!important;
+    border-color: #ea1c0d!important
+}
+body.smart-style-6 .label-danger {
+    background-color: #F44336
+}
+body.smart-style-6 .alert-success,
+body.smart-style-6 .btn-success {
+    border-color: #388E3C;
+    color: #FFF;
+    background-color: #4CAF50
+}
+body.smart-style-6 .label-success {
+    background-color: #4CAF50
+}
+body.smart-style-6 .btn-success:active,
+body.smart-style-6 .btn-success:focus,
+body.smart-style-6 .btn-success:hover {
+    background: #3d8b40;
+    border-color: #388E3C
+}
+body.smart-style-6 .btn-success.active.focus,
+body.smart-style-6 .btn-success.active:focus,
+body.smart-style-6 .btn-success.active:hover,
+body.smart-style-6 .btn-success:active.focus,
+body.smart-style-6 .btn-success:active:focus,
+body.smart-style-6 .btn-success:active:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-success.focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-success:focus,
+body.smart-style-6 .open>.dropdown-toggle.btn-success:hover {
+    border-color: #388E3C;
+    background: #3d8b40
+}
+body.smart-style-6 .txt-color-blueLight {
+    color: #03A9F4!important
+}
+body.smart-style-6 .bg-color-blueDark {
+    background: #1565C0!important
+}
+body.smart-style-6 .alert-info,
+body.smart-style-6 .btn-info {
+    border-color: #03A9F4;
+    color: #01579B;
+    background-color: #B3E5FC
+}
+body.smart-style-6 .label-info {
+    background-color: #B3E5FC
+}
+body.smart-style-6 .btn-info.active,
+body.smart-style-6 .btn-info:active,
+body.smart-style-6 .btn-info:focus,
+body.smart-style-6 .btn-info:hover,
+body.smart-style-6 .open>.dropdown-toggle.btn-info {
+    background: #82d4fa;
+    border-color: #03A9F4
+}
+body.smart-style-6 .slider-info+.slider-track>.slider-selection {
+    background-color: #B3E5FC
+}
+body.smart-style-6 .txt-color-blueDark {
+    color: #1565C0!important
+}
+body.smart-style-6 .bg-color-teal {
+    background: #009688!important
+}
+body.smart-style-6 .txt-color-teal {
+    color: #009688!important
+}
+body.smart-style-6 .bg-color-yellow,
+body.smart-style-6 .slider-warning+.slider-track>.slider-selection {
+    background: #FFEB3B!important
+}
+body.smart-style-6 .alert-warning {
+    border-color: #F9A825;
+    color: #5A4E3F;
+    background-color: #FFEB3B
+}
+body.smart-style-6 .label-warning {
+    background-color: #FFEB3B;
+    color: #333
+}
+body.smart-style-6 .txt-color-yellow {
+    color: #FFEB3B!important
+}
+body.smart-style-6 .bg-color-orange {
+    background: #FF9800!important
+}
+body.smart-style-6 .txt-color-orange {
+    color: #FF9800!important
+}
+body.smart-style-6 .bg-color-orangeDark {
+    background: #E65100!important
+}
+body.smart-style-6 .txt-color-orangeDark {
+    color: #E65100!important
+}
+body.smart-style-6 .alert-danger,
+body.smart-style-6 .bg-color-red,
+body.smart-style-6 .slider-danger+.slider-track>.slider-selection {
+    background: #F44336!important
+}
+body.smart-style-6 .txt-color-red {
+    color: #F44336!important
+}
+body.smart-style-6 .bg-color-redLight {
+    background: #FF5252!important
+}
+body.smart-style-6 .alert-danger {
+    border-color: #B71C1C
+}
+body.smart-style-6 .txt-color-redLight {
+    color: #FF5252!important
+}
+body.smart-style-6 .text-primary {
+    color: #3F51B5!important
+}
+body.smart-style-6 .text-success {
+    color: #00C853!important
+}
+body.smart-style-6 .text-danger {
+    color: #C62828!important
+}
+body.smart-style-6 .text-warning {
+    color: #FF5722!important
+}
+body.smart-style-6 .text-info {
+    color: #607D8B!important
+}
+body.smart-style-6 .ajax-notifications {
+    background: #D8F4FF
+}
+body.smart-style-6 .ajax-notifications .fa-4x.fa-border {
+    color: #2196F3;
+    border-color: #2196F3
+}
+body.smart-style-6 aside,
+body.smart-style-6 nav ul ul {
+    background: #fff
+}
+body.smart-style-6 .nav-tabs>li.active>a {
+    -webkit-box-shadow: 0 2px 0 #E91E63;
+    -moz-box-shadow: 0 2px 0 #E91E63;
+    box-shadow: 0 2px 0 #E91E63;
+    z-index: 10
+}
+body.smart-style-6 #header,
+body.smart-style-6 .dropdown-menu>.active>a,
+body.smart-style-6 .dropdown-menu>.active>a:focus,
+body.smart-style-6 .dropdown-menu>.active>a:hover,
+body.smart-style-6 .dropdown-menu>li>a:focus,
+body.smart-style-6 .dropdown-menu>li>a:hover {
+    background: #2196F3
+}
+body.smart-style-6 #content {
+    /*erax*/
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    background-color:white
+}
+body.smart-style-6 #content>.row {
+    margin-bottom: 20px
+}
+body.smart-style-6 .page-title {
+    text-transform: uppercase;
+    font-size: 19px;
+    margin-bottom: 0;
+    margin-top: 10px;
+    letter-spacing: normal
+}
+body.smart-style-6 .page-title>.fa {
+    display: none
+}
+body.smart-style-6 .page-footer {
+    background: #455A64
+}
+body.smart-style-6 #updating-chart.txt-color-blue {
+    color: #4d7686!important
+}
+body.smart-style-6 .ribbon-button-alignment {
+    display: none
+}
+body.smart-style-6 #ribbon {
+    background: rgba(255, 255, 255, .4)
+}
+body.smart-style-6 #logo-group span#activity,
+body.smart-style-6 .btn-header>:first-child>a {
+    background: 0 0;
+    border: none;
+    color: #fff;
+    border-radius: 50%
+}
+#project-context body.smart-style-6>:first-child,
+body.smart-style-6 #project-selector,
+body.smart-style-6 .header-dropdown-list>li>.dropdown-toggle,
+body.smart-style-6 .project-context>:first-child,
+body.smart-style-6 .project-selector {
+    color: #fff!important;
+    text-shadow: none
+}
+body.smart-style-6 .open>.dropdown-menu {
+    -webkit-animation-name: none;
+    -moz-animation-name: none;
+    -o-animation-name: none;
+    animation-name: none;
+    -webkit-animation-duration: .4s;
+    -moz-animation-duration: .4s;
+    -o-animation-duration: .4s;
+    animation-duration: .4s;
+    -webkit-animation-fill-mode: none;
+    -moz-animation-fill-mode: none;
+    -o-animation-fill-mode: none;
+    animation-fill-mode: none
+}
+body.smart-style-6 .bootstrap-select .dropdown-menu.dropdown-menu-right,
+body.smart-style-6 .bootstrap-select .dropdown-menu.pull-right,
+body.smart-style-6 .btn-group .dropdown-menu.dropdown-menu-right,
+body.smart-style-6 .btn-group .dropdown-menu.pull-right,
+body.smart-style-6 .date-picker .dropdown-menu.dropdown-menu-right,
+body.smart-style-6 .date-picker .dropdown-menu.pull-right,
+body.smart-style-6 .dropdown .dropdown-menu.dropdown-menu-right,
+body.smart-style-6 .dropdown .dropdown-menu.pull-right,
+body.smart-style-6 .dropdown-menu.pull-right {
+    -webkit-transform-origin: top right!important;
+    -moz-transform-origin: top right!important;
+    -ms-transform-origin: top right!important;
+    transform-origin: top right!important
+}
+body.smart-style-6 .bootstrap-select .dropdown-menu.dropdown-menu-left,
+body.smart-style-6 .bootstrap-select .dropdown-menu.pull-left,
+body.smart-style-6 .btn-group .dropdown-menu.dropdown-menu-left,
+body.smart-style-6 .btn-group .dropdown-menu.pull-left,
+body.smart-style-6 .date-picker .dropdown-menu.dropdown-menu-left,
+body.smart-style-6 .date-picker .dropdown-menu.pull-left,
+body.smart-style-6 .dropdown .dropdown-menu.dropdown-menu-left,
+body.smart-style-6 .dropdown .dropdown-menu.pull-left,
+body.smart-style-6 .dropdown-menu.pull-left,
+body.smart-style-6 .project-selector+.dropdown-menu {
+    -webkit-transform-origin: top left!important;
+    -moz-transform-origin: top left!important;
+    -ms-transform-origin: top left!important;
+    transform-origin: top left!important
+}
+body.smart-style-6 .btn-group .dropdown-menu,
+body.smart-style-6 .date-picker .dropdown-menu,
+body.smart-style-6 .dropdown,
+body.smart-style-6 .dropdown-menu {
+    -webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transition: all;
+    -o-transition: all;
+    transition: all;
+    -webkit-transition-duration: 250ms;
+    transition-duration: 250ms;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    opacity: 0;
+    filter: alpha(opacity=0);
+    display: block
+}
+body.smart-style-6 .project-selector+.dropdown-menu {
+    margin-top: -27px
+}
+body.smart-style-6 .header-dropdown-list .dropdown-menu {
+    margin-top: -20px
+}
+body.smart-style-6 .bootstrap-select.open .dropdown-menu,
+body.smart-style-6 .btn-group.open .dropdown-menu,
+body.smart-style-6 .dropdown.open .dropdown-menu,
+body.smart-style-6 .dropup.open .dropdown-menu,
+body.smart-style-6 .open>.dropdown-menu {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+    filter: alpha(opacity=100)
+}
+body.smart-style-6 .login-info {
+    height: 120px;
+    background: url(../img/cover.png) no-repeat center center;
+    margin-top: -1px!important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border: 0
+}
+body.smart-style-6 .login-info>span {
+    height: 119px;
+    border: 0;
+    padding: 0
+}
+body.smart-style-6 .login-info a {
+    display: block;
+    margin: 0;
+    padding: 10px
+}
+body.smart-style-6 .login-info a span {
+    display: block;
+    background: rgba(0, 0, 0, .2);
+    width: 100%;
+    max-width: 100%;
+    padding: 5px 10px;
+    margin-left: -10px;
+    margin-top: 22px;
+    color: #fff
+}
+body.smart-style-6 .login-info img {
+    border-radius: 50%;
+    width: 50px;
+    border: 3px solid rgba(0, 0, 0, .14);
+    box-sizing: content-box
+}
+body.smart-style-6 #logo img {
+    display: none
+}
+body.smart-style-6 #activity b.badge {
+    padding: 4px
+}
+body.smart-style-6 #logo-group>span#logo:before {
+    /*erax
+     *content: "SmartAdmin";
+     **/
+    font-size: 17px;
+    color: #fff;
+    font-weight: 300;
+    margin-top: 1px;
+    display: block
+}
+body.smart-style-6 .header-search>input[type=text] {
+    background: 0 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-color: #fff;
+    color: #fff;
+    padding: 0
+}
+body.smart-style-6 .header-search>button {
+    color: #fff
+}
+body.smart-style-6 .header-search input[type=text]::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, .7)
+}
+body.smart-style-6 .header-search input[type=text]:-moz-placeholder {
+    color: rgba(255, 255, 255, .7)
+}
+body.smart-style-6 .header-search input[type=text]::-moz-placeholder {
+    color: rgba(255, 255, 255, .7)
+}
+body.smart-style-6 .header-search input[type=text]:-ms-input-placeholder {
+    color: rgba(255, 255, 255, .7)
+}
+body.smart-style-6 nav ul li a,
+body.smart-style-6 nav ul li.open>a,
+body.smart-style-6 nav ul li.open>a b {
+    color: #4C4C4C!important
+}
+body.smart-style-6 nav ul .active body.smart-style-6 nav ul>a,
+nav ul li.open body.smart-style-6 nav ul>a {
+    color: #3C3C3C!important
+}
+body.smart-style-6 nav ul li a:hover,
+ul li body.smart-style-6 nav ul>a:hover {
+    background-color: rgba(69, 69, 69, .05)
+}
+body.smart-style-6 nav ul li a {
+    font-size: 13px
+}
+body.smart-style-6 nav>ul>li>a {
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 14px 10px 14px 11px
+}
+body.smart-style-6 nav>ul>li>a b {
+    margin-top: 6px
+}
+body.smart-style-6 nav ul li a:active {
+    background: 0 0
+}
+body.smart-style-6 .login-info a span+i {
+    display: none
+}
+#ribbon .breadcrumb body.smart-style-6>.active,
+.breadcrumb body.smart-style-6>li+li:before,
+body.smart-style-6 #ribbon .breadcrumb,
+body.smart-style-6 #ribbon .breadcrumb a,
+body.smart-style-6 #ribbon .breadcrumb li:last-child {
+    color: #374850!important
+}
+#speech-btn body.smart-style-6>:first-child body.smart-style-6>a+.popover,
+body.smart-style-6 .ajax-dropdown {
+    -webkit-box-shadow: 0 0 30px rgba(30, 30, 100, .75);
+    -moz-box-shadow: 0 0 30px rgba(30, 30, 100, .75);
+    box-shadow: 0 0 30px rgba(30, 30, 100, .75)
+}
+body.smart-style-6 nav>ul ul li::before,
+body.smart-style-6 nav>ul>li>ul::before {
+    border: none
+}
+body.smart-style-6 .minifyme {
+    background: #2196F3;
+    color: #FFF;
+    position: absolute;
+    width: 29px;
+    border-radius: 50%;
+    z-index: 999;
+    right: -12px;
+    padding: 1px 3px;
+    border-bottom: 1px solid #3D6A8A
+}
+body.smart-style-6 nav li a {
+    position: relative;
+    overflow: hidden
+}
+body.smart-style-6 nav li a:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 300px;
+    margin-left: -120px;
+    margin-top: -150px;
+    background: #455A64;
+    border-radius: 100%;
+    opacity: .3;
+    transform: scale(0)
+}
+@keyframes ripple {
+    0% {
+        transform: scale(0)
+    }
+    20% {
+        transform: scale(1)
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1)
+    }
+}
+body.smart-style-6 nav li a:not(:active):after {
+    animation: ripple 1.5s ease-in-out
+}
+body.smart-style-6 nav li a:after {
+    visibility: hidden
+}
+body.smart-style-6 nav li a:focus:after {
+    visibility: visible
+}
+body.smart-style-6 nav li a:active {
+    background-color: transparent!important
+}
+body.smart-style-6 .checkbox label>input[type=checkbox]:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    margin-left: -18px;
+    margin-top: -18px;
+    background: #3f51b5;
+    border-radius: 100%;
+    opacity: .6;
+    transform: scale(0)
+}
+@keyframes rippleDuplicate {
+    0% {
+        transform: scale(0)
+    }
+    40% {
+        transform: scale(1)
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1)
+    }
+}
+body.smart-style-6 .checkbox label>input[type=checkbox]:focus:after {
+    animation: rippleDuplicate .5s ease-out
+}
+body.smart-style-6 .checkbox label>input[type=checkbox]:checked {
+    animation-name: rippleDuplicate
+}
+body.smart-style-6 .checkbox label>input[type=checkbox]:focus:after {
+    visibility: visible
+}
+body.smart-style-6 .smart-form .checkbox input:focus+i,
+body.smart-style-6 .smart-form .input input:focus,
+body.smart-style-6 .smart-form .radio input:focus+i,
+body.smart-style-6 .smart-form .select select:focus,
+body.smart-style-6 .smart-form .textarea textarea:focus,
+body.smart-style-6 .smart-form .toggle input:focus+i {
+    border-color: #2196F3
+}
+body.smart-style-6 .smart-form .checkbox input+i:after,
+body.smart-style-6 .smart-form .rating input:checked~label {
+    color: #2196F3
+}
+body.smart-style-6 .fieldset[disabled] .form-control,
+body.smart-style-6 .form-control[disabled],
+body.smart-style-6 .form-control[readonly],
+body.smart-style-6 .smart-form .select select,
+body.smart-style-6 .smart-form .textarea textarea {
+    border-bottom: 1px dashed #E0E0E0
+}
+body.smart-style-6 .form-control-feedback {
+    width: auto;
+    height: auto
+}
+body.smart-style-6 .smart-form .checkbox input:checked+i,
+body.smart-style-6 .smart-form .radio input:checked+i,
+body.smart-style-6 .smart-form .toggle input:checked+i {
+    border-color: transparent
+}
+body.smart-style-6 .form-control,
+body.smart-style-6 .smart-form .icon-append,
+body.smart-style-6 .smart-form .icon-prepend,
+body.smart-style-6 .smart-form .input input,
+body.smart-style-6 .smart-form .select select,
+body.smart-style-6 .smart-form .textarea textarea {
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0
+}
+body.smart-style-6 .form-control,
+body.smart-style-6 .smart-form .icon-append,
+body.smart-style-6 .smart-form .icon-prepend,
+body.smart-style-6 .smart-form .select select,
+body.smart-style-6 .smart-form .textarea textarea {
+    padding-left: 0
+}
+body.smart-style-6 .form-control:not(.ui-autocomplete-loading) {
+    background: 0 0
+}
+body.smart-style-6 .icon-addon>input[type=text],
+body.smart-style-6 .input-icon-left input[type=text].form-control {
+    padding-left: 32px
+}
+body.smart-style-6 input[type=checkbox],
+body.smart-style-6 input[type=radio] {
+    margin-top: 2px;
+    line-height: normal
+}
+body.smart-style-6 .dataTables_filter>label:focus .input-group-addon {
+    border-bottom-color: #2196F3
+}
+body.smart-style-6 .dataTables_filter .input-group-addon {
+    border-top-width: 0!important;
+    border-left-width: 0!important;
+    border-right-width: 0!important;
+    background: 0 0
+}
+body.smart-style-6 .dataTables_filter .input-group-addon+.form-control {
+    background: 0 0
+}
+body.smart-style-6 .input-group-addon:first-child,
+body.smart-style-6 .input-group-addon:last-child {
+    border: 1px solid inherit
+}
+body.smart-style-6 .input-group .form-control:first-child {
+    border-right: 0!important
+}
+body.smart-style-6 .input-group-addon+.form-control[type=text] {
+    padding-left: 10px;
+    padding-right: 10px
+}
+body.smart-style-6 .ui-sortable .jarviswidget-sortable>header {
+    box-shadow: none!important
+}
+body.smart-style-6 .jarviswidget>header {
+    border-bottom: 0
+}
+body.smart-style-6 .jarviswidget-ctrls .button-icon,
+body.smart-style-6 .widget-toolbar {
+    border: 0
+}
+body.smart-style-6 .widget-toolbar>.color-box {
+    outline: 0!important;
+    border-radius: 30%;
+    box-shadow: 0 0 1px 1px rgba(56, 56, 56, .3)
+}
+body.smart-style-6 .color-box,
+body.smart-style-6 .color-select li span {
+    border-radius: 30%
+}
+body.smart-style-6 .jarviswidget header .nav-tabs>li.active>a,
+body.smart-style-6 .jarviswidget header .nav-tabs>li.active>a:focus,
+body.smart-style-6 .jarviswidget header .nav-tabs>li.active>a:hover {
+    border: 0!important
+}
+body.smart-style-6 .jarviswidget-sortable.ui-sortable-helper {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22)
+}
+body.smart-style-6 .jarviswidget-placeholder {
+    background: linear-gradient(90deg, #00f 50%, transparent 50%), linear-gradient(90deg, #00f 50%, transparent 50%), linear-gradient(0deg, #00f 50%, transparent 50%), linear-gradient(0deg, #00f 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 10px 2px, 10px 2px, 2px 10px, 2px 10px;
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+    animation: border-dance 4s infinite linear;
+    width: 100%;
+    height: 100%;
+    padding: 10px
+}
+@keyframes border-dance {
+    0% {
+        background-position: 0 0, 300px 116px, 0 150px, 216px 0
+    }
+    100% {
+        background-position: 300px 0, 0 116px, 0 0, 216px 150px
+    }
+}
+body.smart-style-6 .MessageBoxContainer {
+    border-radius: 4px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, .3), 0 15px 12px rgba(0, 0, 0, .22);
+    background: #fff;
+    color: #333
+}
+body.smart-style-6 .table>tbody>tr>td,
+body.smart-style-6 .table>tbody>tr>th,
+body.smart-style-6 .table>tfoot>tr>td,
+body.smart-style-6 .table>tfoot>tr>th,
+body.smart-style-6 .table>thead>tr>td,
+body.smart-style-6 .table>thead>tr>th {
+    padding: 16px 10px
+}
+body.smart-style-6 .dt-toolbar {
+    padding: 14px 20px 11px
+}
+body.smart-style-6 .inbox-body .table-wrap,
+body.smart-style-6 .inbox-compose-footer,
+body.smart-style-6 .inbox-info-bar .form-group input,
+body.smart-style-6 .inbox-info-bar .select2-container-multi .select2-choices,
+body.smart-style-6 .inbox-nav-bar,
+body.smart-style-6 .inbox-side-bar {
+    background: #fff
+}
+body.smart-style-6 .inbox-compose-footer {
+    border-bottom-width: 0;
+    padding-left: 0;
+    padding-right: 0
+}
+body.smart-style-6 .inbox-body {
+    box-shadow: -11px 12px 23px rgba(0, 0, 0, .1)
+}
+body.smart-style-6 .inbox-download,
+body.smart-style-6 .inbox-message {
+    border-bottom: 0
+}
+body.smart-style-6 .inbox-info-bar .form-group input,
+body.smart-style-6 .inbox-info-bar .select2-container-multi .select2-choices {
+    border-color: transparent!important
+}
+body.smart-style-6 #inbox-content {
+    margin-bottom: 30px!important
+}
+body.smart-style-6.desktop-detected .inbox-compose-footer,
+body.smart-style-6.desktop-detected .inbox-download {
+    padding-bottom: 56px
+}
+body.smart-style-6::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent
+}
+body.smart-style-6::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, .05)
+}
+body.smart-style-6::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, .2);
+    border-radius: 100px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    min-height: 10px
+}
+body.smart-style-6 .inbox-message {
+    background: #fff
+}
+body.smart-style-6 .note-editor .note-editable {
+    background-color: rgba(33, 150, 243, .15)
+}
+body.smart-style-6 .note-editor .note-editable:focus {
+    background: #fff
+}
+body.smart-style-6 .inbox-nav-bar {
+    height: auto!important
+}
+body.smart-style-6 .superbox-show {
+    background-color: #37474F
+}
+body.smart-style-6 .superbox-list.active:before {
+    color: #37474F
+}
+body.smart-style-6 .superbox-imageinfo span {
+    color: rgba(255, 255, 255, .5)
+}
+body.smart-style-6 #sparks {
+    display: none
+}
+body.smart-style-6 .page-footer .txt-color-blueLight {
+    color: #fff!important
+}
+body.smart-style-6.minified .login-info {
+    height: 55px
+}
+body.smart-style-6.minified .login-info img {
+    width: 34px
+}
+body.smart-style-6.minified .login-info a {
+    padding: 10px 0
+}
+body.smart-style-6.minified .login-info a span {
+    display: none
+}
+body.smart-style-6.minified .minifyme {
+    border-radius: 0;
+    left: 0;
+    width: 45px;
+    border: 0
+}
+body.smart-style-6.minified nav>ul>li>a>.menu-item-parent,
+body.smart-style-6.minified nav>ul>li>ul {
+    left: 45px
+}
+body.smart-style-6.minified nav>ul>li>a>.menu-item-parent {
+    padding-top: 4px;
+    top: 0
+}
+body.smart-style-6.minified nav>ul>li ul li {
+    background: #fff;
+    overflow: hidden
+}
+body.smart-style-6.minified nav li a {
+    overflow: visible;
+    border: 0
+}
+body.smart-style-6.minified nav>ul>li {
+    border-bottom: 0!important;
+    border-top: 0!important
+}
+body.smart-style-6.minified nav>ul>li>ul {
+    padding-top: 0;
+    border: 0;
+    background: #f5f5f5;
+    border-left: 1px solid #CACACA
+}
+body.smart-style-6.menu-on-top aside#left-panel,
+body.smart-style-6.menu-on-top aside#left-panel nav>ul>li {
+    border: 0
+}
+body.smart-style-6.menu-on-top aside#left-panel nav>ul>li:hover {
+    background: #fff
+}
+body.smart-style-6.menu-on-top aside#left-panel nav>ul>li:hover>a,
+body.smart-style-6.menu-on-top nav ul li a:hover,
+body.smart-style-6.menu-on-top nav ul ul li a:hover,
+body.smart-style-6.menu-on-top nav ul ul li:hover>a,
+body.smart-style-6.menu-on-top nav ul ul ul li a:hover,
+body.smart-style-6.menu-on-top nav ul>a:hover {
+    color: #fff!important;
+    background-color: #2196F3
+}
+@media (max-width: 979px) and (min-width: 768px) {
+    body.smart-style-6 #hide-menu i {
+        color: #fff
+    }
+}
+@media (max-width: 767px) {
+    body.smart-style-6 #content {
+        margin-left: 0;
+        margin-right: 0
+    }
+    body.smart-style-6 #hide-menu>:first-child>a {
+        width: 40px!important
+    }
+    body.smart-style-6 #hide-menu i {
+        color: #fff
+    }
+}
+@media only screen and (max-width: 479px) and (min-width: 320px) {
+    body.smart-style-6 #hide-menu i {
+        color: #fff
+    }
+}

@@ -1,0 +1,24 @@
+/* Theme Name: The Project - Responsive Website Template
+Author:HtmlCoder
+Author URI:http://www.htmlcoder.me
+Author e-mail:htmlcoder.me@gmail.com
+Version:1.1.0
+Created:December 2014
+License URI:http://support.wrapbootstrap.com/
+File Description: Place here your custom CSS styles
+*/
+
+label.error { color:red }
+
+.has-error { color:red }
+.no-error { color:green }
+input.has-error { border:1px solid red }
+input.has-success { border:1px solid green }
+
+.step-content {
+    background-color: #F9FAFD;
+}
+
+.sw-toolbar {
+    background-color: #F9FAFD;
+}

@@ -365,14 +365,19 @@ class ApplicationForm extends CI_Controller{
 
     $this->db->where( 'email' , $email )->delete( $this->temp->table  );
 
-    $subject = "ABS Application Reference ";//Account Registration
+    $approver1_instcode      = $this->abs->get_approver( 1 );
+    $main_approver           = $this->abs->get_institutions_main_approver( $approver1_instcode );
+    $main_approver_email     = $main_approver->email;
+    $main_approver_username  = $main_approver->username;
+
+    $subject = "ABS PERMIT Application Successful ";//Account Registration
     $message = self::make_email_body_notification( $signup->firstname, $signup->email, $appno );
     $this->common->queue_mail( $email, $subject, $message );
 
-    $email   = "ekariz@gmail.com";
+    $main_approver_email ='ekariz@gmail.com';
     $subject = "ABS Application Reference #{$appno}";
-    $message = self::make_email_body_notification_admin( $signup->firstname, $signup->email, $appno );
-    $this->common->queue_mail( $email, $subject, $message );
+    $message = self::make_email_body_notification_admin( $main_approver_username, $main_approver_email, $signup->firstname, $signup->email, $appno );
+    $this->common->queue_mail( $main_approver_email, $subject, $message );
 
     $data['success']  = 1;
     $data['message']  = "Application Submited.Your Reference No. is {$appno}";
@@ -467,14 +472,15 @@ class ApplicationForm extends CI_Controller{
 HTML;
 }
 
-   private function make_email_body_notification_admin( $firstname, $email, $apprefno ){
+   private function make_email_body_notification_admin( $main_approver_username, $main_approver_email, $applicant_firstname, $applicant_email, $appno  ){
 
           $this->config->load('product');
 
           $companyname   = $this->config->item('companyname');
           $productname   = $this->config->item('productname');
+          $baseurl       = $this->config->item('baseurl');
           $host          = base_url();
-          $url           = "{$host}ApplicationsList/viewref/{$apprefno}/?email={$email}";
+          $url           = "http://admin.{$baseurl}/#Workflow/?email={$main_approver_email}";
 
           return  <<<HTML
 
@@ -485,7 +491,12 @@ HTML;
           </tr>
 
           <tr>
-           <td><br>{$firstname}  has submitted a Harmonized ABS Application with Reference Number is <b>{$apprefno}</b>.<br>
+           <td>Hi {$main_approver_username},</td>
+          </tr>
+
+          <tr>
+           <td><br>{$applicant_firstname} ({$applicant_email})  has submitted a Harmonized ABS Application with Reference Number is <b>{$appno}</b>.
+           <br>To view the application, <a href="{$url}">Click Here</a>
             <br> </td>
           </tr>
 
@@ -501,7 +512,7 @@ HTML;
            <td>
              <br>
             <small style="color:#999">
-             This message was sent to {$email}  <br>
+             This message was sent to {$main_approver_email}  <br>
              From:{$companyname}  <br>
              </small>
            </td>

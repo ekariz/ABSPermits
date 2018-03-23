@@ -41,8 +41,10 @@ class Signup extends CI_Controller{
      $terms            = $this->input->post('terms');
      $password_check   = sha1($password);
 
-     $data['success']  = 0;
-     $data['message']  = '';
+     //$this->db->where('email',$email)->delete( 'signups' );
+
+     $response['success']  = 0;
+     $response['message']  = '';
 
      $signups = $this->db->select('email,verified')
      ->from('signups')
@@ -59,10 +61,10 @@ class Signup extends CI_Controller{
       $extra = "<hr>Click here <a href=\"login.html\" class=\"btn btn-danger\">Sign In</a> ";
      }
 
-     $data['success'] = 1;
-     $data['message'] = "{$email} is already registered.";
-     $data['extra']   =  $extra;
-     $this->load->view( 'main/frontend/register_error' , $data );
+     $response['success'] = 0;
+     $response['message'] = "{$email} is already registered.";
+     $response['extra']   =  $extra;
+     //$this->load->view( 'main/frontend/register_error' , $data );
     }else{
 
     $verifycode           = generateRandomString(10);
@@ -79,17 +81,18 @@ class Signup extends CI_Controller{
 
     $this->signups->save($signups);
 
-    $data['success']  = 0;
-    $data['message']  = "We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
+    $response['success']  = 1;
+    $response['message']  = "We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
 
     $subject = "ABS Email Verification ";//Account Registration
     $message = self::make_email_body_notify( $firstname ,$email , $verifycode );
 
     $this->common->queue_mail( $email, $subject, $message );
 
-    $this->load->view( 'main/frontend/register_done' , $data );
-
     }
+
+    echo json_encode( $response );
+
   }
 
    public function verification( $verifycode ){
@@ -152,8 +155,9 @@ class Signup extends CI_Controller{
 
     public function uploads( ){
 
-      $email         = $this->session->userdata('email');
-      $signup        = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
+      $required_docs  = 2;
+      $email          = $this->session->userdata('email');
+      $signup         = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
 
        $upload_dir           = "./uploads/userdocs/";
 
@@ -172,24 +176,6 @@ class Signup extends CI_Controller{
         $config['file_ext_tolower']     = true;
 
         $this->load->library('upload', $config);
-
-        //if (!$this->upload->do_upload('myid')){
-         //$error =  $this->upload->display_errors();
-         //echo json_encode( ["success" => 0, 'message' => $error ] );
-         //die;
-        //}else{
-         //$document    = $this->upload->data();
-         //$documents['id'] = $document;
-        //}
-
-        //if (!$this->upload->do_upload('passport')){
-         //$error =  $this->upload->display_errors();
-         //echo json_encode( ["success" => 0, 'message' => $error ] );
-         //die;
-        //}else{
-         //$document    = $this->upload->data();
-         //$documents['passport'] = $document;
-        //}
 
         $documents_id =  '';
         $documents_passport =  '';
@@ -218,10 +204,14 @@ class Signup extends CI_Controller{
         $hasuploads +=1;
        }
 
+       if($hasuploads<$required_docs){
+        echo json_encode( ["success" => 0, 'message' => 'Upload all required documents' ] );
+        die;
+       }
+
        if(!empty($data)){
          $this->signups->update( ['email' => $email], $data);
        }
-
 
        $user_data = [];
        $user_data['userid']     = $signup->id;
@@ -235,7 +225,12 @@ class Signup extends CI_Controller{
 
        $this->session->set_userdata( $user_data );
 
-       echo json_encode( ["success" => 1, 'message' => 'Uploaded' ] );
+       //notify
+       $subject = "ABS Sign Up Complete";//Account completion
+       $message = self::make_email_body_complete( $signup->firstname, $signup->email );
+       $this->common->queue_mail( $email, $subject, $message );
+
+       echo json_encode( ["success" => 1, 'message' => 'Documents Uploaded' ] );
 
    }
 
@@ -254,7 +249,7 @@ class Signup extends CI_Controller{
         }
 
         $config['upload_path']          = $upload_dir;
-        $config['allowed_types']        = 'gif|jpg|jpeg|png';
+        $config['allowed_types']        = 'gif|jpg|jpeg|png';//alert if not type
         $config['remove_spaces']        = true;
         $config['overwrite']            = true;
         $config['encrypt_name']         = true;
@@ -278,27 +273,30 @@ class Signup extends CI_Controller{
 
        $documents_id_str       = json_encode($documents_id);
        $documents_passport_str = json_encode($documents_passport);
-       $hasuploads             =  0;
+       $numuploads             =  0;
 
        if(!empty($documents_id)){
         $data['docid'] = $documents_id_str;
-        $hasuploads +=1;
+        $numuploads +=1;
        }
 
        if(!empty($documents_passport)){
         $data['docpassport'] = $documents_passport_str;
-        $hasuploads +=1;
+        $numuploads +=1;
        }
+
+       $data['hasuploads']   = $numuploads;
 
        if(!empty($data)){
-         $this->signups->update( ['email' => $email], $data);
+         $this->signups->update( ['email' => $email], $data );
        }
 
 
-       $subject = "ABS Complete Your profile ";//Account completion
-       $message = self::make_email_body_save_continue( $signup->firstname, $signup->email, $signup->verifycode );
-
-       $this->common->queue_mail( $email, $subject, $message );
+       if($numuploads<$required_docs){
+        $subject = "ABS Complete Your profile ";//Account completion
+        $message = self::make_email_body_save_continue( $signup->firstname, $signup->email, $signup->verifycode );
+        $this->common->queue_mail( $email, $subject, $message );
+       }
 
        if(!empty($data)){
         $success = 1;
@@ -397,6 +395,65 @@ HTML;
            <td><br>Your signed up with {$productname}  Portal.<br>
             Please follow the link below to complete your signup.<br>
              <a href="{$url}">Complete Signup</a><br>
+            <br> </td>
+          </tr>
+
+          <tr>
+           <td><br>If you received this email in error, you can safely ignore this email.</td>
+          </tr>
+
+          <tr>
+           <td><br>Best regards  <hr>  {$companyname} Customer Care</td>
+          </tr>
+
+           <tr>
+           <td>
+             <br>
+            <small style="color:#999">
+             This message was sent to {$email}  <br>
+             From:{$companyname}  <br>
+             </small>
+           </td>
+          </tr>
+
+           <tr>
+           <td>
+             <br>
+            <small style="color:#999">
+             <a href="{$host}">Home</a> | <a href="{$host}/contacts">Contact Us</a>
+             </small>
+           </td>
+          </tr>
+
+          </table>
+
+HTML;
+}
+
+   private function make_email_body_complete( $firstname, $email ){
+
+          $this->config->load('product');
+
+          $companyname   = $this->config->item('companyname');
+          $productname   = $this->config->item('productname');
+          $host          = base_url();
+          $url           = "{$host}ApplicationForm?email={$email}";
+
+          return  <<<HTML
+
+          <table id="" style="font-family:Verdana;font-size:14px"  cellpadding="5"  cellspacing="2"   width="100%" border="0">
+
+          <tr>
+           <td><h2>ABS Signup</h2></td>
+          </tr>
+
+          <tr>
+           <td><br>Hello {$firstname} <br> </td>
+          </tr>
+
+          <tr>
+           <td><br>Your signed up with {$productname}  is now Complete.<br>
+            To apply for an ABS PERMIT, please open the <a href="{$url}"> ABS Harmonized Application Form</a><br>
             <br> </td>
           </tr>
 

@@ -34,7 +34,7 @@ if(isset($header_classes)){
 
                                     <!-- logo -->
                                     <div id="logo" class="logo">
-                                        <a href="#"><img id="logo_img" src="<?php  echo base_url();?>/assets/frontend/images/logo_abs.jpg" alt="ABS"></a>
+                                        <a href="#"><img id="logo_img" src="<?php  echo base_url();?>assets/frontend/images/logo-abs.png" alt="ABS"></a>
                                     </div>
 
                                     <!-- name-and-slogan -->

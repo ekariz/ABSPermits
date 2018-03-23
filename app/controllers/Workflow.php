@@ -147,18 +147,59 @@ class Workflow extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function view($id)
+    {
+
+    $data = [];
+    $data['applyingas_list']      = $this->abs->get_applyas();
+    $data['resource_list']        = $this->abs->get_resource_types();
+    $data['researchtype_list']    = $this->abs->get_research_types();
+    $data['purposes_list']        = $this->abs->get_purposes();
+    $data['conservestatus_list']  = $this->abs->get_iucn_red_list();
+    $data['sample_uom_list']      = $this->abs->get_sample_uom();
+
+    $data['positions']      = [];
+    $data['positions']['']  = 'Choose option';
+    $data['positions'][1]   = 'Yes';
+    $data['positions'][2]   = 'No';
+
+    $data['export_answer_list']      = [];
+    $data['export_answer_list']['']  = 'Choose option';
+    $data['export_answer_list'][1]   = 'Yes';
+    $data['export_answer_list'][2]   = 'No';
+
+    $data_raw = $this->applications->get_by_id($id);
+
+
+      if($data_raw){
+       foreach($data_raw as $field=>$value){
+        //if(!strstr($field,'document')  ){
+        $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+        //}
+       }
+      }
+
+     $this->load->library('pdfgenerator');
+     $html     = $this->load->view("application_form_view.php", $data, true);
+     //exit($html);//remove
+
+     $filename = "ABS_PERMIT_REF_{$data_raw->appno}";
+     $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
+
+    }
+
     public function list_documents($id)
     {
       $data_raw = $this->applications->get_by_id($id);
       $data = [];
 
       if($data_raw){
-      foreach($data_raw as $field=>$value){
-       if(strstr($field,'document') || strstr($field,'export')){
+       foreach($data_raw as $field=>$value){
+        if(strstr($field,'document') || strstr($field,'export')){
         $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+        }
        }
       }
-     }
 
      $this->load->view('documents_view', $data);
 
@@ -204,6 +245,67 @@ class Workflow extends CI_Controller {
 
     }
 
+    public function consult()
+    {
+
+    $id                =  $this->input->post('id');
+    $appno             =  $this->input->post('appno');
+    $consult_with      =  $this->input->post('consult_with');
+    $subject           =  $this->input->post('subject');
+    $message_body      =  $this->input->post('message');
+    $consultdocs       =  $this->input->post('consultdocs');
+    $username          =  $this->session->userdata('username');
+
+    if(empty($appno)){
+     echo json_response(0,"Select an Application");
+     die;
+    }
+
+    if(empty($subject)){
+     echo json_response(0,"Enter Consultation Subject");
+     die;
+    }
+
+    if(empty($message_body)){
+     echo json_response(0,"Enter Consultation Message");
+     die;
+    }
+
+    if(empty($consult_with)){
+     echo json_response(0,"Select Organization to Consult with");
+     die;
+    }
+
+    $approvalsteps     =  $this->abs->get_approval_steps( );
+    $instcode          =  $this->session->userdata('instcode');//instcode
+    $my_approvalstep   =  $this->abs->my_approvalstep( $instcode );
+    $data_raw          =  $this->applications->get_by_id($id);
+    $data = [];
+
+    if($data_raw){
+     foreach($data_raw as $field=>$value){
+      if(strstr($field,'document') || strstr($field,'export')){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
+     }
+    }
+
+    foreach($consult_with as $stepno ){
+     $approver_instcode       = $this->abs->get_approver( $stepno );
+     $main_approver           = $this->abs->get_institutions_main_approver( $approver_instcode );
+     $main_approver_email     = $main_approver->email;
+     $main_approver_username  = $main_approver->username;
+
+     $main_approver_email = 'ekariz@gmail.com';
+     $message = self::make_email_body_notification( $data_raw , $username, $message_body, $main_approver_username, $main_approver_email );
+     $this->common->queue_mail( $main_approver_email, $subject, $message );
+
+    }//loop
+
+    echo json_response(1,"Consultation Sent");
+
+   }
+
     public function approve()
     {
 
@@ -211,6 +313,12 @@ class Workflow extends CI_Controller {
     $approvalsteps     =  $this->abs->get_approval_steps( );
     $instcode          =  $this->session->userdata('instcode');//instcode
     $my_approvalstep   =  $this->abs->my_approvalstep( $instcode );
+
+    if(empty($my_approvalstep)){
+     echo json_response(0,"You Have Not Been Authorized to Approve");
+     die;
+    }
+
     $my_approvalstep_name   =  valueof($approvalsteps, $my_approvalstep);
     $next_approvalstep      =  $my_approvalstep+1;
     $next_approvalstep_name =  valueof($approvalsteps, $next_approvalstep);
@@ -227,8 +335,8 @@ class Workflow extends CI_Controller {
 
      if($stepno >= $my_approvalstep){
        if($application->$column_approval==1){
-        //echo json_response(0,"Already Approve by {$stepname}");
-        //die;
+        echo json_response(0,"Already Approval by {$stepname}");
+        die;
        }
      }elseif($stepno < $my_approvalstep){
        if(empty($application->$column_approval)){
@@ -290,7 +398,7 @@ class Workflow extends CI_Controller {
 
     if(count($done_approvals)){
      $done_approvals_str = implode(',' , $done_approvals);
-     echo json_response(0,"Disapproved failed beacuse {$done_approvals_str} has already approved");
+     echo json_response(0,"Disapproval failed beacuse {$done_approvals_str} has already approved");
      die;
     }
 
@@ -334,6 +442,7 @@ class Workflow extends CI_Controller {
      * next company admin
      */
     $subject = "ABS Application Reference {$application->appno}";
+    $next_approver_email  = 'ekariz@gmail.com';
     $message = self::make_email_body_approve_admin( $next_approver_username, $next_approver_email,$stepname_current,$stepname_next, $application->appno  );
     $this->common->queue_mail( $next_approver_email, $subject, $message ,$next_approver_username );
 
@@ -467,7 +576,7 @@ HTML;
 
           <tr>
            <td><br><b>{$stepname_current}</b> has dis-approved your Harmonized ABS Application Reference Number <b>{$appno}</b>.<br>
-           The dis-approval reason was :<b>{$reason}</b><br>
+           <br>The dis-approval reason was :<b>{$reason}</b><br>
           </tr>
 
           <tr>
@@ -487,6 +596,94 @@ HTML;
              <br>
             <small style="color:#999">
              This message was sent to {$email}  <br>
+             From:{$companyname}  <br>
+             </small>
+           </td>
+          </tr>
+
+         </table>
+
+HTML;
+ }
+
+   private function make_email_body_notification( $data_raw , $fromnamne, $message_body, $main_approver_username, $main_approver_email ){
+
+          $this->config->load('product');
+
+          $companyname   = $this->config->item('companyname');
+          $productname   = $this->config->item('productname');
+          $host          = base_url();
+          $url           = "{$host}#workflow";
+
+          return  <<<HTML
+
+          <table id="" style="font-family:Verdana;font-size:14px"  cellpadding="5"  cellspacing="2"   width="100%" border="0">
+
+          <tr>
+           <td><h2>Hi {$main_approver_username}</h2></td>
+          </tr>
+
+          <tr>
+           <td>You have a new consultation from {$fromnamne}</td>
+          </tr>
+
+          <tr>
+           <td>{$message_body}<br>
+          </tr>
+
+          <tr>
+           <td>
+            <table>
+             <tr>
+              <td>Application Reference</td>
+              <td>{$data_raw->appno}</td>
+             </tr>
+
+             <tr>
+              <td>Applicant Name</td>
+              <td>{$data_raw->firstname} {$data_raw->lastname}</td>
+             </tr>
+
+             <tr>
+              <td>Applicant County</td>
+              <td>{$data_raw->ctnname}</td>
+             </tr>
+
+             <tr>
+              <td>Applied As</td>
+              <td>{$data_raw->applyingasname}</td>
+             </tr>
+
+             <tr>
+              <td>Email</td>
+              <td>{$data_raw->email}</td>
+             </tr>
+
+             <tr>
+              <td>Mobile</td>
+              <td>{$data_raw->mobile}</td>
+             </tr>
+
+            </table>
+          </tr>
+
+          <tr>
+           <td>To view the ABS PERMIT Application, <a href="{$url}">click here</a> </td>
+          </tr>
+
+          <tr>
+           <td><br>If you received this email in error, you can safely ignore this email.</td>
+          </tr>
+
+          <tr>
+           <td><br>Best regards  <hr>  {$companyname}</td>
+          </tr>
+
+           <tr>
+           <td>
+             <br>
+            <small style="color:#999">
+             This message was sent to {$main_approver_email}  <br>
              From:{$companyname}  <br>
              </small>
            </td>

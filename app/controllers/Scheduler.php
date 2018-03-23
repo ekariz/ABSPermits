@@ -9,7 +9,6 @@ class Scheduler extends CI_Controller {
         parent::__construct();
         $this->load->model('crud_model','mail');
         $this->load->model('Common_model','common');
-        //$this->load->model('HR_model','hr');
 
 
     }

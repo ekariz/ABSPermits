@@ -153,11 +153,11 @@
   <field name="legalofficeremail" type="C" size="100"><NOTNULL/></field>
   <field name="resourcetype" type="C" size="100"><NOTNULL/></field>
   <field name="speciesname" type="C" size="100"><NOTNULL/></field>
-  <field name="scientificname" type="C" size="100"><NOTNULL/></field>
+  <field name="scientificname" type="C" size="100"><NULL/></field>
   <field name="commonname" type="C" size="100"/>
-  <field name="projectlocation" type="C" size="100"><NOTNULL/></field>
-  <field name="projectarea" type="C" size="100"><NOTNULL/></field>
-  <field name="resourceallocationpurpose" type="C" size="100"><NOTNULL/></field>
+  <field name="projectlocation" type="C" size="100"><NULL/></field>
+  <field name="projectarea" type="C" size="100"><NULL/></field>
+  <field name="resourceallocationpurpose" type="C" size="100"><NULL/></field>
   <field name="exportanswer" type="C" size="10"/>
   <field name="resourcetypeother" type="C" size="100"/>
   <field name="purpose" type="C" size="255"/>

@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $config['companyname']   = 'ABS PERMIT APPLICATION';
-$config['companyemail']  = 'admin@flexipay.co.ke';
+$config['companyemail']  = 'abs@rfidlive.co.ke';
 $config['productname']   = 'ABS KENYA';
 $config['baseurl']       = 'abs.co.ke';
 

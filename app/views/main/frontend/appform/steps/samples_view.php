@@ -36,7 +36,7 @@
 </div>
 
 <div  class="col-md-12 form-group"  >
-    <label for="exportgeneticresources">Will you need to export the collected genetic resources from kenya ? *:</label>
+    <label for="exportgeneticresources">Will you need to export the collected genetic resources from Kenya ? *:</label>
     <input type="text" class="form-control input-sm" id="exportgeneticresources" name="exportgeneticresources"  value="<?php echo $exportgeneticresources; ?>" placeholder="" required data-toggle="tooltip" data-placement="top" title="Will you need to export the collected genetic resources from kenya ">
     <div class="help-block with-errors"></div>
 </div>

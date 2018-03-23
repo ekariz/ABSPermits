@@ -110,7 +110,6 @@
         </div>
         <!-- page-wrapper end -->
 
-
         <!-- JavaScript files placed at the end of the document so the pages load faster -->
        <?php  $this->load->view('main/frontend/footer'); ?>
 

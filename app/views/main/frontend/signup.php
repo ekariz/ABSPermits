@@ -50,7 +50,8 @@
                         <!-- ================ -->
                         <div class="main object-non-visible" data-animation-effect="fadeInUpSmall" data-effect-delay="100">
                             <div class="form-block center-block p-30 light-gray-bg border-clear">
-                                <h2 class="title">Register</h2>
+                                <h2 class="title">Sign Up</h2>
+                                <span>To be Able to Apply for ABS PERMIT</span>
                                 <hr>
                                 <form action="<?php echo base_url();?>signup/save" id="form-signup" class="smart-form client-form" method="post" >
 
@@ -59,9 +60,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="firstname">First Name *</label>
                                             <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" >
-<!--
-                                            <i class="   form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -69,9 +67,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="lastname">Last Name *</label>
                                             <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last Name" >
-<!--
-                                            <i class="  form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -82,9 +77,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="gender">Gender *</label>
                                             <?php echo form_dropdown('gender', $genders, '','id="gender" class="form-control" ');  ?>
-<!--
-                                            <i class=" form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -92,9 +84,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="countrycode">Country *</label>
                                             <?php echo form_dropdown('ctncode', $countries, '','id="ctncode" class="form-control" ');  ?>
-<!--
-                                            <i class=" form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -105,9 +94,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="email">Email *</label>
                                             <input type="email" class="form-control" id="email" name="email" placeholder="Email" >
-<!--
-                                            <i class=" form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -115,9 +101,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="mobile">Mobile *</label>
                                             <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile" >
-<!--
-                                            <i class="  form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -128,9 +111,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="password">Password *</label>
                                             <input type="password" class="form-control" id="password" name="password" placeholder="" >
-<!--
-                                            <i class=" form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -138,9 +118,6 @@
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="passwordconfirm">Confirm Password *</label>
                                             <input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" placeholder="" >
-<!--
-                                            <i class=" form-control-feedback"></i>
--->
                                         </div>
                                     </div>
 
@@ -218,7 +195,6 @@
              <div id="left">
 
             <h1>ABS Terms of Service</h1>
-
 
             </ul>
 
@@ -360,14 +336,31 @@
                         $( element ).next( "span" ).addClass( "glyphicon-ok  no-error" ).removeClass( "glyphicon-remove  has-error" );
                     },
                     submitHandler : function(form) {
-                        /*
-                        $(form).ajaxSubmit({
-                            success : function() {
-                                $("#form-signup").addClass('submited');
+                       $(form).ajaxSubmit({
+                            dataType: 'json',
+                            method: 'POST',
+                            success : function(data) {
+                               $("#form-signup").addClass('submited');
+
+                               if(data.success==1){
+                                   swal({
+                                     text: data.message,
+                                     icon: "success",
+                                     buttons: false,
+                                     closeOnClickOutside: false,
+                                    });
+                                    /*window.location='<?php  echo  base_url(); ?>/Signup/done.html';*/
+                               }else if(data.success==0){
+                                  swal({
+                                    text: data.message,
+                                    icon: "warning",
+                                  }).then((state) => {
+                                    $("#form-signup").removeClass('submited');
+                                  });
+                               }
+
                             }
                         });
-                        */
-                       form.submit();
                     },
                 });
 

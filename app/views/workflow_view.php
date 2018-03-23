@@ -10,6 +10,13 @@ $this->customcrud->genJS(
   $btn_export_visible = false
   );
 
+$select_consult_with = '<select id="consult_with" name="consult_with[]" multiple="multiple" >';
+foreach($approvalsteps as $stepno=>$stepname){
+ $select_consult_with .='<option value="'.$stepno.'">'.$stepname.'</option>';
+}
+$select_consult_with .= '</select>';
+
+
 ?>
 <style>
 .modal-dialog{
@@ -89,7 +96,8 @@ $this->customcrud->genJS(
             </div>
 
             <div class="modal-footer">
-                <button type="button" id="btnView" onclick="workflow.view_application()" class="btn btn-info pull-left"><i class="fa fa-eye"></i> View</button>
+                <button type="button" id="btnView" onclick="workflow.view_application()" class="btn btn-info pull-left"><i class="fa fa-print"></i> View</button>
+                <button type="button" id="btnConsult" onclick="workflow.init_consult()" class="btn btn-warning pull-left"><i class="fa fa-comments-o "></i> Consult</button>
                 <button type="button" id="btnApprove" onclick="workflow.approve()" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
                 <button type="button" id="btnDispproveInit" onclick="workflow.init_disapprove()" class="btn btn-danger"><i class="fa fa-history"></i> Dis-approve</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -130,9 +138,74 @@ $this->customcrud->genJS(
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
 
+<!-- Bootstrap modal -->
+<div class="modal fade" id="modal_form_consult" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Consultation</h3>
+            </div>
+
+            <div class="modal-body form">
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="alert alert-info">The consultation will be sent via email</span>
+                    <hr>
+                  </div>
+                </div>
+
+                <form id="form-consult" class="form-horizontal" role="form" onsubmit="return false">
+
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="consult_with">Consult with</label>
+                 <div class="col-sm-10">
+                   <?php  echo $select_consult_with; ?>
+                 </div>
+                </div>
+
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="subject">Subject</label>
+                 <div class="col-sm-10">
+                  <input type="text" class="form-control input-sm" name="subject" id="subject" value=""  >
+                 </div>
+                </div>
+
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="message">Message</label>
+                 <div class="col-sm-10">
+                  <textarea type="text" class="form-control input-sm" name="message" id="message"   placeholder="Message..." rows="5" ></textarea>
+                 </div>
+                </div>
+
+                <div class="form-group">
+                <label class="col-sm-2 control-label" for="">Documents</label>
+                 <div class="col-sm-10">
+                  <label class="text-muted control-label" for="consultdocs"> <input type="checkbox" id="consultdocs" name="consultdocs"  value="1" > Attach application document in the email</label>
+                 </div>
+                </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnDispprove" onclick="workflow.consult()" class="btn btn-info"><i class="fa fa-paper-plane-o"></i> Send</button>
+                <button type="button" class="btn btn-default" onclick="workflow.close_consult();">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
 
 <script>
 
+ $('#consult_with').multiselect( {
+  maxHeight: 400,
+  includeSelectAllOption: true,
+  enableFiltering: true
+ });
 
 var workflow ={
  edit: function(id){
@@ -143,6 +216,63 @@ var workflow ={
    appno = $('#appno').val();
    ui.fc('<?php echo $this->router->class;?>/list_documents/'+id,'div_documents');
    ui.fc('<?php echo $this->router->class;?>/list_approvals/'+id,'div_approvals');
+ },
+ init_consult:function(){
+  var  appno = $('#appno').val();
+  $('#subject').val('CONSULTATION ON ABS PERMIT APPLICATION NO '+appno);
+  $('#modal_form').modal('hide');
+  $('#modal_form_consult').modal('show');
+ },
+ close_consult:function(){
+  $('#modal_form').modal('show');
+  $('#modal_form_consult').modal('hide');
+ },
+ consult:function()
+ {
+  var id = $('#id').val(),
+   appno = $('#appno').val();
+  $.SmartMessageBox({
+   title : "Confirm",
+   content : "Send Consulation On Application No. <font color='green'>"+appno+"</font>?",
+   buttons : '[No][Yes]'
+  },function(bp) {
+  if (bp === "Yes") {
+   $('#btnConsult').attr('disabled',true);
+   $('#btnApprove').attr('disabled',true);
+   $('#btnDispprove').attr('disabled',true);
+   $.ajax({
+    url : '<?php echo $this->router->class;?>/consult',
+    type: "POST",
+    data: $('#form-consult').serialize() +'&id='+id+'&appno='+appno,
+    dataType: "JSON",
+    success: function(data)
+    {
+       if(data.success==1) {
+         swal({
+          text:data.message,
+          icon: "success",
+          buttons: false,
+          timer: 2000,
+         });
+         workflow.close_consult();
+         $('#form-consult')[0].reset();
+      }else{
+        swal({ text: data.message, icon: "error"});
+       }
+    $('#btnConsult').attr('disabled',false);
+    $('#btnApprove').attr('disabled',false);
+    $('#btnDispprove').attr('disabled',false);
+   },
+    error: function (jqXHR, textStatus, errorThrown)
+   {
+    $('#btnConsult').attr('disabled',false);
+    $('#btnApprove').attr('disabled',false);
+    $('#btnDispprove').attr('disabled',false);
+    swal({ text: 'Error sending', icon: "error"});
+   }
+  });
+  }
+ });
  },
  approve:function (){
   var appno = $('#appno').val();
@@ -250,15 +380,12 @@ var workflow ={
   }
  },
  view_application:function(){
-  swal({
-     text: 'view doc',
-     icon: "success",
-     buttons: false,
-     timer: 2000,
-    });
+  var id = $('#id').val();
+  var win=window.open('<?php echo $this->router->class;?>/view/'+id,'report','height=800,width=830,toolbar=no,menubar=no,directories=no,location=no,scrollbars=yes,status=no,resizable=no,fullscreen=no,top=0,left=0');
+  win.focus();
  },
  view_document:function(docid){
-  var id = $('#id').val();
+   var id = $('#id').val();
    $('#_iframex').attr('src', '<?php echo $this->router->class;?>/view_document/'+id+'/'+docid);
  },
 };

@@ -83,8 +83,10 @@ foreach($approvalsteps as $stepno=>$stepname){
   echo "<td><i class=\"fa fa-{$approved_icon}\"></i></td>";
 }
 
+//  <td><a href="ApplicationsList/view/{$id}"  ><i class="fa fa-eye"></i> View</a></td>
+
 echo <<<ROW
-  <td><a href="ApplicationsList/view/{$id}"  ><i class="fa fa-eye"></i> View</a></td>
+  <td><a href="#"  onclick="view_application({$id});" ><i class="fa fa-print"></i> View</a></td>
  </tr>
 ROW;
 

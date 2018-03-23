@@ -83,6 +83,11 @@
      $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();
      });
+
+     function view_application(id){
+      var win=window.open('<?php echo $this->router->class;?>/view_application/'+id,'report','height=800,width=830,toolbar=no,menubar=no,directories=no,location=no,scrollbars=yes,status=no,resizable=no,fullscreen=no,top=0,left=0');
+      win.focus();
+     };
     </script>
 
     </body>

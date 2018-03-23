@@ -59,7 +59,7 @@
         $checked  =  isset($purpose[$pupcode]) && $purpose[$pupcode]==$pupcode ? 'checked' :'';
 
 echo <<<ROW
-<div class="checkbox col-md-5 ">
+<div class="  col-md-5 ">
 <label>
     <input  type="checkbox"  id="{$input_id}" name="{$input_id}" value="{$pupcode}" class="form-control" {$checked} >
     {$pupname}

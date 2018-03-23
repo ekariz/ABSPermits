@@ -149,7 +149,6 @@ if($docpassport_exists){
                                         <div class="form-group   has-feedback">
                                             <label class="control-label" for="myid">Attach Your ID</label>
                                             <input type="file" class="form-control" id="myid" name="myid" placeholder="" <?php echo $docid_required; ?> >
-                                            <span class='glyphicon glyphicon-ok no-error form-control-feedback'></span>
                                             <?php echo $docid_class; ?>
                                         </div>
                                     </div>
@@ -278,7 +277,7 @@ if($docpassport_exists){
                                      text: data.message,
                                      icon: "success",
                                      buttons: false,
-                                     timer: 10000,
+                                     timer: 3000,
                                     }).then((state) => {
                                       window.location='<?php  echo  base_url(); ?>home';
                                     });

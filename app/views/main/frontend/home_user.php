@@ -54,9 +54,9 @@
                                     data-start="1300"
                                     data-easing="easeOutQuad"
                                     data-endspeed="600">
-                                    <h2 class="title"><a href="#" class="link-light">ABS IT</a></h2>
+                                    <h2 class="title"><a href="#" class="link-light">ABS</a></h2>
                                     <div class="separator-2 light clearfix hidden-xs"></div>
-                                    <p class="hidden-xs">ABS IT Permit Application System.</p>
+                                    <p class="hidden-xs">ABS Research Permit Application System.</p>
                                     <div class="text-right hidden-xs"><a class="btn btn-small btn-default margin-clear" href="#">Read More</a></div>
                                 </div>
 
@@ -68,7 +68,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner2.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="assets/frontend/images/banner3.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -87,6 +87,33 @@
 
                                 </li>
                                 <!-- slide 2 end -->
+
+
+                                <!-- slide 2 start -->
+                                <!-- ================ -->
+                                <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
+
+                                <!-- main image -->
+                                <img src="assets/frontend/images/banner4.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
+                                    style="background-color: rgba(0, 0, 0, 0.45);"
+                                    data-x="right"
+                                    data-y="bottom"
+                                    data-speed="500"
+                                    data-start="1300"
+                                    data-easing="easeOutQuad"
+                                    data-endspeed="600">
+                                    <h2 class="title"><a href="#" class="link-light">Apply Online</a></h2>
+                                    <div class="separator-2 light clearfix hidden-xs"></div>
+                                    <p class="hidden-xs">ABS IT Permit Application System.</p>
+                                    <div class="text-right hidden-xs"><a class="btn btn-small btn-default margin-clear" href="#">Read More</a></div>
+                                </div>
+
+                                </li>
+                                <!-- slide 2 end -->
+
                             </ul>
                             <div class="tp-bannertimer"></div>
                         </div>

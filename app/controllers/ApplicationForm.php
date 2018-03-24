@@ -53,6 +53,8 @@ class ApplicationForm extends CI_Controller{
        $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
       }
      }
+//print_pre($data);//remove
+//exit();//remove
 
      $data['applyingas_list']      = $this->abs->get_applyas();
      $data['resource_list']        = $this->abs->get_resource_types();
@@ -60,6 +62,11 @@ class ApplicationForm extends CI_Controller{
      $data['purposes_list']        = $this->abs->get_purposes();
      $data['conservestatus_list']  = $this->abs->get_iucn_red_list();
      $data['sample_uom_list']      = $this->abs->get_sample_uom();
+
+     $data['yesno_list']      = [];
+     $data['yesno_list']['']  = 'Choose option';
+     $data['yesno_list'][1]   = 'Yes';
+     $data['yesno_list'][2]   = 'No';
 
      $data['positions']      = [];
      $data['positions']['']  = 'Choose option';
@@ -307,7 +314,6 @@ class ApplicationForm extends CI_Controller{
     $required['resourceallocationpurpose'] = 'Purpose of genetic resource collection *:';
     $required['purpose'] = 'Purpose of collection';
     $required['researchtype'] = 'Type of Research to be Carried out';
-    //$required['scientificname'] = 'Scientific Name';
     $required['samplesamount'] = 'Amount of proposed samples to be collected';
     $required['sampleuom'] = 'Proposed samples Unit of Measure';
     $required['conservestatus'] = 'Select the conservation status of the sample to be collected';
@@ -336,7 +342,11 @@ class ApplicationForm extends CI_Controller{
     }
 
     foreach($required_docs as $docid=>$docdesc){
-     if(isset($presaved_data->$docid) && !isJSON($presaved_data->$docid)){
+     if(!isset($presaved_data->$docid)){
+       die(json_response(0, "{$docdesc} Is Required"));
+     }elseif(empty($presaved_data->$docid)){
+       die(json_response(0, "{$docdesc} Is Required"));
+     }elseif(!isJSON($presaved_data->$docid)){
        die(json_response(0, "{$docdesc} Is Required"));
      }
     }

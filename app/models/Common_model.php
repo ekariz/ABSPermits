@@ -157,19 +157,42 @@ class Common_model extends CI_Model{
     return $data;
   }
 
-  function queue_mail( $email, $subject, $message,$toemail='' ){
+  function queue_mail( $email, $subject, $message, $toemail='' , $send_now=false ){
 
     $id   =  generateID( 'queuemail' ,'id', $this->db );
 
     $data = [
-          'id'      =>  $id ,
+          'id'          =>  $id ,
           'toname'      =>  !empty($toemail) ? $toemail : $email ,
-          'toemail'       =>  $email ,
-          'subject'      =>  $subject ,
-          'message'      =>  $message ,
-          'queuedate'    =>  date("Y-m-d") ,
+          'toemail'     =>  $email ,
+          'subject'     =>  $subject ,
+          'message'     =>  $message ,
+          'queuedate'   =>  date("Y-m-d") ,
          ];
-    $this->db->insert( 'queuemail', $data );
+
+    $save  = $this->db->insert( 'queuemail', $data );
+
+    if($save){
+     if($send_now){
+      $this->load->library('email');
+      $this->config->load('product');
+      $companyname       = $this->config->item('companyname');
+      $companyemail      = $this->config->item('companyemail');
+      $productname       = $this->config->item('productname');
+
+      $this->email->clear();
+      $this->email->from( $companyemail, $companyname );
+      $this->email->to( $email );
+      $this->email->subject( $subject );
+      $this->email->message( $message );
+      $this->email->send();
+      $this->db->query( "update queuemail set sent=1  where id={$id} " );
+
+     }
+     return $id;
+    }
+
+    return null;
 
   }
 
@@ -190,6 +213,24 @@ class Common_model extends CI_Model{
       }
 
       return $data;
+
+  }
+
+  public function  get_queued_mail_id( $id )
+  {
+      $this->db->select('*');
+      $this->db->from('queuemail');
+      $this->db->where("id", $id);
+      //$this->db->where("sent is null or sent=0");
+      $result = $this->db->get();
+
+      $row    = $result->row();
+      if (isset($row))
+      {
+        return $row;
+      }
+
+      return [];
 
   }
 

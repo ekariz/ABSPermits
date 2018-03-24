@@ -16,6 +16,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/frontend/plugins/SmoothScroll.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/plugin/jquery-form/jquery-form.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/plugin/jquery-validate/jquery.validate.min.js"  ></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/plugin/jquery-validate/additional-methods.js"  ></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/plugin/masked-input/jquery.maskedinput.min.js" ></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/frontend/js/template.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/sweetalert.min.js"></script>

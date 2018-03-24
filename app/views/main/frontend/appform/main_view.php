@@ -214,9 +214,10 @@
                /*
                auto-save steps fields
                */
-               var autosave_fields=[],autosave_fields_str='',elm_type,elm_val,elms = elmForm.find('.form-control');
+               var autosave_fields=[],autosave_fields_str='',elm_type,elm_val,elms = elmForm.find('.form-control'),elms_checkbox = elmForm.find('.form-control-checkbox');
 
-               if(elms.length>0){
+               if(elms.length>0) {
+
                 elms.each(function(index,elm){
                 elm_type = $(elm).attr('type');
                  switch(elm_type){
@@ -231,6 +232,23 @@
                   autosave_fields.push(elm.id+'='+elm_val);
                  }
                 });
+
+                if(elms_checkbox.length>0) {
+                  elms_checkbox.each(function(index,elm){
+                  elm_type = $(elm).attr('type');
+                  switch(elm_type){
+                  case 'checkbox':
+                   if($(elm).prop('checked')){
+                   elm_val  = $(elm).val();
+                   autosave_fields.push(elm.id+'='+elm_val);
+                  }
+                  break;
+                  default:
+                   elm_val  = $(elm).val();
+                   autosave_fields.push(elm.id+'='+elm_val);
+                  }
+                 });
+                }
 
                 var stepNumber_Now=0;
                 if(stepDirection === 'forward' && stepNumber<=4){
@@ -275,7 +293,7 @@
            $('#table_row_mta').show();
           }else if(exportanswer==2){
            $('#table_row_mta').hide();
-                          top.location = 'https://www.nacosti.go.ke/';
+           top.location = 'https://oris.nacosti.go.ke';
            return false;
           }else{
            $('#table_row_mta').hide();

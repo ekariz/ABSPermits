@@ -17,13 +17,6 @@
     <div class="help-block with-errors"></div>
 </div>
 
-<!--
-<div class="col-md-12 form-group">
-    <label for="scientificname">Scientific name of the genetic resource to be collected *:</label>
-    <input type="text" class="form-control input-sm" id="scientificname" name="scientificname"  value="<?php echo $scientificname; ?>" placeholder="" required data-toggle="tooltip" data-placement="top" title="Scientific name of the genetic resource to be collected ">
-    <div class="help-block with-errors"></div>
-</div>
--->
 
 <div class="col-md-12 form-group">
     <label for="commonname">Common/vernacular name of the generic resource to be collected *:</label>
@@ -39,7 +32,7 @@
 
 <div class="col-md-12 form-group">
     <label for="projectarea">Is the project area inside a conservation area, gazetted forest or protected area? *:</label>
-    <input type="text" class="form-control input-sm" id="projectarea" name="projectarea"  value="<?php echo $projectarea; ?>" placeholder="" required data-toggle="tooltip" data-placement="top" title="Is the project area inside a conservation area, gazetted forest or protected area">
+    <?php echo form_dropdown('projectarea', $yesno_list, $projectarea ,'id="projectarea" class="form-control  input-sm"  required="required"  ');  ?>
     <div class="help-block with-errors"></div>
 </div>
 
@@ -61,7 +54,7 @@
 echo <<<ROW
 <div class="  col-md-5 ">
 <label>
-    <input  type="checkbox"  id="{$input_id}" name="{$input_id}" value="{$pupcode}" class="form-control" {$checked} >
+    <input  type="checkbox"  id="{$input_id}" name="{$input_id}" value="{$pupcode}" class="form-control-checkbox" {$checked} >
     {$pupname}
 </label>
 </div>

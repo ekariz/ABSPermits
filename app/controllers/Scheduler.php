@@ -17,7 +17,7 @@ class Scheduler extends CI_Controller {
    die('Nothing Here');
   }
 
-  public function mail( $index=0 ){
+  public function mail( $limit=5 ){
      $this->load->library('email');
      $this->config->load('product');
 
@@ -26,7 +26,7 @@ class Scheduler extends CI_Controller {
      $companyemail      = $this->config->item('companyemail');
      $productname       = $this->config->item('productname');
 
-     $queued_mail       = $this->common->get_queued_mail(2);
+     $queued_mail       = $this->common->get_queued_mail($limit);
 
      $errors = array();
 
@@ -51,6 +51,42 @@ class Scheduler extends CI_Controller {
       $this->db->query( "update queuemail set sent=1  where id={$id} " );
 
      }
+    }
+
+  }
+
+  public function send_by_id( $id ){
+     $this->load->library('email');
+     $this->config->load('product');
+
+
+     $companyname       = $this->config->item('companyname');
+     $companyemail      = $this->config->item('companyemail');
+     $productname       = $this->config->item('productname');
+
+     $mail              = $this->common->get_queued_mail_id($id);
+
+     $errors = array();
+
+    if(sizeof($mail)>0){
+
+      $id       = valueof($mail, 'id');
+      $toemail  = valueof($mail, 'toemail');
+      $subject  = valueof($mail, 'subject');
+      $message  = valueof($mail, 'message');
+      $priority = valueof($mail, 'priority',3);
+      $this->email->clear();
+      $this->email->from( $companyemail, $companyname );
+      $this->email->to( $toemail );
+      $this->email->subject( $subject );
+      $this->email->message( $message );
+
+      $this->email->send();
+
+      //echo $this->email->print_debugger();
+
+      $this->db->query( "update queuemail set sent=1  where id={$id} " );
+
     }
 
   }

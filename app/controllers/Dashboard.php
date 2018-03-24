@@ -33,8 +33,6 @@ class Dashboard extends CI_Controller {
         $approvals[$stepno]['pending'][]  = $appno;
       }
 
-      $xxx[$appno][$stepno]  = $approved;
-
       if(is_null($approved) && !isset($stage[$appno]) ){
        $stage[$appno]  = $stepno;
        $num_docs[$stepno][]  = $appno;
@@ -43,10 +41,11 @@ class Dashboard extends CI_Controller {
      }
     }
 
+    $data['num_applications']  = sizeof($applications);
     $data['approvalsteps']  = $approvalsteps;
     $data['num_docs']       = $num_docs;
-print_pre($data);//remove
-exit();//remove
+//print_pre($data);//remove
+//exit();//remove
 
     $this->load->view('dashboard_view', $data);
 

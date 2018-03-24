@@ -48,7 +48,7 @@
                     <div class="row">
                         <!-- main start -->
                         <!-- ================ -->
-                        <div class="main object-non-visible" data-animation-effect="fadeInUpSmall" data-effect-delay="100">
+                        <div id="div-main" class="main object-non-visible" data-animation-effect="fadeInUpSmall" data-effect-delay="100">
                             <div class="form-block center-block p-30 light-gray-bg border-clear">
                                 <h2 class="title">Sign Up</h2>
                                 <span>To be Able to Apply for ABS PERMIT</span>
@@ -348,8 +348,11 @@
                                      icon: "success",
                                      buttons: false,
                                      closeOnClickOutside: false,
+                                     timer: 2000,
+                                    }).then((state) => {
+                                      $('#div-main').html('<div class="row"> <div class="col-md-12  center-blockx p-40 light-gray-bg border-clear"> <span class="alert alert-success">'+data.message+'</span></div> </div>');
                                     });
-                                    /*window.location='<?php  echo  base_url(); ?>/Signup/done.html';*/
+
                                }else if(data.success==0){
                                   swal({
                                     text: data.message,

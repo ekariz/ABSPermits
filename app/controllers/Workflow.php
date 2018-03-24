@@ -296,7 +296,7 @@ class Workflow extends CI_Controller {
      $main_approver_email     = $main_approver->email;
      $main_approver_username  = $main_approver->username;
 
-     $main_approver_email = 'ekariz@gmail.com';
+     $main_approver_email  = 'abspermitsprototype@gmail.com';
      $message = self::make_email_body_notification( $data_raw , $username, $message_body, $main_approver_username, $main_approver_email );
      $this->common->queue_mail( $main_approver_email, $subject, $message );
 
@@ -442,7 +442,7 @@ class Workflow extends CI_Controller {
      * next company admin
      */
     $subject = "ABS Application Reference {$application->appno}";
-    $next_approver_email  = 'ekariz@gmail.com';
+    $next_approver_email  = 'abspermitsprototype@gmail.com';
     $message = self::make_email_body_approve_admin( $next_approver_username, $next_approver_email,$stepname_current,$stepname_next, $application->appno  );
     $this->common->queue_mail( $next_approver_email, $subject, $message ,$next_approver_username );
 

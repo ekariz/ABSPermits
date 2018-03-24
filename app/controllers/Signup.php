@@ -41,7 +41,7 @@ class Signup extends CI_Controller{
      $terms            = $this->input->post('terms');
      $password_check   = sha1($password);
 
-     //$this->db->where('email',$email)->delete( 'signups' );
+     $this->db->where('email',$email)->delete( 'signups' );
 
      $response['success']  = 0;
      $response['message']  = '';
@@ -86,8 +86,7 @@ class Signup extends CI_Controller{
 
     $subject = "ABS Email Verification ";//Account Registration
     $message = self::make_email_body_notify( $firstname ,$email , $verifycode );
-
-    $this->common->queue_mail( $email, $subject, $message );
+    $this->common->queue_mail( $email, $subject, $message , true);
 
     }
 
@@ -108,13 +107,13 @@ class Signup extends CI_Controller{
 
         //if verified, login
        if($signups->verified == 1 && $signups->hasuploads == 1){
-        redirect( base_url() .'login' );
+        //redirect( base_url() .'login' );
        }
 
        if($signups->verifycode == $verifycode){
          $this->db->query( "update {$this->signups->table} set verified=1  where email='{$email}' " );
        }else{
-          die("Invalid Verification Code. Verify from the email we sent to your inbox");
+         die("Invalid Verification Code. Verify from the email we sent to your inbox");
        }
       }
 
@@ -257,32 +256,49 @@ class Signup extends CI_Controller{
 
         $this->load->library('upload', $config);
 
-        $documents_id       = [];
-        $documents_passport = [];
-        $data               = [];
+        $documents_id       =  [];
+        $documents_passport =  [];
+        $data               =  [];
+        $replace_tags       =  ['<p>','</p>'];
+        $numuploads         =  0;
 
-        if ($this->upload->do_upload('myid')){
-         $document    = $this->upload->data();
-         $documents_id = $document;
+        if (isset($_FILES['myid'])){
+         if ($this->upload->do_upload('myid')){
+          $document    = $this->upload->data();
+          $documents_id = $document;
+          $numuploads +=1;
+         }else{
+          $success  = 0;
+          $message  = $this->upload->display_errors();
+          $message  = str_replace($replace_tags,'',$message);
+          echo json_encode( [ 'success' => $success, 'message' => $message ] );
+          die;
+         }
         }
 
-        if ($this->upload->do_upload('passport')){
+        if (isset($_FILES['passport'])){
+         if ($this->upload->do_upload('passport')){
          $document    = $this->upload->data();
          $documents_passport = $document;
+         $numuploads +=1;
+        }else{
+          $success  = 0;
+          $message  = $this->upload->display_errors();
+          $message  = str_replace($replace_tags,'',$message);
+          echo json_encode( [ 'success' => $success, 'message' => $message ] );
+          die;
+        }
         }
 
        $documents_id_str       = json_encode($documents_id);
        $documents_passport_str = json_encode($documents_passport);
-       $numuploads             =  0;
 
        if(!empty($documents_id)){
         $data['docid'] = $documents_id_str;
-        $numuploads +=1;
        }
 
        if(!empty($documents_passport)){
         $data['docpassport'] = $documents_passport_str;
-        $numuploads +=1;
        }
 
        $data['hasuploads']   = $numuploads;
@@ -296,11 +312,14 @@ class Signup extends CI_Controller{
         $subject = "ABS Complete Your profile ";//Account completion
         $message = self::make_email_body_save_continue( $signup->firstname, $signup->email, $signup->verifycode );
         $this->common->queue_mail( $email, $subject, $message );
+        $message = 'Saved.We sent email with a link to continue uploading all documents';
+       }else{
+        $message = 'Uploaded all documents.Click Next to Continue';
        }
 
        if(!empty($data)){
         $success = 1;
-        $message = 'Saved.We sent email with a link to continue uploading all documents';
+        //$message = 'Saved.We sent email with a link to continue uploading all documents';
        }else{
         $success = 0;
         $message = 'Nothing Saved';

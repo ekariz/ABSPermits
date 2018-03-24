@@ -41,7 +41,6 @@ if($docpassport_exists){
         <meta charset="utf-8">
         <title>ABS :: Registration</title>
         <meta name="description" content="ABS SYSTEM">
-        <meta name="author" content="Vista Solutions">
 
         <!-- Mobile Meta -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,7 +146,7 @@ if($docpassport_exists){
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group   has-feedback">
-                                            <label class="control-label" for="myid">Attach Your ID</label>
+                                            <label class="control-label" for="myid">Attach Your ID/Passport</label>
                                             <input type="file" class="form-control" id="myid" name="myid" placeholder="" <?php echo $docid_required; ?> >
                                             <?php echo $docid_class; ?>
                                         </div>
@@ -212,6 +211,12 @@ if($docpassport_exists){
 
         <script type="text/javascript">
 
+            // just for the demos, avoids form submit
+            jQuery.validator.setDefaults({
+              debug: true,
+              success: "valid"
+            });
+
             $( document ).ready( function () {
                 $("#form-uploads").validate({
                     rules : {
@@ -221,10 +226,10 @@ if($docpassport_exists){
                         },
                         <?php } ?>
                         <?php if(!$docpassport_exists){ ?>
-                        passport : {
+                       passport : {
                             required : true,
                         },
-                        <?php } ?>
+                        <?php  } ?>
                     },
                     messages : {
                         <?php if(!$docid_exists){ ?>
@@ -279,7 +284,7 @@ if($docpassport_exists){
                                      buttons: false,
                                      timer: 3000,
                                     }).then((state) => {
-                                      window.location='<?php  echo  base_url(); ?>home';
+                                      window.location='<?php  echo  base_url(); ?>ApplicationForm';
                                     });
                                }else if(data.success==0){
                                   swal({
@@ -310,7 +315,7 @@ if($docpassport_exists){
                      text: data.message,
                      icon: "success",
                      buttons: false,
-                     timer: 10000,
+                     timer: 3000,
                     });
                }else if(data.success==0){
                   swal({

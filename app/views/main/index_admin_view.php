@@ -1,16 +1,5 @@
 <?php
 
-//global $ui_appid;
-//$ui_appid = $this->input->get('appid');
-//$ui_appid = isset($_SESSION['appid']) ? $_SESSION['appid'] : $def_appid;
-//$appmenu  = $this->common->get_app_menu( $ui_appid );
-//$app      = $this->common->get_sys_app( $ui_appid );
-
-//$appname = '';
-//if(is_object($app)){
- //$appname = $app->appname;
-//}
-
 $username = $this->session->userdata('username');
 
 ?>
@@ -53,7 +42,7 @@ $username = $this->session->userdata('username');
                     <!-- end notification content -->
 
                     <!-- footer: refresh area -->
-                    <span> Last updated on: 12/12/2013 9:43AM
+                    <span> Last updated on: 12/12/2017 9:43AM
                         <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right">
                             <i class="fa fa-refresh"></i>
                         </button>
@@ -68,19 +57,14 @@ $username = $this->session->userdata('username');
             <div class="project-context hidden-xs">
 
                 <span class="label"><?php  echo $appname; ?>:</span>
-                <span class="project-selector dropdown-toggle" data-toggle="dropdown">Admin <i class="fa fa-angle-down"></i></span>
+                <span class="project-selector dropdown-toggle" data-toggle="dropdown"><?php  echo $username; ?> <i class="fa fa-angle-down"></i></span>
 
                 <!-- Suggestion: populate this list with fetch and push technique -->
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="javascript:void(0);">module 1</a>
+                        <a href="javascript:void(0);">No New Tasks</a>
                     </li>
-                    <li>
-                        <a href="javascript:void(0);">module 2</a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);">module 3</a>
-                    </li>
+
                     <li class="divider"></li>
                     <li>
                         <a href="javascript:void(0);"><i class="fa fa-power-off"></i> Clear</a>
@@ -406,8 +390,7 @@ $username = $this->session->userdata('username');
         <script src="<?php echo base_url();?>assets/js/plugin/fancytree/jquery.fancytree.contextMenu.js"></script>
         <script src="<?php echo base_url();?>assets/js/jquery.contextMenu.min.js"></script>
 
-
-
+        <script src="<?php echo base_url();?>assets/js/plugin/jquery-form/jquery-form.min.js"  type="text/javascript"></script>
 
         <script>
             function open_app(appid){

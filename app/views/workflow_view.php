@@ -98,8 +98,37 @@ $select_consult_with .= '</select>';
             <div class="modal-footer">
                 <button type="button" id="btnView" onclick="workflow.view_application()" class="btn btn-info pull-left"><i class="fa fa-print"></i> View</button>
                 <button type="button" id="btnConsult" onclick="workflow.init_consult()" class="btn btn-warning pull-left"><i class="fa fa-comments-o "></i> Consult</button>
-                <button type="button" id="btnApprove" onclick="workflow.approve()" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
+                <button type="button" id="btnApprove" onclick="workflow.init_approve()" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
                 <button type="button" id="btnDispproveInit" onclick="workflow.init_disapprove()" class="btn btn-danger"><i class="fa fa-history"></i> Dis-approve</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
+<!-- Bootstrap modal -->
+<div class="modal fade" id="modal_form_approve" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title"><?php echo $approval_name; ?> Approval Comments</h3>
+            </div>
+
+            <div class="modal-bodyx formx">
+
+                <form action="<?php echo $this->router->class;?>/approve"   id="form-approve" class="form-horizontal" method="post" enctype="multipart/form-data" >
+
+                <div class="col-md-12 form-groupx">
+                    <textarea type="text" class="form-control  " name="comments-approve" id="comments-approve"   placeholder="Comment..."  ></textarea>
+                </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnModalApprove" onclick="workflow.approve()" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div><!-- /.modal-content -->
@@ -201,6 +230,8 @@ $select_consult_with .= '</select>';
 
 <script>
 
+ $('[data-toggle="tooltip"]').tooltip();
+
  $('#consult_with').multiselect( {
   maxHeight: 400,
   includeSelectAllOption: true,
@@ -274,8 +305,18 @@ var workflow ={
   }
  });
  },
+ init_approve:function(){
+  $('#modal_form').modal('hide');
+  $('#modal_form_disapprove').modal('hide');
+  $('#modal_form_approve').modal('show');
+ },
  approve:function (){
   var appno = $('#appno').val();
+  var comments = $('#comments-approve').val();
+  if(comments===''){
+    swal({ text: 'Enter a Comment', icon: "warning"});
+   return;
+  }
   $.SmartMessageBox({
    title : "Confirm",
    content : "Approve Application No. <font color='green'>"+appno+"</font>?",
@@ -287,7 +328,7 @@ var workflow ={
    $.ajax({
     url : '<?php echo $this->router->class;?>/approve',
     type: "POST",
-    data: $('#form-data').serialize(),
+    data: $('#form-data').serialize() + '&comments=' + comments,
     dataType: "JSON",
     success: function(data)
     {
@@ -300,7 +341,9 @@ var workflow ={
          });
          crud.reload_table();
          $('#modal_form').modal('hide');
+         $('#modal_form_approve').modal('hide');
          $('#form-data')[0].reset();
+         $('#comments-approve').val('');
        }else{
         swal({ text: data.message, icon: "error"});
        }
@@ -325,15 +368,9 @@ var workflow ={
     var id = $('#id').val(),
     appno = $('#appno').val(),
     reason = $('#reason').val();
-
-   if(reason==''){
-    $.bigBox({
-     title : "Error",
-     content : "Enter Disapproval Reason",
-     color : "#C46A69",
-     icon : "fa fa-warning shake animated",
-     timeout : 3000
-    });
+    if(reason===''){
+     swal({ text: 'Enter Disapproval Reason', icon: "warning"});
+     return;
    }else{
     $.SmartMessageBox({
         title : "Confirm",
@@ -361,6 +398,7 @@ var workflow ={
              $('#modal_form_disapprove').modal('hide');
              $('#form-data')[0].reset();
              $('#form-disapprove')[0].reset();
+             $('#reason').val('');
             }else{
              $('#modal_form_disapprove').modal('hide');
              swal({ text: data.message, icon: "error"});

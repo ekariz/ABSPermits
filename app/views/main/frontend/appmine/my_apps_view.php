@@ -37,12 +37,11 @@
             <!-- main-container start -->
             <!-- ================ -->
             <div class="container">
-             <div class="row">
+             <div class="row" id="div_application">
 
               <div class="alert alert-info">
                <strong>My Submitted Applications</strong>
               </div>
-
               <?php  $this->load->view('main/frontend/appmine/list_view' ); ?>
              </div>
             </div>
@@ -83,6 +82,10 @@
      $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();
      });
+
+     function open_application(id){
+      ui.fc('<?php echo $this->router->class;?>/open_application/'+id,'div_application');
+     };
 
      function view_application(id){
       var win=window.open('<?php echo $this->router->class;?>/view_application/'+id,'report','height=800,width=830,toolbar=no,menubar=no,directories=no,location=no,scrollbars=yes,status=no,resizable=no,fullscreen=no,top=0,left=0');

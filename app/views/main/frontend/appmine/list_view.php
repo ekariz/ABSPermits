@@ -11,7 +11,7 @@
    echo "<th>{$stepname}</th>";
   }
   ?>
-  <th>Action</th>
+  <th colspan="2">Actions</th>
  </tr>
 </thead>
 
@@ -86,6 +86,7 @@ foreach($approvalsteps as $stepno=>$stepname){
 //  <td><a href="ApplicationsList/view/{$id}"  ><i class="fa fa-eye"></i> View</a></td>
 
 echo <<<ROW
+  <td><a href="ApplicationsList/application/{$id}" ><i class="fa fa-user"></i> Open</a></td>
   <td><a href="#"  onclick="view_application({$id});" ><i class="fa fa-print"></i> View</a></td>
  </tr>
 ROW;

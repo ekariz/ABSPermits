@@ -152,6 +152,7 @@ class Abs_model extends CI_Model{
       return $data;
 
   }
+
   public function  get_applications_all( )
   {
 
@@ -192,6 +193,27 @@ class Abs_model extends CI_Model{
 
   }
 
+  public function  get_institutions_charges( )
+  {
+
+      $this->db->select('instcode,charges');
+      $this->db->from('institutions ');
+      $this->db->order_by("instcode","asc");
+      $result = $this->db->get();
+      $data   = [];
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+           $instcode   =  $row['instcode'];
+           $charges    =  $row['charges'];
+           $data[$instcode] =  $charges;
+         }
+      }
+
+      return $data;
+
+  }
+
   public function  my_approvalstep( $instcode )
   {
 
@@ -204,6 +226,23 @@ class Abs_model extends CI_Model{
     if (isset($row))
     {
      return $row->stepno;
+    }
+
+    return null;
+  }
+
+  public function  get_step_institution( $stepno )
+  {
+
+    $this->db->select('instcode');
+    $this->db->from('approvesteps ');
+    $this->db->where("stepno",$stepno);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row->instcode;
     }
 
     return null;
@@ -235,6 +274,23 @@ class Abs_model extends CI_Model{
     $this->db->from('sysusers ');
     $this->db->where("instcode",$instcode);
     $this->db->where("rolecode",$rolecode);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row;
+    }
+
+    return null;
+  }
+
+  public function  get_institutions_by_code( $instcode )
+  {
+
+    $this->db->select('*');
+    $this->db->from('institutions ');
+    $this->db->where("instcode",$instcode);
     $result = $this->db->get();
     $row    = $result->row();
 

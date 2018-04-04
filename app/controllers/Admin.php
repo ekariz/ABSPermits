@@ -4,37 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
- public function index1(){
-    $this->load->model('crud_model','app');
-    $this->load->model('Common_model','common');
-    $this->config->load('product');
-
-    $companyname    = $this->config->item('companyname');
-    $productname    = $this->config->item('productname');
-
-    $apps           =  $this->common->get_sys_apps_detailed();
-    $default_appid  =  $this->common->get_default_sys_app_user();
-    //$default_appid  =  $this->common->get_default_sys_app_admin();
-
-    $data           =  [
-                        'title'       => $productname,
-                        'route'       => $this->router->class,
-                        'apps'        => $apps,
-                        'def_appid'   => $default_appid,
-                        'companyname' => $companyname,
-                        'productname' => $productname,
-                       ];
-
-    if( !empty($this->session->userdata['logged_in']) && $this->session->userdata['logged_in'] === 1 ){
-     $this->load->view('main/header_admin', $data );
-     $this->load->view('main/index_admin_view');
-     $this->load->view('main/footer');
-    }else{
-     $this->load->view('main/login_view', $data );
-    }
-
- }
-
  public function index(){
     $this->load->model('crud_model','app');
     $this->load->model('Common_model','common');
@@ -65,7 +34,8 @@ class Admin extends CI_Controller {
     }
 
     $rolecode = $this->session->userdata('rolecode');
-//echo "\$rolecode={$rolecode} <br>";//remove
+
+    $data['username'] = $this->session->userdata['username'];
 
     $appmenu  = $this->common->get_app_role_menu( $ui_appid , $rolecode );
     $app      = $this->common->get_sys_app( $ui_appid );
@@ -77,9 +47,6 @@ class Admin extends CI_Controller {
     $data['lastname']   = $this->session->userdata('lastname');
     $data['email']      = $this->session->userdata('email');
     $data['mobile']     = $this->session->userdata('mobile');
-
-//print_pre($data);//remove
-//exit();//remove
 
     $this->load->view('main/header_admin', $data );
     $this->load->view('main/index_admin_view');

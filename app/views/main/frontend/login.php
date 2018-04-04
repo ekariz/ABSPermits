@@ -153,7 +153,7 @@
                                      buttons: false,
                                      timer: 2000,
                                     });
-                                    window.location='<?php  echo  base_url(); ?>?reload=<?php echo mt_rand();?>';
+                                    window.location='<?php  echo  base_url(); ?>ApplicationsList';
                                }else if(data.success==0){
                                   swal({
                                     text: data.message,
@@ -162,7 +162,6 @@
                                     $("#form-login").removeClass('submited');
                                   });
                                }
-
 
                             }
                         });

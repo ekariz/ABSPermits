@@ -14,7 +14,7 @@ $views['viewapplications'] = "
 select y.id,y.appno,y.email,s.firstname,s.lastname,s.gender,s.ctncode,c.ctnname,s.mobile,
 y.position,y.applyingas,a.asname applyingasname,y.orchid,y.researcherid,y.legalofficername,y.legalofficeremail,y.resourcetype,r.typename resourcetypename,y.speciesname,
 y.scientificname,y.commonname,y.projectlocation,y.projectarea,y.resourceallocationpurpose,y.exportanswer,y.resourcetypeother,y.purpose,y.purposeother,
-y.documentregistration,y.documentresearchproposal,y.documentaffiliation,y.documentresearchbudget,y.documentcv,y.documentpic,y.documentmat,y.documentmta,
+y.documentregistration,y.documentresearchproposal,y.documentaffiliation,y.documentresearchbudget,y.documentcv,y.documentpic,y.documentmat,y.documentmta,y.documentip,
 y.researchtype,t.typename researchtypename,y.samplesamount,y.conservestatus,y.conservestatusdesc,y.restraditionalknow,y.exportgeneticresources,y.legislationagree,y.sampleuom,u.uomname sampleuomname,y.apptime,
 y.approved1,y.approved2,y.approved3,y.approved4,y.approved5,y.approved6,y.approved7,y.approved8,y.approved9,y.approved10,
 y.aprcomment1,y.aprcomment2,y.aprcomment3,y.aprcomment4,y.aprcomment5,y.aprcomment6,y.aprcomment7,y.aprcomment8,y.aprcomment9,y.aprcomment10,

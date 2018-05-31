@@ -1,6 +1,25 @@
 <?php
 class Abs_model extends CI_Model{
 
+  public function  get_requiredocs(  )
+  {
+
+      $this->db->select('*');
+      $this->db->from('requiredocs ');
+      $this->db->order_by("doctemplate","ASC");
+      $result = $this->db->get();
+      $data   = [];
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+            $data[] =  $row;
+         }
+      }
+
+      return $data;
+
+  }
+
   public function  get_applyas(  )
   {
 
@@ -243,6 +262,23 @@ class Abs_model extends CI_Model{
     if (isset($row))
     {
      return $row->instcode;
+    }
+
+    return null;
+  }
+
+  public function  get_step_description( $stepno )
+  {
+
+    $this->db->select('stepdesc');
+    $this->db->from('approvesteps ');
+    $this->db->where("stepno",$stepno);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row->stepdesc;
     }
 
     return null;

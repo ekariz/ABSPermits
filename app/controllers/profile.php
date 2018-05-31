@@ -14,6 +14,11 @@ class Profile extends CI_Controller{
     public function index(){
 
      $email             = $this->session->userdata('email');
+
+     if(empty($email)){
+       redirect( base_url() .'login' );
+     }
+
      $signup            = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ,'verifycode' => $verifycode ] )->row();
 
      $data = [];

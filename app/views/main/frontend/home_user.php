@@ -43,7 +43,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner1.jpg" alt="slidebg1" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="assets/frontend/images/banner2.jpg" alt="slidebg1" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -68,7 +68,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner3.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="assets/frontend/images/banner1.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -94,7 +94,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner4.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="assets/frontend/images/banner5.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -180,25 +180,29 @@
                                                     <ul class="list-icons">
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Animals</li>
+                                                    <i class="icon-check"></i> Biological resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Flowers</li>
+                                                    <i class="icon-check"></i> Genetic Resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Amphibians</li>
+                                                    <i class="icon-check"></i> DNA / RNA extracts</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Birds</li>
+                                                    <i class="icon-check"></i> Bio Chemical resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Microbiota</li>
+                                                    <i class="icon-check"></i> Derivatives</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Microbez</li>
+                                                    <i class="icon-check"></i> Progeny</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Insects</li>
+                                                    <i class="icon-check"></i> Traditional Knowledge</li>
+
+                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
+                                                    <i class="icon-check"></i> Digital Sequence Information and associated information</li>
+
 
                                                 </ul>
                                                 </div>
@@ -230,7 +234,7 @@
                                                         <li>A guide to the application process</li>
                                                         <li>Required documents for the application</li>
                                                         <li>A list of approved institutions for research affiliation purposes</li>
-                                                        <li>Lead agencies and their mandates</li>
+                                                        <li>A list of approved institutions for research affiliation purposes [<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php echo base_url(); ?>assets/frontend/pdf/Lead_Agencies_And_Their_Mandates.pdf" target="_blank" >Download Here</a>]</li>
                                                         <li>Other information (e.g. regarding export of materials, applications for visas).</li>
                                                        </ul>
                                                      </td>
@@ -443,16 +447,18 @@
 
                                                   <div class="row">
 
+
                                                             <div class="col-md-6 ">
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
                                                                     <div class="body">
-                                                                        <h4 class="title"> Kenya Agricultural Research Institute (KARI)</h4>
-                                                                        <p> P.O. Box  57811-00200 , Nairobi</p>
-                                                                        <a target="_blank" href="http://www.kari.org">http://www.kari.org<i class="pl-5 fa fa-angle-double-right"></i></a>
+                                                                        <h4 class="title"> Kenya Wildlife Service (KWS)</h4>
+                                                                        <p> P.O. Box  40241-00100 , Nairobi</p>
+                                                                        <a target="_blank" href="http://www.kws.org">http://www.kws.org<i class="pl-5 fa fa-angle-double-right"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6 ">
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
@@ -528,16 +534,18 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6 ">
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
                                                                     <div class="body">
-                                                                        <h4 class="title"> Kenya Wildlife Service (KWS)</h4>
-                                                                        <p> P.O. Box  40241-00100 , Nairobi</p>
-                                                                        <a target="_blank" href="http://http://www.kws.org">http://http://www.kws.org<i class="pl-5 fa fa-angle-double-right"></i></a>
+                                                                        <h4 class="title"> Kenya Agricultural Research Institute (KARI)</h4>
+                                                                        <p> P.O. Box  57811-00200 , Nairobi</p>
+                                                                        <a target="_blank" href="http://www.kari.org">http://www.kari.org<i class="pl-5 fa fa-angle-double-right"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
 
 
                                                     </div>
@@ -585,6 +593,11 @@
 
                                                     <tbody>
                                                      <tr>
+                                                      <td>1</td>
+                                                      <td>Kenya Wildlife Service (KWS)  </td>
+                                                      <td>Management of wildlife genetic resources, and issuance of PIC, MAT and export permit</td>
+                                                     </tr>
+                                                     <tr>
                                                       <td>2</td>
                                                       <td>Kenya Forest Service (KFS)  </td>
                                                       <td>Management of forest genetic resources and associated biodiversity</td>
@@ -613,6 +626,11 @@
                                                       <td>7</td>
                                                       <td>National Commission for Science, Technology & Innovation (NACOSTI)</td>
                                                       <td>Issuance of Researcher Licence</td>
+                                                     </tr>
+                                                     <tr>
+                                                      <td>8</td>
+                                                      <td>National Environment Management Authority</td>
+                                                      <td>Issuance of Access permit</td>
                                                      </tr>
                                                     </tbody>
 

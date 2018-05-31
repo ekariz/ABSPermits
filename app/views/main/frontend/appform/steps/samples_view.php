@@ -42,7 +42,7 @@
 </div>
 
 <div  class="col-md-12 form-group"  >
-    <label for="legislationagree"> <input type="checkbox" class="form-control-checkbox" id="legislationagree" name="legislationagree"  value="1" required <?php echo $legislationagree==1 ? 'checked' : ''; ?> > I Agree with the National Legislation of Kenya and conditions for acquiring an ABS permit</label>
+    <label for="legislationagree"> <input type="checkbox" class="form-control-checkbox" id="legislationagree" name="legislationagree"  value="1" required <?php echo $legislationagree==1 ? 'checked' : ''; ?> > I Confirm that all information given in this application is true</label>
     <div class="help-block with-errors"></div>
 </div>
 

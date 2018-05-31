@@ -7,6 +7,7 @@ class Home extends CI_Controller {
  public function index(){
     $this->load->model('crud_model','app');
     $this->load->model('Common_model','common');
+    $this->load->model('Abs_model','abs');
     $this->config->load('product');
 
     $companyname    = $this->config->item('companyname');
@@ -23,7 +24,7 @@ class Home extends CI_Controller {
                         'companyname' => $companyname,
                         'productname' => $productname,
                        ];
-
+    $data['requiredocs']     = $this->abs->get_requiredocs();
     if( !empty($this->session->userdata['logged_in']) && $this->session->userdata['logged_in'] === 1 ) {
 
     if(isset($_SESSION['appid']) && !empty($_SESSION['appid'])){
@@ -45,6 +46,7 @@ class Home extends CI_Controller {
     $data['lastname']   = $this->session->userdata('lastname');
     $data['email']      = $this->session->userdata('email');
     $data['mobile']     = $this->session->userdata('mobile');
+
 
     $this->load->view('main/frontend/home_user', $data );
     }else{

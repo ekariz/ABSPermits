@@ -141,8 +141,13 @@ class Workflow extends CI_Controller {
     {
         $data_raw = $this->applications->get_by_id($id);
 
+        $instcode            =  $this->session->userdata('instcode');
+        $my_approvalstep     =  $this->abs->my_approvalstep( $instcode );
+        $approvalstep_desc   =  $this->abs->get_step_description( $my_approvalstep );
+
         $data                = (object) [];
         $data->id            = $data_raw->id;
+        $data->div_title     = "{$instcode} - {$approvalstep_desc}";
         $data->appno         = $data_raw->appno;
         $data->div_appno     = "<a href=\"javascript:void(0)\" onclick=\"workflow.view_application({$data_raw->id})\">{$data_raw->appno}</a>";
         $data->div_fullname  = Camelize($data_raw->firstname.' '.$data_raw->lastname);
@@ -155,10 +160,12 @@ class Workflow extends CI_Controller {
         echo json_encode($data);
     }
 
-    private function make_institution_document($id)
+    private function make_institution_document($id, $approval_desc )
     {
     $instcode          =  $this->session->userdata('instcode');//instcode
+    $institution       = $this->abs->get_institutions_by_code($instcode);
     $data = [];
+    $data['approval_desc']        = $approval_desc;
     $data['applyingas_list']      = $this->abs->get_applyas();
     $data['resource_list']        = $this->abs->get_resource_types();
     $data['researchtype_list']    = $this->abs->get_research_types();
@@ -183,8 +190,6 @@ class Workflow extends CI_Controller {
         $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
        }
       }
-
-     $institution = $this->abs->get_institutions_by_code($instcode);
 
      $data['instcode']  = $institution->instcode;
      $data['instname']  = $institution->instname;
@@ -223,6 +228,14 @@ class Workflow extends CI_Controller {
     public function view($id)
     {
 
+    $instcode          =  $this->session->userdata('instcode');
+    $my_approvalstep   =  $this->abs->my_approvalstep( $instcode );
+
+    if(empty($my_approvalstep)){
+     echo ("You Have Not Been Authorized to Approve");
+     die;
+    }
+
     $data = [];
     $data['applyingas_list']      = $this->abs->get_applyas();
     $data['resource_list']        = $this->abs->get_resource_types();
@@ -230,6 +243,11 @@ class Workflow extends CI_Controller {
     $data['purposes_list']        = $this->abs->get_purposes();
     $data['conservestatus_list']  = $this->abs->get_iucn_red_list();
     $data['sample_uom_list']      = $this->abs->get_sample_uom();
+
+    $data['yesno_list']      = [];
+    $data['yesno_list']['']  = 'Choose option';
+    $data['yesno_list'][1]   = 'Yes';
+    $data['yesno_list'][2]   = 'No';
 
     $data['positions']      = [];
     $data['positions']['']  = 'Choose option';
@@ -243,6 +261,7 @@ class Workflow extends CI_Controller {
 
     $data_raw = $this->applications->get_by_id($id);
 
+    $approvalstep_desc   =  $this->abs->get_step_description( $my_approvalstep );
 
       if($data_raw){
        foreach($data_raw as $field=>$value){
@@ -252,6 +271,9 @@ class Workflow extends CI_Controller {
 
      $this->load->library('pdfgenerator');
      $html     = $this->load->view("application_form_view.php", $data, true);
+     //print_pre($data);//remove
+     //exit($html);//remove
+
 
      $filename = "ABS_PERMIT_REF_{$data_raw->appno}";
      $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
@@ -397,6 +419,8 @@ class Workflow extends CI_Controller {
     }
 
     $my_approvalstep_name   =  valueof($approvalsteps, $my_approvalstep);
+    $my_approvalstep_desc   =  $this->abs->get_step_description( $my_approvalstep );
+
     $next_approvalstep      =  $my_approvalstep+1;
     $next_approvalstep_name =  valueof($approvalsteps, $next_approvalstep);
     $next_approvalstep_name = !empty($next_approvalstep_name) ? $next_approvalstep_name : $my_approvalstep_name;
@@ -446,7 +470,7 @@ class Workflow extends CI_Controller {
      $this->applications->update( ['id' => $id], $data );
 
      //make pdf
-     self::make_institution_document( $id );
+     self::make_institution_document( $id, $my_approvalstep_desc );
 
      if(isset($next_approver->username) && !empty($next_approver->username) && isset($next_approver->email) && !empty($next_approver->email)  ){
       self::notify_approved($id, $my_approvalstep_name, $next_approvalstep_name, $next_approver->username, $next_approver->email);
@@ -514,6 +538,41 @@ class Workflow extends CI_Controller {
    }
 
 
+   private function emailPermits($id){
+    $data_raw    = $this->applications->get_by_id($id);
+    $pdfs_dir    = FCPATH ."pdfs/{$id}";
+
+    if(is_dir($pdfs_dir)){
+     $pdf_list = glob($pdfs_dir.'/*');
+
+     if(count($pdf_list)>0){
+      $this->load->library('email');
+      $this->config->load('product');
+
+      $companyname       = $this->config->item('companyname');
+      $companyemail      = $this->config->item('companyemail');
+      $productname       = $this->config->item('productname');
+
+      $subject = "ABS PERMIT {$data_raw->appno} is Ready";
+      $message = self::make_email_body_permits( $data_raw->firstname, $data_raw->email, $data_raw->appno, $id );
+
+      $this->email->clear();
+      $this->email->from( $companyemail, $companyname );
+      $this->email->to( $data_raw->email );
+      $this->email->subject( $subject );
+      $this->email->message( $message );
+
+      foreach($pdf_list as $pdf){
+      $this->email->attach($pdf);
+      }
+
+      $send = $this->email->send();
+
+     }
+    }
+
+   }
+
    private function notify_approved($id, $stepname_current, $stepname_next, $next_approver_username, $next_approver_email ){
 
     $application       = $this->applications->get_by_id($id);
@@ -546,6 +605,7 @@ class Workflow extends CI_Controller {
     $message = self::make_email_body_approve_applicant_done( $application->firstname, $application->email,$stepname_current , $application->appno, $id  );
     $this->common->queue_mail( $application->email, $subject, $message ,$application->firstname);
 
+    self::emailPermits($id);
 
    }
 
@@ -844,5 +904,53 @@ HTML;
 
 HTML;
  }
+
+
+    private function make_email_body_permits( $firstname, $email, $appno, $id ){
+
+          $this->config->load('product');
+
+          $companyname   = $this->config->item('companyname');
+          $productname   = $this->config->item('productname');
+          $host          = base_url();
+          $url           = "{$host}ApplicationsList/application/{$id}";
+          $url           = str_replace('admin.','',$url);
+
+          return  <<<HTML
+
+          <table id="" style="font-family:Verdana;font-size:14px"  cellpadding="5"  cellspacing="2"   width="100%" border="0">
+
+          <tr>
+           <td><h2>Hi {$firstname}</h2></td>
+          </tr>
+
+          <tr>
+           <td><br>Attached ,find your ABS PERMITS for Application Reference Number <b>{$appno}</b><br>
+            <br><br> To view your application, <a href="{$url}">click here</a> </td>
+          </tr>
+
+          <tr>
+           <td><br>If you received this email in error, you can safely ignore this email.</td>
+          </tr>
+
+          <tr>
+           <td><br>Best regards  <hr>  {$companyname}</td>
+          </tr>
+
+           <tr>
+           <td>
+             <br>
+            <small style="color:#999">
+             This message was sent to {$email}  <br>
+             From:{$companyname}  <br>
+             </small>
+           </td>
+          </tr>
+
+         </table>
+
+HTML;
+ }
+
 
 }

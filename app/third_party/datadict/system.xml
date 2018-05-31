@@ -142,6 +142,7 @@
 
 </table>
 
+
 <table name="sysusers">
  <descr>sys users</descr>
   <field name="id"         type="I" size="10"  ><NOTNULL/></field>

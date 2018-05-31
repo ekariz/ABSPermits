@@ -8,7 +8,6 @@
         <meta charset="utf-8">
         <title>ABS :: Harmonized Application Form</title>
         <meta name="description" content="ABS SYSTEM">
-        <meta name="author" content="Vista Solutions">
 
         <!-- Mobile Meta -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,12 +40,16 @@
                     <!-- SmartWizard html -->
                     <div id="smartwizard">
                         <ul>
-                            <li><a href="#step-1">Step 1<br /><small>Personal info</small></a></li>
-                            <li><a href="#step-2">Step 2<br /><small>Upload Documents</small></a></li>
-                            <li><a href="#step-3">Step 3<br /><small>Resources details</small></a></li>
+                            <li><a href="#step-1">Step 1<br /><small>Personal</small></a></li>
+                            <li><a href="#step-2">Step 2<br /><small>Documents</small></a></li>
+                            <li><a href="#step-3">Step 3<br /><small>Resources</small></a></li>
                             <li><a href="#step-4">Step 4<br /><small>Requirements</small></a></li>
-                            <li><a href="#step-5">Step 5<br /><small>Research & Samples</small></a></li>
-                            <li><a href="#step-6">Step 6<br /><small>Finish</small></a></li>
+                            <li><a href="#step-5">Step 5<br /><small>Project Area</small></a></li>
+                            <li><a href="#step-6">Step 6<br /><small>Research & Samples</small></a></li>
+                            <li><a href="#step-7">Step 7<br /><small>PIC/MAT Desk</small></a></li>
+                            <li><a href="#step-8">Step 8<br /><small>PIC/MAT/MTA</small></a></li>
+                            <li><a href="#step-9">Step 9<br /><small>Payment</small></a></li>
+                            <li><a href="#step-10">Step 10<br /><small>Finish</small></a></li>
                         </ul>
 
                         <div>
@@ -79,15 +82,46 @@
                                 </div>
                             </div>
 
-                            <div id="step-5" style="display:none;min-height:700px;" >
+                            <div id="step-5" style="display:none;min-height:600px;" >
                                 <div id="form-step-4" role="form" data-toggle="validator">
+                                    <br>
+                                    <?php $this->load->view('main/frontend/appform/steps/gis_location_view'); ?>
+                                </div>
+                            </div>
+
+                            <div id="step-6" style="display:none;min-height:700px;" >
+                                <div id="form-step-5" role="form" data-toggle="validator">
                                     <br>
                                     <?php $this->load->view('main/frontend/appform/steps/samples_view'); ?>
                                 </div>
                             </div>
 
-                            <div id="step-6" style="display:none;min-height:500px;" >
-                                <div id="form-step-5" role="form" data-toggle="validator">
+                            <div id="step-7" style="display:none;min-height:500px;" >
+                                <div id="form-step-6" role="form" data-toggle="validator">
+                                    <br>
+                                    <?php $this->load->view('main/frontend/appform/steps/doclinks_view'); ?>
+                                </div>
+                            </div>
+
+                            <div id="step-8" style="display:none;min-height:500px;" >
+                                <div id="form-step-7" role="form" data-toggle="validator">
+                                    <br>
+                                    <?php $this->load->view('main/frontend/appform/steps/exporting_view'); ?>
+                                </div>
+                            </div>
+
+                            <div id="step-9" style="display:none;min-height:500px;" >
+                                <div id="form-step-8" role="form" data-toggle="validator">
+                                   <br>
+                                   <div id="div_payments">
+                                    <?php $this->load->view('main/frontend/appform/steps/payment_view'); ?>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="step-10" style="display:none;min-height:500px;" >
+                                <div id="form-step-9" role="form" data-toggle="validator">
                                    <br>
                                    <div id="div_confirmation">
                                     <?php $this->load->view('main/frontend/appform/steps/finish_view'); ?>
@@ -130,12 +164,29 @@
         </div>
         <!-- page-wrapper end -->
 
-       <?php  $this->load->view('main/frontend/footer'); ?>
-       <script type="text/javascript" src="<?php  echo base_url();?>assets/js/validator.min.js"></script>
-       <script type="text/javascript" src="<?php  echo base_url();?>assets/js/jquery.smartWizard.min.js"></script>
 
-
+    <?php  $this->load->view('main/frontend/footer'); ?>
+    <script type="text/javascript" src="<?php  echo base_url();?>assets/js/validator.min.js"></script>
+    <script type="text/javascript" src="<?php  echo base_url();?>assets/js/jquery.smartWizard.min.js"></script>
+    <script type="text/javascript" src="<?php  echo base_url();?>assets/js/updater.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu1DE67C8ozg-9DguEvuzN1dZmZ7BPk4I&libraries=places&callback=initAutocomplete"   async defer></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/frontend/js/abs_map_locator.js"></script>
     <script type="text/javascript">
+
+        function test_rid(){
+         var orchid = $('#orchid').val();
+         var researcherid = $('#researcherid').val();
+
+         if(orchid!=""){
+          $('#researcherid').removeAttr( "required" );
+         }else if(researcherid!=""){
+          $('#orchid').removeAttr( "required" );
+         }else{
+          $('#researcherid').attr('required', 'required');
+          $('#orchid').attr('required', 'required');
+         }
+
+        }
 
          $(document).ready(function(){
 
@@ -149,6 +200,12 @@
                                                         if(elmForm){
                                                             elmForm.validator('validate');
                                                             var elmErr = elmForm.find('.has-error');
+                                                            console.log(elmErr);
+                                                            elmErr.each(function(index,elm){
+                                                                console.log('index='+index);
+                                                                console.log(elm);
+                                                                elm_type = $(elm).attr('type');
+                                                            });
                                                             if(elmErr && elmErr.length > 0){
                                                                 swal({ text: "Oops We Still Have Error In This Application Form", icon: "error"});
                                                                 return false;
@@ -190,6 +247,7 @@
                  });
 
             $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                console.log('stepNumber='+stepNumber);
                 var elmForm = $("#form-step-" + stepNumber);
                 if(stepDirection === 'forward' && elmForm){
                     elmForm.validator('validate');
@@ -199,7 +257,6 @@
                     }
                 }
 
-
                if(stepDirection === 'forward'){
                  switch(stepNumber){
                  case 1:
@@ -207,6 +264,9 @@
                  break;
                  case 2:
                   handle_is_export();
+                  break;
+                 case 7:
+                  show_payment();
                   break;
                  }
                }
@@ -251,7 +311,7 @@
                 }
 
                 var stepNumber_Now=0;
-                if(stepDirection === 'forward' && stepNumber<=4){
+                if(stepDirection === 'forward' && stepNumber<=8){
                  stepNumber_Now = stepNumber+1;
                 }else if(stepDirection === 'forward' && stepNumber>=1){
                  stepNumber_Now = stepNumber-1;
@@ -267,13 +327,13 @@
                 return true;
             });
 
-            <?php if($stepnumber<5){?>
+            <?php if($stepnumber<8){?>
              $('button.btn-finish').prop('disabled', true);
             <?php }?>
 
 
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection) {
-                if(stepNumber == 5){
+                if(stepNumber == 9){
                  $('button.btn-finish').prop('disabled', false);
                  $('.btn-finish').removeClass('disabled');
                  show_confirmation();
@@ -288,15 +348,51 @@
         });
 
         function handle_is_export(){
-          var exportanswer = $('#exportanswer').val();
-          if(exportanswer==1){
+          var geneticresourcerc = $('#geneticresourcerc').val();
+          if(geneticresourcerc==1){
            $('#table_row_mta').show();
-          }else if(exportanswer==2){
+           $('#table_row_import_permit').show();
+          }else if(geneticresourcerc==2){
            $('#table_row_mta').hide();
-           top.location = 'https://oris.nacosti.go.ke';
+           $('#table_row_import_permit').hide();
+
+           if(confirm("You are about to be redirected to https://oris.nacosti.go.ke ")){
+             top.location = 'https://oris.nacosti.go.ke';
+           }
+
            return false;
           }else{
            $('#table_row_mta').hide();
+           $('#table_row_import_permit').hide();
+          }
+        }
+
+        function handle_export_docs(){
+          var geneticresourcerc = $('#geneticresourcerc').val();
+          var exportanswer      = $('#exportanswer').val();
+          if(geneticresourcerc==1 && exportanswer!=1){
+           $('#table_row_exporter_pic').show();
+           $('#table_row_exporter_mat').show();
+           $('#table_row_exporter_mta').hide();
+           $('.td-mta').hide();
+           $('.resources_deposit').show();
+           $('#resourcesdeposit').prop('required', 'required');
+          }else if(geneticresourcerc==1 && exportanswer==1){
+           $('#table_row_exporter_pic').show();
+           $('#table_row_exporter_mat').show();
+           $('#table_row_exporter_mta').show();
+           $('.td-mta').show();
+           $('.resources_deposit').hide();
+           $('#resourcesdeposit').val('');
+           $('#resourcesdeposit').removeProp('required');
+          }else{
+           $('#table_row_exporter_pic').show();
+           $('#table_row_exporter_mat').show();
+           $('#table_row_exporter_mta').hide();
+           $('.td-mta').hide();
+           $('.resources_deposit').hide();
+           $('#resourcesdeposit').val('');
+           $('#resourcesdeposit').removeProp('required');
           }
         }
 
@@ -307,6 +403,10 @@
             }else{
               $('#div_resourcetypeother').hide();
             }
+        }
+
+        function show_payment(){
+           ui.fc('ApplicationForm/payments','div_payments');
         }
 
         function show_confirmation(id){
@@ -361,8 +461,7 @@
           });
        }
 
-
-       function submit_application(){
+        function submit_application(){
         $('#form-harmonized').ajaxSubmit({
             dataType: 'json',
             method: 'POST',
@@ -391,6 +490,74 @@
             }
         });
        }
+
+
+     var payments ={
+      init:function(id,stepno){
+       ui.call('<?php  echo base_url();?>Payments/payment','id='+id+'&stepno='+stepno ,'div_payments');
+      },
+      init_mpesa_stkpush:function(id,stepno){
+       var mobile = $('#mobile').val();
+       $('button#btnPay').prop('disabled', true);
+       $.post('<?php  echo base_url();?>Payments/init_mpesa_stkpush', 'id='+id+'&stepno='+stepno+'&mobile='+mobile, function(data) {
+        if (data.success === 1) {
+         swal({
+         text: "Enter MPESA PIN When Prompted On "+mobile+" ",
+         icon: "info",
+         buttons: false,
+         timer: 3000,
+        }).then((state) => {
+         payment_poll(id,stepno);
+        });
+
+        }else{
+          $('button#btnPay').prop('disabled', false);
+          if(typeof data.message=='string' ){
+           swal({ text: data.message, icon: "error"});
+          }
+        }
+       }, "json");
+      },
+      paid:function(){
+       show_payment();
+      },
+     }
+
+     function  payment_poll(id,stepno){
+        $.updater({
+           url: '<?php  echo base_url();?>Payments/check_payment',
+           data: { id:id, stepno:stepno },
+           method: 'post',
+           response: 'json',
+           interval: 10000
+         },
+         function(data, response){
+          if(data.success==1){
+           $.updater.stop();
+           swal({
+             text: data.message,
+             icon: "success",
+             buttons: false,
+             timer: 3000,
+            }).then((state) => {
+              payments.paid(data);
+           });
+          }else if(data.success==2){//waiting
+           $.updater.stop();
+           swal({ text: data.message, icon: "info"});
+           $('button#btnPay').prop('disabled', false);
+           //location.hash = 'step-5';
+          }else if(data.success==3){//user cancelled
+           $.updater.stop();
+           swal({ text: data.message, icon: "error"});
+           $('button#btnPay').prop('disabled', false);
+           payments.paid();
+          }else{
+           swal({ text: data.message, icon: "info"});//continue polling
+          }
+         });
+        }
+
     </script>
 
 

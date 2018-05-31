@@ -38,7 +38,7 @@ $select_consult_with .= '</select>';
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title"><?php echo $approval_name; ?> Approval </h3>
+                <h3 class="modal-title" id="h3_title" ><div id="div_title"><?php echo $approval_name; ?> Approval </div></h3>
             </div>
 
             <div class="modal-body form">

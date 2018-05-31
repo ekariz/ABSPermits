@@ -56,8 +56,9 @@ $bgheader   = 'background-color:#9ED3EC;';
 <table cellpadding="2" cellspacing="0" width="100%" style="<?php echo "{$table}";?>" >
 
  <tr>
-  <th colspan="2" align="left"  style="<?php echo "{$top}{$bottom}{$left}";?>"  ><img  src="<?php  echo $thumburl; ?>" alt="ABS" width="70"></th>
-  <th colspan="2"  align="left" style="<?php echo "{$top}{$bottom}{$right}";?>"  ><?php  echo $instname; ?> PERMIT NO <?php  echo $appno; ?></th>
+  <th colspan="1" align="left"  style="<?php echo "{$top}{$bottom}{$left}";?>"  ><img  src="<?php  echo $thumburl; ?>" alt="ABS" width="70"></th>
+  <th colspan="2"  align="left" style="<?php echo "{$top}{$bottom}";?>"  ><?php  echo $instname; ?>  -<?php  echo $approval_desc; ?> </th>
+  <th colspan="1"  align="left" style="<?php echo "{$top}{$bottom}{$right}";?>"  >  PERMIT NO <?php  echo $appno; ?></th>
  </tr>
 
  <tr>

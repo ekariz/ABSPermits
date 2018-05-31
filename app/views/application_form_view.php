@@ -99,9 +99,9 @@ $bgheader   = 'background-color:#9ED3EC;';
  </tr>
 
  <tr>
-  <td nowrap   style="<?php echo "{$bottom}{$right}{$left}";?>" >Institution Legal Officer Name</td>
+  <td nowrap   style="<?php echo "{$bottom}{$right}{$left}";?>" >Institution Contact person Name</td>
   <td   style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $legalofficername  ?></b></td>
-  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >Institution Legal Officer Email</td>
+  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >Institution Contact person Email</td>
   <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $legalofficeremail  ?></b></td>
  </tr>
 
@@ -227,7 +227,7 @@ $bgheader   = 'background-color:#9ED3EC;';
 
  <tr>
   <td   style="<?php echo "{$bottom}{$right}{$left}";?>"  >Is the project area inside a conservation area, gazetted forest or protected area</td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $projectarea;  ?></td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo valueof($yesno_list, $projectarea);  ?></td>
  </tr>
 
  <tr>
@@ -336,12 +336,12 @@ $bgheader   = 'background-color:#9ED3EC;';
 
  <tr>
   <td   style="<?php echo "{$bottom}{$right}{$left}";?>"  >Will research on traditional knowledge is to be collected ? </td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $restraditionalknow;  ?></td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo valueof($yesno_list, $restraditionalknow);  ?></td>
  </tr>
 
  <tr>
   <td    style="<?php echo "{$bottom}{$right}{$left}";?>" >Will you need to export the collected genetic resources from Kenya ?   </td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $exportgeneticresources;  ?></td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo valueof($yesno_list, $exportgeneticresources);  ?></td>
  </tr>
 
 </table>

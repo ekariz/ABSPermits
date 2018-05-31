@@ -48,13 +48,34 @@ class ApplicationForm extends CI_Controller{
      $data['email']      = $signup->email;
      }
 
-     if($presaved_data){
-      foreach($presaved_data as $field=>$value){
+     //if($presaved_data){
+      //foreach($presaved_data as $field=>$value){
+       //$data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      //}
+     //}
+
+    $data['paids']     = [];
+    $data['payrefs']   = [];
+    $data['paytimes']  = [];
+    $data['paymodes']  = [];
+
+    if($presaved_data){
+     foreach($presaved_data as $field=>$value){
+
+      if(strstr($field,'paid')  ){
+       $data['paids'][$field] = $value;
+      }elseif(strstr($field,'payref')  ){
+       $data['payrefs'][$field] = $value;
+      }elseif(strstr($field,'paytime')  ){
+       $data['paytimes'][$field] = $value;
+      }elseif(strstr($field,'paymode')  ){
+       $data['paymodes'][$field] = $value;
+      }else{
        $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
       }
      }
-//print_pre($data);//remove
-//exit();//remove
+    }
+
 
      $data['applyingas_list']      = $this->abs->get_applyas();
      $data['resource_list']        = $this->abs->get_resource_types();
@@ -78,9 +99,76 @@ class ApplicationForm extends CI_Controller{
      $data['export_answer_list'][1]   = 'Yes';
      $data['export_answer_list'][2]   = 'No';
 
+     $data['approvalsteps']  =  $this->abs->get_approval_steps( );
+     $data['charges']        =  $this->abs->get_institutions_charges( );
+
      $this->load->view('main/frontend/appform/main_view', $data );
 
     }
+
+   public function payments(){
+
+     $email             = $this->session->userdata('email');
+
+     if(empty($email)){
+       redirect( base_url() .'login' );
+     }
+
+     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+     $presaved_data     = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
+     $colums             = $this->db->list_fields( $this->temp->table );
+     $data               = [];
+     $data['stepnumber'] = 0;
+     /**
+      * get alll db cols as data array keys
+      */
+     if($colums){
+      if(sizeof($colums)>0){
+        foreach($colums as $colum){
+          $data[$colum] = null;
+         }
+      }
+     }
+
+     if($signup){
+     $data['firstname']  = $signup->firstname;
+     $data['lastname']   = $signup->lastname;
+     $data['gender']     = $signup->gender;
+     $data['ctncode']    = $signup->ctncode;
+     $data['mobile']     = $signup->mobile;
+     $data['email']      = $signup->email;
+     }
+
+    $data['paids']     = [];
+    $data['payrefs']   = [];
+    $data['paytimes']  = [];
+    $data['paymodes']  = [];
+
+    if($presaved_data){
+     foreach($presaved_data as $field=>$value){
+
+      if(strstr($field,'paid')  ){
+       $data['paids'][$field] = $value;
+      }elseif(strstr($field,'payref')  ){
+       $data['payrefs'][$field] = $value;
+      }elseif(strstr($field,'paytime')  ){
+       $data['paytimes'][$field] = $value;
+      }elseif(strstr($field,'paymode')  ){
+       $data['paymodes'][$field] = $value;
+      }else{
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
+     }
+    }
+
+    $data['approvalsteps']  =  $this->abs->get_approval_steps( );
+    $data['charges']        =  $this->abs->get_institutions_charges( );
+
+     $this->load->view("main/frontend/appform/steps/payment_view", $data );
+
+    }
+
+
 
    public function confirmation(){
 
@@ -166,7 +254,11 @@ class ApplicationForm extends CI_Controller{
    public function upload(){
 
     $email              = $this->session->userdata('email');
-    if(empty($email)) return;
+
+    if(empty($email)){
+     echo json_encode( ["success" => 0, 'message' => "login session expired.Please re-login" ] );
+     die;
+    }
 
     /**
      * presave form
@@ -202,6 +294,7 @@ class ApplicationForm extends CI_Controller{
         $expected_files['documentpic']               = 'Prior Informed Consent (PIC)';
         $expected_files['documentmat']               = 'Mutually Agreed Terms (MAT)';
         $expected_files['documentmta']               = 'Material Transfer Agreement';
+        $expected_files['documentip']                = 'Import Permit';
 
         $documents =  [];
 
@@ -300,18 +393,20 @@ class ApplicationForm extends CI_Controller{
     $documentpic_id                 =  valueof($documentpic, 'file_name');
     $documentmat_id                 =  valueof($documentmat, 'file_name');
     $exportanswer                   =  valueof($presaved_data, 'exportanswer', null);
+    $geneticresourcerc              =  valueof($presaved_data, 'geneticresourcerc', null);
 
     $required['position'] = 'Are you a student?';
     $required['applyingas'] = 'Applying As';
-    $required['orchid'] = 'ORCHID';
+    //$required['orchid'] = 'ORCHID';
     $required['legalofficername'] = 'Institution Legal Officer Name:';
     $required['legalofficeremail'] = 'Institution Legal Officer Email';
+    $required['geneticresourcerc'] = 'Will you be  exporting a genetic resource from Kenya? ';
     $required['resourcetype'] = 'Type of genetic resource to be collected *';
     $required['speciesname'] = 'Species name of the genetic resource to be collected *:';
     $required['commonname'] = 'Common/vernacular name of the generic resource to be collected *:';
     $required['projectlocation'] = 'Location or project area for genetic resource collection *:';
     $required['projectarea'] = 'Is the project area inside a conservation area, gazetted forest or protected area? *:';
-    $required['resourceallocationpurpose'] = 'Purpose of genetic resource collection *:';
+    //$required['resourceallocationpurpose'] = 'Purpose of genetic resource collection *:';
     $required['purpose'] = 'Purpose of collection';
     $required['researchtype'] = 'Type of Research to be Carried out';
     $required['samplesamount'] = 'Amount of proposed samples to be collected';
@@ -352,11 +447,33 @@ class ApplicationForm extends CI_Controller{
     }
 
     $data = [];
+    $paids = [];
 
     if(sizeof($presaved_data)>0){
      foreach($presaved_data as $col => $val){
       $data[$col] = $val;
+
+      if(strstr($col,'paid')){
+       $paids[$col] = $val;
+      }
+
      }
+    }
+
+    $approvalsteps  =  $this->abs->get_approval_steps( );
+    $num_steps      = count($approvalsteps);
+    $num_paid       = 0;
+    foreach($approvalsteps as $stepno=>$stepname){
+    $col_paid    = "paid{$stepno}";
+    $paid        = valueof($paids, $col_paid);
+     if($paid==1){
+     ++$num_paid;
+     }
+    }
+
+    if($num_paid<$num_steps){
+     $diff = $num_steps - $num_paid;
+     die(json_response(0, "You Have Not Yet Paid {$diff} Institutions"));
     }
 
     unset($data['stepnumber']);
@@ -384,7 +501,7 @@ class ApplicationForm extends CI_Controller{
     $message = self::make_email_body_notification( $signup->firstname, $signup->email, $appno );
     $this->common->queue_mail( $email, $subject, $message );
 
-    $main_approver_email ='ekariz@gmail.com';
+    $main_approver_email ='abspermitsprototype@gmail.com';
     $subject = "ABS Application Reference #{$appno}";
     $message = self::make_email_body_notification_admin( $main_approver_username, $main_approver_email, $signup->firstname, $signup->email, $appno );
     $this->common->queue_mail( $main_approver_email, $subject, $message );

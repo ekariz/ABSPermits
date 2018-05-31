@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ApplicationsList extends CI_Controller{
+class Payments extends CI_Controller{
   private $consumer_key      = 'idJITQURCMF5pean7CAHRcD3zFiKWGXj';
   private $consumer_secret   = 'A4DFfjXfW8CM7jWQ';
   private $BusinessShortCode = '174379';
@@ -11,199 +11,12 @@ class ApplicationsList extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('crud_model','apps');
-        //$this->load->model('crud_model','temp');
         $this->load->model('crud_model','applications');
         $this->load->model('Common_model','common');
         $this->load->model('Abs_model','abs');
 
-        $this->applications->table         = 'applications';
-        $this->applications->dataview      = 'viewapplications';
-    }
-
-   public function index(){
-
-     $email             = $this->session->userdata('email');
-
-     if(empty($email)){
-       redirect( base_url() .'login' );
-     }
-
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
-
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
-     }
-
-     $data['approvalsteps']  =  $this->abs->get_approval_steps( );
-     $data['applications']   =  $this->abs->get_applications( $email );
-
-     $this->load->view('main/frontend/appmine/my_apps_view', $data );
-
-    }
-
-   public function view( $id ){
-
-     $email             = $this->session->userdata('email');
-
-     if(empty($email)){
-       redirect( base_url() .'login' );
-     }
-
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
-
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
-     }
-
-     $data['approvalsteps']  =  $this->abs->get_approval_steps( );
-     $data['applications']   =  $this->abs->get_applications( $email );
-
-     $this->load->view('main/frontend/appmine/my_apps_view', $data );
-
-    }
-
-   public function application($id){
-
-    $email             = $this->session->userdata('email');
-
-    if(empty($email)){
-     redirect( base_url() .'login' );
-    }
-
-    $data = [];
-    $data['email']     = $this->session->userdata('email');
-    $data['mobile']    = $this->session->userdata('mobile');
-    $data['firstname'] = $this->session->userdata('firstname');
-    $data['approvalsteps']  =  $this->abs->get_approval_steps( );
-    $data['charges']   =  $this->abs->get_institutions_charges( );
-
-    $data_raw = $this->applications->get_by_id($id);
-
-    if($data_raw){
-     foreach($data_raw as $field=>$value){
-
-      if(strstr($field,'paid')  ){
-       $data['paids'][$field] = $value;
-      }elseif(strstr($field,'payref')  ){
-       $data['payrefs'][$field] = $value;
-      }elseif(strstr($field,'paytime')  ){
-       $data['paytimes'][$field] = $value;
-      }elseif(strstr($field,'paymode')  ){
-       $data['paymodes'][$field] = $value;
-      }elseif(strstr($field,'approved')  ){
-       $data['approves'][$field] = $value;
-      }elseif(strstr($field,'aprcomment')  ){
-       $data['aprcomments'][$field] = $value;
-      }elseif(strstr($field,'discomment')  ){
-       $data['discomments'][$field] = $value;
-      }else{
-       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
-      }
-     }
-    }
-
-     $this->load->view("main/frontend/appmine/my_app_view.php", $data );
-
-    }
-
-   public function application_details($id){
-
-    $email             = $this->session->userdata('email');
-
-     if(empty($email)){
-       redirect( base_url() .'login' );
-     }
-
-    $data = [];
-    $data['email']     = $this->session->userdata('email');
-    $data['mobile']    = $this->session->userdata('mobile');
-    $data['firstname'] = $this->session->userdata('firstname');
-    $data['approvalsteps']  =  $this->abs->get_approval_steps( );
-    $data['charges']   =  $this->abs->get_institutions_charges( );
-
-    $data_raw = $this->applications->get_by_id($id);
-
-    if($data_raw){
-     foreach($data_raw as $field=>$value){
-
-      if(strstr($field,'paid')  ){
-       $data['paids'][$field] = $value;
-      }elseif(strstr($field,'payref')  ){
-       $data['payrefs'][$field] = $value;
-      }elseif(strstr($field,'paytime')  ){
-       $data['paytimes'][$field] = $value;
-      }elseif(strstr($field,'paymode')  ){
-       $data['paymodes'][$field] = $value;
-      }elseif(strstr($field,'approved')  ){
-       $data['approves'][$field] = $value;
-      }elseif(strstr($field,'aprcomment')  ){
-       $data['aprcomments'][$field] = $value;
-      }elseif(strstr($field,'discomment')  ){
-       $data['discomments'][$field] = $value;
-      }else{
-       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
-      }
-     }
-    }
-
-     $this->load->view("main/frontend/appmine/application_details_view.php", $data );
-
-    }
-
-   public function view_application($id){
-
-    $data = [];
-    $data['applyingas_list']      = $this->abs->get_applyas();
-    $data['resource_list']        = $this->abs->get_resource_types();
-    $data['researchtype_list']    = $this->abs->get_research_types();
-    $data['purposes_list']        = $this->abs->get_purposes();
-    $data['conservestatus_list']  = $this->abs->get_iucn_red_list();
-    $data['sample_uom_list']      = $this->abs->get_sample_uom();
-
-    $data['yesno_list']      = [];
-    $data['yesno_list']['']  = 'Choose option';
-    $data['yesno_list'][1]   = 'Yes';
-    $data['yesno_list'][2]   = 'No';
-    
-    $data['positions']      = [];
-    $data['positions']['']  = 'Choose option';
-    $data['positions'][1]   = 'Yes';
-    $data['positions'][2]   = 'No';
-
-    $data['export_answer_list']      = [];
-    $data['export_answer_list']['']  = 'Choose option';
-    $data['export_answer_list'][1]   = 'Yes';
-    $data['export_answer_list'][2]   = 'No';
-
-    $data_raw = $this->applications->get_by_id($id);
-
-
-      if($data_raw){
-       foreach($data_raw as $field=>$value){
-        //if(!strstr($field,'document')  ){
-        $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
-        //}
-       }
-      }
-
-     $this->load->library('pdfgenerator');
-     $html     = $this->load->view("application_form_view.php", $data, true);
-     //exit($html);//remove
-
-     $filename = "ABS_PERMIT_REF_{$data_raw->appno}";
-     $this->pdfgenerator->generate($html, $filename, true, 'A4', 'portrait');
-
+        $this->applications->table         = 'applicationstmp';
+        $this->applications->dataview      = 'applicationstmp';
     }
 
    public function payment(){
@@ -211,6 +24,7 @@ class ApplicationsList extends CI_Controller{
     $id                = $this->input->post('id');
     $stepno            = $this->input->post('stepno');
     $instcode          = $this->abs->get_step_institution( $stepno );
+    $data['id']        = $id;
     $data['stepno']    = $stepno;
     $data['instcode']  = $instcode;
     $data['charges']   = $this->abs->get_institutions_charges( );
@@ -229,7 +43,7 @@ class ApplicationsList extends CI_Controller{
     }
     //print_pre($data);//remove
 
-     $this->load->view("main/frontend/appmine/payment_view", $data );
+     $this->load->view("main/frontend/appform/steps/payment_mpesa_view", $data );
 
     }
 
@@ -245,7 +59,7 @@ class ApplicationsList extends CI_Controller{
 
     $data_raw = $this->applications->get_by_id($id);
 
-    $lipa_na_mpesa = self::lipa_na_mpesa( $mobilempesa, $amount, $instcode, "ABS Permit Payment {$data_raw->appno}" );
+    $lipa_na_mpesa = self::lipa_na_mpesa( $mobilempesa, $amount, $instcode, "ABS Permit Payment {$instcode}" );
 
     $lipa_na_mpesa_status = valueof($lipa_na_mpesa, 0);
     $lipa_na_mpesa_msg    = valueof($lipa_na_mpesa, 1);
@@ -403,7 +217,8 @@ class ApplicationsList extends CI_Controller{
       $data_update[$col_paymode] = 'MPESA';
 
       $this->applications->update( ['id' => $id], $data_update );
-      $emailPermits = self::emailPermits($id);
+      //echo $this->db->last_query()."<hr><br>";//remove
+
       unset($_SESSION['CheckoutRequestID']);
 
       echo json_encode([ 'success'=>1, 'message' => $ResultDesc ,'id' => $id ]);
@@ -440,108 +255,4 @@ class ApplicationsList extends CI_Controller{
 
     return $access_token;
     }
-
-   private function emailPermits($id){
-    $data_raw    = $this->applications->get_by_id($id);
-    $pdfs_dir    = FCPATH ."pdfs/{$id}";
-
-    if(is_dir($pdfs_dir)){
-     $pdf_list = glob($pdfs_dir.'/*');
-
-     if(count($pdf_list)>0){
-      $this->load->library('email');
-      $this->config->load('product');
-
-      $companyname       = $this->config->item('companyname');
-      $companyemail      = $this->config->item('companyemail');
-      $productname       = $this->config->item('productname');
-
-      $subject = "ABS PERMIT {$data_raw->appno} is Ready";
-      $message = self::make_email_body_permits( $data_raw->firstname, $data_raw->email, $data_raw->appno, $id );
-
-      $this->email->clear();
-      $this->email->from( $companyemail, $companyname );
-      $this->email->to( $data_raw->email );
-      $this->email->subject( $subject );
-      $this->email->message( $message );
-
-      foreach($pdf_list as $pdf){
-      $this->email->attach($pdf);
-      }
-
-      $send = $this->email->send();
-
-     }
-    }
-
-   }
-
-   public function GetPermit($id,$stepno){
-    $data_raw       = $this->applications->get_by_id($id);
-
-    $email          = $data_raw->email;
-
-    if(empty($email)) die('Ops!');
-    $instcode    = $this->abs->get_step_institution( $stepno );
-    $file        = FCPATH ."pdfs/{$id}/{$instcode}.pdf";
-
-    if(is_readable($file)){
-
-    $this->load->helper('download');
-
-    force_download( $file , NULL);
-
-    }else{
-     echo "<script>alert('File Not Found');</script>";
-    }
-
-   }
-
-    private function make_email_body_permits( $firstname, $email, $appno, $id ){
-
-          $this->config->load('product');
-
-          $companyname   = $this->config->item('companyname');
-          $productname   = $this->config->item('productname');
-          $host          = base_url();
-          $url           = "{$host}ApplicationsList/application/{$id}";
-          $url           = str_replace('admin.','',$url);
-
-          return  <<<HTML
-
-          <table id="" style="font-family:Verdana;font-size:14px"  cellpadding="5"  cellspacing="2"   width="100%" border="0">
-
-          <tr>
-           <td><h2>Hi {$firstname}</h2></td>
-          </tr>
-
-          <tr>
-           <td><br>Attached ,find your ABS PERMITS for Application Reference Number <b>{$appno}</b><br>
-            <br><br> To view your application, <a href="{$url}">click here</a> </td>
-          </tr>
-
-          <tr>
-           <td><br>If you received this email in error, you can safely ignore this email.</td>
-          </tr>
-
-          <tr>
-           <td><br>Best regards  <hr>  {$companyname}</td>
-          </tr>
-
-           <tr>
-           <td>
-             <br>
-            <small style="color:#999">
-             This message was sent to {$email}  <br>
-             From:{$companyname}  <br>
-             </small>
-           </td>
-          </tr>
-
-         </table>
-
-HTML;
- }
-
-
- }
+}

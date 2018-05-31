@@ -9,7 +9,7 @@
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My ABS Permits</a>
 <ul class="dropdown-menu">
      <li> <a href="<?php  echo base_url();?>ApplicationForm">Harmonized Application Form</a> </li>
-     <li> <a href="<?php  echo base_url();?>ApplicationsList">My Application</a> </li>
+     <li> <a href="<?php  echo base_url();?>ApplicationsList">My Applications</a> </li>
 </ul>
 </li>
 

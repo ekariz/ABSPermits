@@ -68,9 +68,9 @@ $required_documentmat              =  $exists_documentmat  ? '' : 'required';
 
  <tr>
   <td><strong>Letter of Affiliation With local institution</strong></td>
-  <td>All applicants for research in Kenya must have a local partner.To access a list of approved local institutions and for more information <a href="#">click here</a></td>
+  <td>All applicants for research in Kenya must have a local partner.To access a list of approved local institutions and for more information <a href="<?php echo base_url(); ?>assets/frontend/pdf/List_Of_Institutions.pdf" target="_blank" >click here</a></td>
   <td><div class="form-group">
-     <input type="file" id="documentaffiliation" name="documentaffiliation"   onchange="upload_files();"  <?php echo $required_documentaffiliation;?>  data-toggle="tooltip" data-placement="bottom" title="All applicants for research in Kenya must have a local partner.To access a list of approved local institutions and for more information click here" >
+     <input type="file" id="documentaffiliation" name="documentaffiliation"   onchange="upload_files();"  <?php echo $required_documentaffiliation;?>  data-toggle="tooltip" data-placement="bottom" title="All applicants for research in Kenya must have a local partner.To access a list of approved local institution" >
     <div class="help-block with-errors"></div>
    </div>
   </td>

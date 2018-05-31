@@ -43,7 +43,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner1.jpg" alt="slidebg1" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="<?php  echo base_url();?>assets/frontend/images/banner2.jpg" alt="slidebg1" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -68,7 +68,7 @@
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner3.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="<?php  echo base_url();?>assets/frontend/images/banner1.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -89,12 +89,12 @@
                                 <!-- slide 2 end -->
 
 
-                                <!-- slide 2 start -->
+                                <!-- slide 3 start -->
                                 <!-- ================ -->
                                 <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
 
                                 <!-- main image -->
-                                <img src="assets/frontend/images/banner4.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+                                <img src="<?php  echo base_url();?>assets/frontend/images/banner5.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
 
                                 <!-- LAYER NR. 1 -->
                                 <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
@@ -112,7 +112,31 @@
                                 </div>
 
                                 </li>
-                                <!-- slide 2 end -->
+                                <!-- slide 3 end -->
+                                <!-- slide 3 start -->
+                                <!-- ================ -->
+                                <li data-transition="fade" data-slotamount="4" data-masterspeed="500" data-saveperformance="on" data-title="ABS">
+
+                                <!-- main image -->
+                                <img src="<?php  echo base_url();?>assets/frontend/images/banner4.jpg" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="cover">
+
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption fade fadeout dark-translucent-bg caption-box text-left"
+                                    style="background-color: rgba(0, 0, 0, 0.45);"
+                                    data-x="right"
+                                    data-y="bottom"
+                                    data-speed="500"
+                                    data-start="1300"
+                                    data-easing="easeOutQuad"
+                                    data-endspeed="600">
+                                    <h2 class="title"><a href="#" class="link-light">Apply Online</a></h2>
+                                    <div class="separator-2 light clearfix hidden-xs"></div>
+                                    <p class="hidden-xs">ABS IT Permit Application System.</p>
+                                    <div class="text-right hidden-xs"><a class="btn btn-small btn-default margin-clear" href="#">Read More</a></div>
+                                </div>
+
+                                </li>
+                                <!-- slide 3 end -->
 
                             </ul>
                             <div class="tp-bannertimer"></div>
@@ -160,6 +184,8 @@
 
                             <h2 class="title">ABS <strong> PERMITS IN KENYA</strong></h2>
                             <div class="separator-2"></div>
+                            <p class="lead"><i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php  echo base_url();?>assets/frontend/pdf/flowchart.pdf" target="_blank" >View the ABS Process Flowchat</a></p>
+                            <p class="lead"><a href="<?php  echo base_url();?>assets/frontend/pdf/flowchart.pdf" target="_blank" ><img src="<?php  echo base_url();?>assets/frontend/images/flowchat.png"  ></a></p>
                             <p class="lead">Below is information related to ABS permits in kenya. You are required to read and understand content before registration. </p>
                             <div class="row">
                                 <div class="col-md-12">
@@ -180,25 +206,28 @@
                                                     <ul class="list-icons">
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Animals</li>
+                                                    <i class="icon-check"></i> Biological resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Flowers</li>
+                                                    <i class="icon-check"></i> Genetic Resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Amphibians</li>
+                                                    <i class="icon-check"></i> DNA / RNA extracts</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Birds</li>
+                                                    <i class="icon-check"></i> Bio Chemical resources</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Microbiota</li>
+                                                    <i class="icon-check"></i> Derivatives</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Microbez</li>
+                                                    <i class="icon-check"></i> Progeny</li>
 
                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-check"></i> Insects</li>
+                                                    <i class="icon-check"></i> Traditional Knowledge</li>
+
+                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
+                                                    <i class="icon-check"></i> Digital Sequence Information and associated information</li>
 
                                                 </ul>
                                                 </div>
@@ -229,7 +258,7 @@
                                                         <li>Biological resources that require an ABS permit</li>
                                                         <li>A guide to the application process</li>
                                                         <li>Required documents for the application</li>
-                                                        <li>A list of approved institutions for research affiliation purposes</li>
+                                                        <li>A list of approved institutions for research affiliation purposes [<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php echo base_url(); ?>assets/frontend/pdf/Lead_Agencies_And_Their_Mandates.pdf" target="_blank" >Download Here</a>]</li>
                                                         <li>Lead agencies and their mandates</li>
                                                         <li>Other information (e.g. regarding export of materials, applications for visas).</li>
                                                        </ul>
@@ -274,7 +303,7 @@
                                                            <ul>
                                                             <li>Evidence of legal registration of the organisation.</li>
                                                             <li>The research proposal and budget (principle of full transparency).</li>
-                                                            <li>Letter of affiliation with a local institution e.g. University of Nairobi.</li>
+                                                            <li>Letter of affiliation with a local institution e.g. University of Nairobi.[<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php echo base_url(); ?>assets/frontend/pdf/Affiliation_Letter_Application_Process.pdf" target="_blank" >Donwload Affiliation Letter Application Process</a>]</li>
                                                             <li>Curriculum Vitae.</li>
                                                             <li>PIC and MAT.</li>
                                                            </ul>
@@ -306,13 +335,13 @@
                                                 <div class="panel-body">
                                                    <h2>1. Prior Informed Consent Description</h2>
                                                    <p>Prior Informed Consent (PIC) is the permission given by the provider or competent national authority of a provider country to a user prior to accessing genetic resources, in line with an appropriate national legal and institutional framework. It is the main ABS tool that is usually negotiated between the provider and the user of GR through an agreement involving mutually agreed terms (MAT). In Kenya, PIC is a written document and granted upon completing a Form modelled along Appendix I of the ABS Toolkit. PIC requires the user to disclose contact details, local affiliate, project type, location and nature of genetic resources to be accessed, method of collection, role of local community or lead agency, benefit sharing mechanisms and declaration of accrued benefits. It is the duty of the potential GR user to make full disclosure to the provider so as to make informed decision to grant access or not. In Kenya, PIC is a negotiated document (See appendix I) by parties and requires minutes of meetings with community or letter of support from lead agency. </p>
-                                                    [<a href="<?php  echo base_url();?>/assets/frontend/pdf/Prior_Informed_Consent_template.pdf">Download Template</a>]
+                                                    [<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php  echo base_url();?>assets/frontend/pdf/Prior_Informed_Consent_template.pdf" target="_blank" >Download Template</a>]
                                                    <h2>2. Mutually Agreed Terms Description</h2>
                                                    <p>Mutually Agreed Terms (MAT) is an agreement reached between the providers of genetic resources and users on the conditions of access and use of the resources, and the benefits to be shared between both parties. This agreement is negotiated in the presence of relevant lead agencies to ensure a fair access and equitable sharing of the benefits. In Kenya, MAT is a negotiated agreement by parties and requires minutes of meetings with community, permit, licence or letter of support from relevant lead agency as modelled in Appendix II.</p>
-                                                    [<a href="<?php  echo base_url();?>/assets/frontend/pdf/Mutually_Agreed_Terms_Template.pdf">Download Template</a>]
+                                                    [<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php  echo base_url();?>assets/frontend/pdf/Mutually_Agreed_Terms_Template.pdf" target="_blank" >Download Template</a>]
                                                    <h2>3. Material Transfer Agreement Description</h2>
-                                                   <p>Mutually Agreed Terms (MAT) is an agreement reached between the providers of genetic resources and users on the conditions of access and use of the resources, and the benefits to be shared between both parties. This agreement is negotiated in the presence of relevant lead agencies to ensure a fair access and equitable sharing of the benefits. In Kenya, MAT is a negotiated agreement by parties and requires minutes of meetings with community, permit, licence or letter of support from relevant lead agency as modelled in Appendix II.</p>
-                                                    [<a href="<?php  echo base_url();?>/assets/frontend/pdf/Materials_Transfer_Agreement_Template.pdf">Download Template</a>]
+                                                   <p>Mutually Agreed Terms (MTA) is an agreement reached between the providers of genetic resources and users on the conditions of access and use of the resources, and the benefits to be shared between both parties. This agreement is negotiated in the presence of relevant lead agencies to ensure a fair access and equitable sharing of the benefits. In Kenya, MAT is a negotiated agreement by parties and requires minutes of meetings with community, permit, licence or letter of support from relevant lead agency as modelled in Appendix II.</p>
+                                                    [<i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php  echo base_url();?>assets/frontend/pdf/Materials_Transfer_Agreement_Template.pdf" target="_blank" >Download Template</a>]
 
                                                 </div>
                                             </div>
@@ -443,16 +472,18 @@
 
                                                   <div class="row">
 
+
                                                             <div class="col-md-6 ">
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
                                                                     <div class="body">
-                                                                        <h4 class="title"> Kenya Agricultural Research Institute (KARI)</h4>
-                                                                        <p> P.O. Box  57811-00200 , Nairobi</p>
-                                                                        <a target="_blank" href="http://www.kari.org">http://www.kari.org<i class="pl-5 fa fa-angle-double-right"></i></a>
+                                                                        <h4 class="title"> Kenya Wildlife Service (KWS)</h4>
+                                                                        <p> P.O. Box  40241-00100 , Nairobi</p>
+                                                                        <a target="_blank" href="http://kws.org">http://www.kws.org<i class="pl-5 fa fa-angle-double-right"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6 ">
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
@@ -532,13 +563,12 @@
                                                                 <div class="pv-20 ph-20 feature-box-2 light-gray-bg boxed shadow object-non-visible animated object-visible fadeInDownSmall" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
                                                                     <span class="icon without-bg"><i class="fa fa-connectdevelop"></i></span>
                                                                     <div class="body">
-                                                                        <h4 class="title"> Kenya Wildlife Service (KWS)</h4>
-                                                                        <p> P.O. Box  40241-00100 , Nairobi</p>
-                                                                        <a target="_blank" href="http://http://www.kws.org">http://http://www.kws.org<i class="pl-5 fa fa-angle-double-right"></i></a>
+                                                                        <h4 class="title"> Kenya Agricultural Research Institute (KARI)</h4>
+                                                                        <p> P.O. Box  57811-00200 , Nairobi</p>
+                                                                        <a target="_blank" href="http://www.kari.org">http://www.kari.org<i class="pl-5 fa fa-angle-double-right"></i></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
 
                                                     </div>
 
@@ -585,6 +615,11 @@
 
                                                     <tbody>
                                                      <tr>
+                                                      <td>1</td>
+                                                      <td>Kenya Wildlife Service (KWS)  </td>
+                                                      <td>Management of wildlife genetic resources, and issuance of PIC, MAT and export permit</td>
+                                                     </tr>
+                                                     <tr>
                                                       <td>2</td>
                                                       <td>Kenya Forest Service (KFS)  </td>
                                                       <td>Management of forest genetic resources and associated biodiversity</td>
@@ -614,6 +649,11 @@
                                                       <td>National Commission for Science, Technology & Innovation (NACOSTI)</td>
                                                       <td>Issuance of Researcher Licence</td>
                                                      </tr>
+                                                     <tr>
+                                                      <td>8</td>
+                                                      <td>National Environment Management Authority</td>
+                                                      <td>Issuance of Access permit</td>
+                                                     </tr>
                                                     </tbody>
 
                                                    </table>
@@ -635,20 +675,24 @@
 
                                                     <ul class="list-icons">
 
-                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-right-circled"></i> <a href="#"  >Research Proposal</a></li>
+                                                    <?php
+                                                    if(sizeof($requiredocs)>0){
 
-                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-right-circled"></i> <a href="#">Letter of affiliation</a></li>
-
-                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-right-circled"></i> <a href="#">Letter from academic/research institute</a></li>
-
-                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-right-circled"></i> <a href="#"> Collaborative agreement</a></li>
-
-                                                    <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
-                                                    <i class="icon-right-circled"></i>  <a href="#">Resume</a></li>
+                                                     foreach($requiredocs as $row){
+                                                      $docname = valueof($row, 'docname');
+                                                      $doctemplate = valueof($row, 'doctemplate');
+                                                    ?>
+                                                     <li class="object-non-visible animated object-visible fadeInUpSmall" data-animation-effect="fadeInUpSmall" data-effect-delay="150">
+                                                      <?php if(!empty($doctemplate)) {?>
+                                                      <i class="fa fa-file-pdf-o" style="color:red"></i> <a href="<?php  echo base_url().$doctemplate; ?>" target="_blank" ><?php echo $docname;?></a>
+                                                      <?php }else{?>
+                                                      <i class="fa fa-arrow-right" style="color:black"></i><?php echo $docname;?>
+                                                      <?php }?>
+                                                     </li>
+                                                    <?php
+                                                      }
+                                                     }
+                                                    ?>
 
                                                     </ul>
 

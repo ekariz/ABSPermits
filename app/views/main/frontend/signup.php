@@ -43,7 +43,7 @@
 
             <!-- main-container start -->
             <!-- ================ -->
-            <div class="main-container dark-translucent-bg" style="background-image:url('<?php echo base_url();?>assets/frontend/images/banner2.jpg');">
+            <div class="main-container dark-translucent-bg" style="background-image:url('<?php echo base_url();?>assets/frontend/images/banner1.jpg');">
                 <div class="container">
                     <div class="row">
                         <!-- main start -->
@@ -348,7 +348,7 @@
                                      icon: "success",
                                      buttons: false,
                                      closeOnClickOutside: false,
-                                     timer: 2000,
+                                     timer: 4000,
                                     }).then((state) => {
                                       $('#div-main').html('<div class="row"> <div class="col-md-12  center-blockx p-40 light-gray-bg border-clear"> <span class="alert alert-success">'+data.message+'</span></div> </div>');
                                     });

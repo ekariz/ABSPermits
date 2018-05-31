@@ -79,7 +79,16 @@ ROW;
 foreach($approvalsteps as $stepno=>$stepname){
   $approval_col    = "approved{$stepno}";
   $approved        = isset($row[$approval_col]) && $row[$approval_col]==1 ? true : false;
-  $approved_icon        = $approved ? 'check success' : 'hourglass';
+  $approved_val    = isset($row[$approval_col])   ? $row[$approval_col] : null;
+
+  if($approved_val==1){
+   $approved_icon   =   'check success' ;
+  }elseif($approved_val=='0'){
+   $approved_icon   =  'times danger';
+  }else{
+   $approved_icon   =  'hourglass';
+  }
+
   echo "<td><i class=\"fa fa-{$approved_icon}\"></i></td>";
 }
 

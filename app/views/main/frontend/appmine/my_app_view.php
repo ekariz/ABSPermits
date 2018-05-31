@@ -84,6 +84,7 @@
        $('#_iframex').attr('src','<?php  echo base_url();?>ApplicationsList/GetPermit/'+id+'/'+stepno);
       }
      }
+
      var payments ={
       init:function(id,stepno){
        ui.call('<?php  echo base_url();?>ApplicationsList/payment','id='+id+'&stepno='+stepno ,'div_application');
@@ -148,6 +149,7 @@
           }
          });
         }
+
     </script>
 
     </body>

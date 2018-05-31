@@ -130,7 +130,7 @@ class Signup extends CI_Controller{
    }
 
    /*
-    *http://abs.co.ke/signup/verification/Wxt6YN40oQ/?email=ekariz@gmail.com
+    *http://abs.co.ke/signup/verification/Wxt6YN40oQ/?email=abspermitsprototype@gmail.com
     * */
    public function profile( $verifycode ){
 

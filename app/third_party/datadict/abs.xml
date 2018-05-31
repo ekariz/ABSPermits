@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <schema version="0.3">
 
+<table name="requiredocs">
+ <descr>required documents</descr>
+  <field name="id"      type="I" size="10"><NOTNULL/></field>
+  <field name="docname" type="C" size="50"><NOTNULL/></field>
+</table>
+
 <table name="docnos">
  <descr>docnos</descr>
   <field name="id"     type="I" size="10"><NOTNULL/></field>
@@ -37,6 +43,7 @@
   <field name="id"        type="I" size="11" ><NOTNULL/></field>
   <field name="stepno"    type="I" size="11" ><NOTNULL/></field>
   <field name="stepname"  type="C" size="100" ><NOTNULL/></field>
+  <field name="stepdesc"  type="C" size="100" ><NOTNULL/></field>
   <field name="instcode"  type="C" size="10" ><NULL/></field>
 </table>
 
@@ -121,9 +128,12 @@
   <field name="scientificname" type="C" size="100"/>
   <field name="commonname" type="C" size="100"/>
   <field name="projectlocation" type="C" size="100"/>
+  <field name="latlng" type="C" size="100"><NULL/></field>
   <field name="projectarea" type="C" size="100"/>
   <field name="resourceallocationpurpose" type="C" size="100"/>
   <field name="exportanswer" type="C" size="10"/>
+  <field name="geneticresourcerc" type="C" size="10"/>
+  <field name="resourcesdeposit" type="C" size="10"/>
   <field name="resourcetypeother" type="C" size="100"/>
   <field name="purpose" type="C" size="255"/>
   <field name="purposeother" type="C" size="255"/>
@@ -135,6 +145,7 @@
   <field name="documentpic"  type="XL" />
   <field name="documentmat"  type="XL" />
   <field name="documentmta"  type="XL" />
+  <field name="documentip"  type="XL" />
   <field name="researchtype" type="C" size="10"/>
   <field name="samplesamount" type="I" size="10"/>
   <field name="conservestatus" type="C" size="10"/>
@@ -143,6 +154,50 @@
   <field name="exportgeneticresources" type="C" size="100"/>
   <field name="legislationagree" type="C" size="5"/>
   <field name="sampleuom" type="C" size="5"/>
+  <field name="paid1" type="I" size="1"/>
+  <field name="paid2" type="I" size="1"/>
+  <field name="paid3" type="I" size="1"/>
+  <field name="paid4" type="I" size="1"/>
+  <field name="paid5" type="I" size="1"/>
+  <field name="paid6" type="I" size="1"/>
+  <field name="paid7" type="I" size="1"/>
+  <field name="paid8" type="I" size="1"/>
+  <field name="paid9" type="I" size="1"/>
+  <field name="paid10" type="I" size="1"/>
+
+  <field name="payref1"  type="C" size="30"/>
+  <field name="payref2"  type="C" size="30"/>
+  <field name="payref3"  type="C" size="30"/>
+  <field name="payref4"  type="C" size="30"/>
+  <field name="payref5"  type="C" size="30"/>
+  <field name="payref6"  type="C" size="30"/>
+  <field name="payref7"  type="C" size="30"/>
+  <field name="payref8"  type="C" size="30"/>
+  <field name="payref9"  type="C" size="30"/>
+  <field name="payref10" type="C" size="30"/>
+
+  <field name="paytime1"  type="I" size="10"/>
+  <field name="paytime2"  type="I" size="10"/>
+  <field name="paytime3"  type="I" size="10"/>
+  <field name="paytime4"  type="I" size="10"/>
+  <field name="paytime5"  type="I" size="10"/>
+  <field name="paytime6"  type="I" size="10"/>
+  <field name="paytime7"  type="I" size="10"/>
+  <field name="paytime8"  type="I" size="10"/>
+  <field name="paytime9"  type="I" size="10"/>
+  <field name="paytime10" type="I" size="10"/>
+
+  <field name="paymode1"  type="C" size="20"/>
+  <field name="paymode2"  type="C" size="20"/>
+  <field name="paymode3"  type="C" size="20"/>
+  <field name="paymode4"  type="C" size="20"/>
+  <field name="paymode5"  type="C" size="20"/>
+  <field name="paymode6"  type="C" size="20"/>
+  <field name="paymode7"  type="C" size="20"/>
+  <field name="paymode8"  type="C" size="20"/>
+  <field name="paymode9"  type="C" size="20"/>
+  <field name="paymode10" type="C" size="20"/>
+
 </table>
 
 <table name="applications">
@@ -161,9 +216,12 @@
   <field name="scientificname" type="C" size="100"><NULL/></field>
   <field name="commonname" type="C" size="100"/>
   <field name="projectlocation" type="C" size="100"><NULL/></field>
+  <field name="latlng" type="C" size="100"><NULL/></field>
   <field name="projectarea" type="C" size="100"><NULL/></field>
   <field name="resourceallocationpurpose" type="C" size="100"><NULL/></field>
   <field name="exportanswer" type="C" size="10"/>
+  <field name="geneticresourcerc" type="C" size="10"/>
+  <field name="resourcesdeposit" type="C" size="10"/>
   <field name="resourcetypeother" type="C" size="100"/>
   <field name="purpose" type="C" size="255"/>
   <field name="purposeother" type="C" size="255"/>
@@ -175,6 +233,7 @@
   <field name="documentpic"  type="XL" />
   <field name="documentmat"  type="XL" />
   <field name="documentmta"  type="XL" />
+  <field name="documentip"  type="XL" />
   <field name="researchtype" type="C" size="10"/>
   <field name="samplesamount" type="I" size="10"/>
   <field name="conservestatus" type="C" size="10"><NOTNULL/></field>

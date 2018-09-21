@@ -2,14 +2,14 @@
 
 *Access and Benefits Sharing  is an online research permit system for :
 
-*Biological resources
-*Genetic Resources
-*DNA / RNA extracts
-*Bio Chemical resources
-*Derivatives
-*Progeny
-*Traditional Knowledge
-*Digital Sequence Information and associated information
+* Biological resources
+* Genetic Resources
+* DNA / RNA extracts
+* Bio Chemical resources
+* Derivatives
+* Progeny
+* Traditional Knowledge
+* Digital Sequence Information and associated information
 
 
 ## Getting Started

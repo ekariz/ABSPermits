@@ -5,6 +5,7 @@ class DataCrud extends CI_Controller {
    private $modname;
    private $columntypes = [];
    private $columnsvisibles = [];
+   private $columnsrequired = [];
    private $columnselects = [];
    private $gridcolumns = [];
 
@@ -36,6 +37,7 @@ class DataCrud extends CI_Controller {
         $datasrc = valueof($modcfg, 'table_datasrc');
         $columns = valueof($modcfg, 'title');
         $columns_visible = valueof($modcfg, 'visible');
+        $required = valueof($modcfg, 'required');
         $defaultType = 'text';
 
         foreach($columns as $column=>$title){
@@ -51,19 +53,36 @@ class DataCrud extends CI_Controller {
 
 
           if( ($visible==1 || $visible==2)){
-          $this->gridcolumns[$column]  = $title;
+		   /*
+		    * grid columns
+		    **/
+          $this->gridcolumns[$column]      = $title;
+          
+          /*
+           * sortable columns
+           **/
+          $this->crud->column_order[]      = $column;
           }
 
+        }
+		
+		/**
+		 * form validation required columns
+		 */
+        foreach($required as $column=>$required_state ){
+          if($required_state ==1){
+            $this->columnsrequired[$column]  =  true;
+	      }else{
+			$this->columnsrequired[$column]  =  false;
+		  }
         }
 
         $this->crud->table          = $datatbl;
         $this->crud->dataview       = $datasrc;
         $this->columns              = $columns;
         $this->crud->columns        = $columns;
-        //$this->crud->columns        = array_keys( $columns );
         $column_order               = array_keys( $this->crud->columns );
         $column_order[]             = null;
-        $this->crud->column_order   = $column_order;
 
         $this->crud->column_search  = array_keys( $this->crud->columns );
         $this->crud->order          = ['id' => 'desc'];
@@ -214,13 +233,13 @@ class DataCrud extends CI_Controller {
         $status['status'] = TRUE;
 
         if(sizeof($data)>0){
-         foreach($data as $k=>$v){
-          $columntype = valueof( $this->columntypes, $k);
+         foreach($data as $column=>$value){
+          $columntype = valueof( $this->columntypes, $column);
 
-          if($columntype!='checkbox' && $v == '')
+          if($columntype!='checkbox' && $this->columnsrequired[$column] && $value == '')
           {
-            $status['inputerror'][]   = $k;
-            $status['error_string'][] = $this->crud->columns[$k];
+            $status['inputerror'][]   = $column;
+            $status['error_string'][] = $this->crud->columns[$column];
             $status['status'] = FALSE;
           }
          }

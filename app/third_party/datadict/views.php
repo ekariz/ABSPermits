@@ -35,3 +35,7 @@ left join sampleuom u on u.uomcode= y.sampleuom
 
 ";
 
+$views['viewapproved1'] = "
+select * from  from viewapplications  where ( approved1=1 and approved2 is null  or approved2=0)
+";
+

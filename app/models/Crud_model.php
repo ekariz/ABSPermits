@@ -65,8 +65,6 @@ class Crud_model extends CI_Model {
          }
        }
 
-//print_pre($search_columns);//remove
-
        if(sizeof($search_columns)>0){
           $this->db->group_start();
          foreach($search_columns as $search_colname => $search_value){
@@ -84,6 +82,7 @@ class Crud_model extends CI_Model {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
+		
     }
 
     function get_datatables()

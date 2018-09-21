@@ -1,4 +1,3 @@
-# -ABSPermits
  # ABS
 
 *Access and Benefits Sharing  is an online research permit system for :
@@ -106,8 +105,8 @@ Please read [CONTRIBUTING.md]
  
 ## Authors
 
-* **Erastus Kariuki** - *Initial work* - [PurpleBooth](https://github.com/ekariz)
-* **Paul Oldham** - *Initial work* - [PurpleBooth](https://github.com/poldham)
+* **Erastus Kariuki** - *Initial work* - [ekariz](https://github.com/ekariz)
+* **Paul Oldham** - *Initial work* - [poldham](https://github.com/poldham)
 
 
 ## License

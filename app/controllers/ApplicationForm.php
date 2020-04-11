@@ -10,6 +10,7 @@ class ApplicationForm extends CI_Controller{
         $this->load->model('crud_model','temp');
         $this->load->model('Common_model','common');
         $this->load->model('Abs_model','abs');
+        $this->load->model('Researcher_model','researcher');
 
         $this->apps->table  =  'applications';
         $this->temp->table  =  'applicationstmp';
@@ -23,7 +24,8 @@ class ApplicationForm extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+     $researcher =  $this->researcher->get_researcher_by_email($email);
+     
      $presaved_data     = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
      $colums             = $this->db->list_fields( $this->temp->table );
      $data               = [];
@@ -39,20 +41,12 @@ class ApplicationForm extends CI_Controller{
       }
      }
 
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
+ 
+     if($researcher){
+      foreach($researcher as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
      }
-
-     //if($presaved_data){
-      //foreach($presaved_data as $field=>$value){
-       //$data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
-      //}
-     //}
 
     $data['paids']     = [];
     $data['payrefs']   = [];
@@ -114,8 +108,8 @@ class ApplicationForm extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
-     $presaved_data     = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
+     $researcher         =  $this->researcher->get_researcher_by_email($email);
+     $presaved_data      = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
      $colums             = $this->db->list_fields( $this->temp->table );
      $data               = [];
      $data['stepnumber'] = 0;
@@ -129,14 +123,11 @@ class ApplicationForm extends CI_Controller{
          }
       }
      }
-
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
+     
+     if($researcher){
+      foreach($researcher as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
      }
 
     $data['paids']     = [];
@@ -163,6 +154,11 @@ class ApplicationForm extends CI_Controller{
 
     $data['approvalsteps']  =  $this->abs->get_approval_steps( );
     $data['charges']        =  $this->abs->get_institutions_charges( );
+    //echo $this->db->last_query()."<hr><br>";//remove 
+	//print_pre($data['approvalsteps'] ); 
+	//print_pre($data['charges'] ); 
+	//exit();//remove 
+	
 
      $this->load->view("main/frontend/appform/steps/payment_view", $data );
 
@@ -177,12 +173,51 @@ class ApplicationForm extends CI_Controller{
      if(empty($email)){
        redirect( base_url() .'login' );
      }
-
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+     
+	$required_fields['position'] = 'Are you a student? *';    //position;
+	$required_fields['applyingas'] = 'Applying As:';    //applyingas;
+	$required_fields['legalofficername'] = 'Institutional Contact person';    //legalofficername;
+	$required_fields['legalofficeremail'] = 'Institution Contact person Email';    //legalofficeremail;
+	//$required_fields['resourcetype'] = 'resource type';    //resourcetype;
+	$required_fields['resourcetypes'] = 'resource type';    //resourcetype;
+	$required_fields['speciesname'] = 'species name';    //speciesname;
+	//$required_fields['scientificname'] = 'species scientific name';    //scientificname;
+	$required_fields['commonname'] = 'species common name';    //commonname;
+	$required_fields['projectlocation'] = 'project location';    //projectlocation;
+	$required_fields['projectarea'] = 'project area';    //projectarea;
+	//$required_fields['resourceallocationpurpose'] = 'description';    //resourceallocationpurpose;
+	$required_fields['exportanswer'] = 'export answer';    //exportanswer;
+	//$required_fields['resourcetypeother'] = 'other resource type ';    //resourcetypeother;
+	$required_fields['purpose'] = 'purpose of research';    //purpose;
+	$required_fields['purposeother'] = 'purpose description';    //purposeother;
+	$required_fields['documentregistration'] = 'Company Registration Document';    //documentregistration;
+	$required_fields['documentresearchproposal'] = 'Research Proposal';    //documentresearchproposal;
+	$required_fields['documentaffiliation'] = 'Letter of Affiliation With local institution';    //documentaffiliation;
+	$required_fields['documentresearchbudget'] = 'Research Budget ';    //documentresearchbudget;
+	$required_fields['documentcv'] = 'Curriculum Vitae';    //documentcv;
+	$required_fields['researchtype'] = 'Type of Research to be Carried out ? *';    //researchtype;
+	$required_fields['samplesamount'] = 'Amount of proposed samples to be collected *';    //samplesamount;
+	$required_fields['conservestatus'] = 'Select the conservation status of the sample to be collected  *:';    //conservestatus;
+	$required_fields['conservestatusdesc'] = 'conservation  statusdescription';    //conservestatusdesc;
+	$required_fields['sampleuom'] = 'Proposed samples Unit of Measure';    //sampleuom;
+	$required_fields['geneticresourcerc'] = 'Will you be Researching/Collecting a Genetic Resource...';    //geneticresourcerc;
+	$required_fields['resourcesdeposit'] = ' Where will the Genetic Resources/Material be deposited? ';    //resourcesdeposit;
+	$required_fields['restraditionalknow'] = ' Will research on traditional knowledge is to be collected ? *: ';    //resourcesdeposit;
+	$required_fields['orcid'] = 'ORCID';    //orcid;
+	$required_fields['exportanswer'] = 'Will you be Exporting?';    //orcid;
+	$required_fields['export_port']  = 'What will be the genetic resource port of export?';    //orcid;
+	$required_fields['export_country'] = 'Which country is the genetic resource to be exported to?';    //orcid;
+	
+	
+	//$required_fields['legislationagree'] = 'Confirm that all information given in this application is true';    //orcid;
+ 
+     $researcher        = $this->researcher->get_researcher_by_email($email);
      $presaved_data     = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
+     
      $colums             = $this->db->list_fields( $this->temp->table );
      $data               = [];
      $data['stepnumber'] = 0;
+     
      /**
       * get alll db cols as data array keys
       */
@@ -193,23 +228,29 @@ class ApplicationForm extends CI_Controller{
          }
       }
      }
-
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
+     
+     if($researcher){
+      foreach($researcher as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
      }
 
      if($presaved_data){
       foreach($presaved_data as $field=>$value){
        $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+       
+       /**
+        * get empty fields
+        */
+        
+       if(empty($data[$field]) && array_key_exists($field,$required_fields)){
+		 $required_field_desc             = valueof($required_fields, $field, $field); 
+		 $data['required_field'][$field]  = Camelize($required_field_desc); 
+	   }
+	   
       }
      }
-
-//print_pre($data);//remove
+//print_pre($data);//remove 
 
      $this->load->view('main/frontend/appform/steps/finish_view', $data );
 
@@ -251,7 +292,7 @@ class ApplicationForm extends CI_Controller{
 
   }
 
-   public function upload(){
+   public function upload($stepno=0){
 
     $email              = $this->session->userdata('email');
 
@@ -295,6 +336,7 @@ class ApplicationForm extends CI_Controller{
         $expected_files['documentmat']               = 'Mutually Agreed Terms (MAT)';
         $expected_files['documentmta']               = 'Material Transfer Agreement';
         $expected_files['documentip']                = 'Import Permit';
+        $expected_files['docpayment']                = 'Evidence of Payment';
 
         $documents =  [];
 
@@ -316,6 +358,12 @@ class ApplicationForm extends CI_Controller{
        {
        $num_documents          = count($documents);
        $documents_ids          = array_keys($documents);
+       
+       if($stepno>0)
+       {
+		$documents["paid{$stepno}"]   = 1;
+	   }
+	   
        $this->temp->update( ['email' => $email], $documents );
        echo json_response( 1,  "Uploaded {$num_documents} documents" ,[ 'documents' => $documents_ids] );
        die;
@@ -326,7 +374,92 @@ class ApplicationForm extends CI_Controller{
     echo json_encode( ["success" => 0, 'message' => "Nothing Uploaded"] );
     die;
    }
+   
 
+   public function upload_payment_evidence($stepno, $instcode){
+
+    $email              = $this->session->userdata('email');
+
+    if(empty($email)){
+     echo json_encode( ["success" => 0, 'message' => "login session expired.Please re-login" ] );
+     die;
+    }
+
+    /**
+     * presave form
+     */
+
+    if(isset($_FILES)){
+
+        $folderid    = sha1($email);
+        $upload_dir  = "./uploads/appdocs/{$folderid}";
+
+        if(!is_dir($upload_dir)){
+         if (!mkdir($upload_dir, 0777, true)) {
+          echo json_encode( ["success" => 0, 'message' => 'Failed to create folders...'] );
+          die;
+         }
+        }
+
+        $config['upload_path']          = $upload_dir;
+        $config['allowed_types']        = 'pdf';
+        $config['encrypt_name']         = true;
+        $config['remove_spaces']        = true;
+        $config['overwrite']            = true;
+        $config['file_ext_tolower']     = true;
+
+        $this->load->library('upload', $config);
+
+        $expected_files =  [];
+        $expected_files['documentregistration']      = 'Company Registration Document';
+        $expected_files['documentresearchproposal']  = 'Research Proposal';
+        $expected_files['documentaffiliation']       = 'Letter of Affiliation With local institution';
+        $expected_files['documentresearchbudget']    = 'Research Budget ';
+        $expected_files['documentcv']                = 'Curriculum Vitae';
+        $expected_files['documentpic']               = 'Prior Informed Consent (PIC)';
+        $expected_files['documentmat']               = 'Mutually Agreed Terms (MAT)';
+        $expected_files['documentmta']               = 'Material Transfer Agreement';
+        $expected_files['documentip']                = 'Import Permit';
+        $expected_files['docpayment']                = 'Evidence of Payment';
+
+        $documents =  [];
+
+        foreach($expected_files as $expected_file_id => $expected_file_name){
+          if( isset($_FILES[$expected_file_id]) && isset($_FILES[$expected_file_id]['tmp_name']) && !empty($_FILES[$expected_file_id]['tmp_name']) ){
+           if($this->upload->do_upload($expected_file_id)){
+            $upload_response              = $this->upload->data();
+            $documents[$expected_file_id] = json_encode($upload_response);
+           }else{
+            $error =  $this->upload->display_errors();
+            $error = strip_tags($error);
+            echo json_encode( ["success" => 0, 'message' => "{$expected_file_name}:".$error ] );
+            die;
+           }
+         }
+        }
+
+       if(sizeof($documents)>0)
+       {
+       $num_documents          = count($documents);
+       $documents_ids          = array_keys($documents);
+       
+       if($stepno>0)
+       {
+		$documents["paid{$stepno}"]   = 1;
+	   }
+	   
+       $this->temp->update( ['email' => $email], $documents );
+       echo json_response( 1,  "Uploaded {$num_documents} documents" ,[ 'documents' => $documents_ids] );
+       die;
+       }
+
+    }
+
+    echo json_encode( ["success" => 0, 'message' => "Nothing Uploaded"] );
+    die;
+   }
+   
+   
    public function remove( $type, $id ){
     $email              = $this->session->userdata('email');
     if(empty($email)) return;
@@ -372,7 +505,7 @@ class ApplicationForm extends CI_Controller{
        die(json_response(0, 'Session Expired.refresh page to login'));
      }
 
-    $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+    $researcher        =  $this->researcher->get_researcher_by_email($email);
     $presaved_data     = $this->db->select("*")->get_where( $this->temp->table, [ 'email' => $email  ] )->row();
 
     $documentregistration        = !empty($presaved_data->documentregistration) ? json_decode($presaved_data->documentregistration, true) : null;
@@ -397,11 +530,12 @@ class ApplicationForm extends CI_Controller{
 
     $required['position'] = 'Are you a student?';
     $required['applyingas'] = 'Applying As';
-    //$required['orchid'] = 'ORCHID';
+    //$required['orcid'] = 'ORCHID';
     $required['legalofficername'] = 'Institution Legal Officer Name:';
     $required['legalofficeremail'] = 'Institution Legal Officer Email';
-    $required['geneticresourcerc'] = 'Will you be  exporting a genetic resource from Kenya? ';
-    $required['resourcetype'] = 'Type of genetic resource to be collected *';
+    $required['geneticresourcerc'] = 'Will you be  exporting a genetic resource from Bahamas? ';
+    //$required['resourcetype'] = 'Type of genetic resource to be collected *';
+    $required['resourcetypes'] = 'Type of genetic resource to be collected *';
     $required['speciesname'] = 'Species name of the genetic resource to be collected *:';
     $required['commonname'] = 'Common/vernacular name of the generic resource to be collected *:';
     $required['projectlocation'] = 'Location or project area for genetic resource collection *:';
@@ -413,20 +547,23 @@ class ApplicationForm extends CI_Controller{
     $required['sampleuom'] = 'Proposed samples Unit of Measure';
     $required['conservestatus'] = 'Select the conservation status of the sample to be collected';
     $required['conservestatusdesc'] = 'Describe the conservation status of the sample to be collected';
-    $required['restraditionalknow'] = 'Will research on traditional knowledge is to be collected?';
+    //$required[''] = 'Will research on traditional knowledge is to be collected?';
     $required['exportgeneticresources'] = 'Will you need to export the collected genetic resources from kenya?';
-    $required['legislationagree'] = 'You Must Agree with the National Legislation of Kenya and conditions for acquiring an ABS permit';
+    $required['export_port']  = 'What will be the genetic resource port of export?';    //orcid;
+	$required['export_country'] = 'Which country is the genetic resource to be exported to?';    //orcid;
+	
+    $required['legislationagree'] = 'You Must Agree with the National Legislation of Bahamas and conditions for acquiring an ABS permit';
 
     $required_docs['documentregistration'] = 'Company Registration Document';
     $required_docs['documentresearchproposal'] = 'Research Proposal';
     $required_docs['documentaffiliation'] = 'Letter of Affiliation With local institution';
     $required_docs['documentresearchbudget'] = 'Research Budget ';
     $required_docs['documentcv'] = 'Curriculum Vitae';
-    $required_docs['documentpic'] = 'Prior Informed Consent (PIC)';
-    $required_docs['documentmat'] = 'Mutually Agreed Terms (MAT) ';
+    //$required_docs['documentpic'] = 'Prior Informed Consent (PIC)';
+    //$required_docs['documentmat'] = 'Mutually Agreed Terms (MAT) ';
 
     if($exportanswer==1){
-    $required_docs['documentmta'] = 'Material Transfer Agreement (MTA)';
+    //$required_docs['documentmta'] = 'Material Transfer Agreement (MTA)';
     }
 
     foreach($required as $fieldid =>$fielddesc){
@@ -449,7 +586,7 @@ class ApplicationForm extends CI_Controller{
     $data = [];
     $paids = [];
 
-    if(sizeof($presaved_data)>0){
+    if($presaved_data){
      foreach($presaved_data as $col => $val){
       $data[$col] = $val;
 
@@ -473,7 +610,7 @@ class ApplicationForm extends CI_Controller{
 
     if($num_paid<$num_steps){
      $diff = $num_steps - $num_paid;
-     die(json_response(0, "You Have Not Yet Paid {$diff} Institutions"));
+     //die(json_response(0, "You Have Not Yet Paid {$diff} Institutions"));
     }
 
     unset($data['stepnumber']);
@@ -488,22 +625,24 @@ class ApplicationForm extends CI_Controller{
     $data['message']  = "Something went wrong .Please try again later";
 
     if(sizeof($data)>0){
+		
     $this->apps->save($data);
 
     $this->db->where( 'email' , $email )->delete( $this->temp->table  );
 
     $approver1_instcode      = $this->abs->get_approver( 1 );
     $main_approver           = $this->abs->get_institutions_main_approver( $approver1_instcode );
+	
     $main_approver_email     = $main_approver->email;
     $main_approver_username  = $main_approver->username;
 
     $subject = "ABS PERMIT Application Successful ";//Account Registration
-    $message = self::make_email_body_notification( $signup->firstname, $signup->email, $appno );
+    $message = self::make_email_body_notification( $researcher->firstname, $researcher->email, $appno );
     $this->common->queue_mail( $email, $subject, $message );
 
     $main_approver_email ='abspermitsprototype@gmail.com';
     $subject = "ABS Application Reference #{$appno}";
-    $message = self::make_email_body_notification_admin( $main_approver_username, $main_approver_email, $signup->firstname, $signup->email, $appno );
+    $message = self::make_email_body_notification_admin( $main_approver_username, $main_approver_email, $researcher->firstname, $researcher->email, $appno );
     $this->common->queue_mail( $main_approver_email, $subject, $message );
 
     $data['success']  = 1;

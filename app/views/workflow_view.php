@@ -11,8 +11,9 @@ $this->customcrud->genJS(
   );
 
 $select_consult_with = '<select id="consult_with" name="consult_with[]" multiple="multiple" >';
+$select_consult_with .='<option value="applicant">Permit Applicant</option>';
 foreach($approvalsteps as $stepno=>$stepname){
- $select_consult_with .='<option value="'.$stepno.'">'.$stepname.'</option>';
+ $select_consult_with .='<option value="institutions-'.$stepno.'">Approver -'.$stepname.'</option>';
 }
 $select_consult_with .= '</select>';
 
@@ -74,6 +75,7 @@ $select_consult_with .= '</select>';
                       <td colspan="4" ><div id="div_documents"></div></td>
                      </tr>
 
+<!--
                      <tr>
                       <td colspan="4" >
                        <div id="div_approvals">
@@ -81,7 +83,7 @@ $select_consult_with .= '</select>';
                          <tr>
                           <?php
                           foreach($approvalsteps as $stepno=>$stepname){
-                           echo "<th>{$stepname}</th>";
+                           // echo "<th>{$stepname}</th>";
                           }
                           ?>
                          </tr>
@@ -89,6 +91,7 @@ $select_consult_with .= '</select>';
                         </div>
                       </td>
                      </tr>
+-->
 
                      </table>
 
@@ -246,7 +249,7 @@ var workflow ={
   var id = $('#id').val(),
    appno = $('#appno').val();
    ui.fc('<?php echo $this->router->class;?>/list_documents/'+id,'div_documents');
-   ui.fc('<?php echo $this->router->class;?>/list_approvals/'+id,'div_approvals');
+   /*ui.fc('<?php echo $this->router->class;?>/list_approvals/'+id,'div_approvals');*/
  },
  init_consult:function(){
   var  appno = $('#appno').val();

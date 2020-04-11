@@ -3,11 +3,17 @@
 $steps_str = "'". implode("','",$approvalsteps) ."'";
 
 foreach($approvalsteps as $stepid=>$stepname){
- $num_inbox = isset($num_docs[$stepid]) ? count($num_docs[$stepid]) : 0;
- $data_bars[$stepid] = $num_inbox;
+ $num_approved            = isset($approvals[$stepid]['approved']) ? ($approvals[$stepid]['approved']) : 0;
+ $num_pending             = isset($approvals[$stepid]['pending']) ? ($approvals[$stepid]['pending']) : 0;
+
+ $data_approved[$stepid]  = $num_approved;
+ $data_pending[$stepid]   = $num_pending;
+
 }
 
-$data_bars_str = implode(',',$data_bars);
+$data_approved_str = implode(',',$data_approved);
+$data_pending_str  = implode(',',$data_pending);
+
 
 ?>
 <!-- widget grid -->
@@ -188,47 +194,85 @@ $(function () {
  pageSetUp();
   $('.timer').countTo();
 
-  $('#container_apps').highcharts({
+
+$('#container_apps').highcharts({
     chart: {
-        height: 250,
-        type: 'column'
+        zoomType: 'xy'
     },
+    colors: ['#00aa55', '#c00'],
     title: {
-        text: 'Inbox Per Organization'
+        text: 'Research Projects'
     },
-    plotOptions: {column: {colorByPoint: true}},
-    xAxis: {
-        categories: [ <?php  echo $steps_str; ?>],
+    subtitle: {
+        text: 'Pending vs Approved'
+    },
+    xAxis: [{
+        categories: [<?php  echo $steps_str; ?>],
         crosshair: true
-    },
-    yAxis: {
-        min: 0,
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
         title: {
-            text: 'Applications'
+            text: 'Approved',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
         }
-    },
+    }, { // Secondary yAxis
+        title: {
+            text: 'Pending',
+            style: {
+                color: Highcharts.getOptions().colors[2]
+            }
+        },
+        labels: {
+            format: '{value} ',
+            style: {
+                color: Highcharts.getOptions().colors[2]
+            }
+        },
+        opposite: true
+    }],
     tooltip: {
-        headerFormat: '<span style="font-size:10px">Inbox for {point.key}</span><table>',
-        pointFormat: '<tr><td style="padding:0"><b>{point.y:,.0f}</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0,
-            borderWidth: 2
-        }
+        shared: true
     },
     credits: {
-            enabled: false
-        },
-    series: [{
-         name: 'Inbox',
-         data: [<?php echo $data_bars_str ?>]
-         }
-        ]
- });
+      enabled: false
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        x: 70,
+        verticalAlign: 'top',
+        y: 40,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+    },
+    series: [
+    {
+        
+        name: 'Pending',
+        type: 'column',
+        yAxis: 1,
+        data: [<?php echo $data_pending_str ?>],
+        tooltip: {
+            valueSuffix: ''
+        }
 
+    }, {
+        name: 'Approved',
+        type: 'spline',
+        data: [<?php echo $data_approved_str ?>],
+        tooltip: {
+            valueSuffix: ''
+        }
+    }]
+});
+  
 });
 </script>

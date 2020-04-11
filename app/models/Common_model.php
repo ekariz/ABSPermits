@@ -157,17 +157,17 @@ class Common_model extends CI_Model{
     return $data;
   }
 
-  function queue_mail( $email, $subject, $message, $toemail='' , $send_now=false ){
+  function queue_mail( $email, $subject, $message, $toname='' , $send_now=false ){
 
     $id   =  generateID( 'queuemail' ,'id', $this->db );
 
     $data = [
-          'id'          =>  $id ,
-          'toname'      =>  !empty($toemail) ? $toemail : $email ,
-          'toemail'     =>  $email ,
-          'subject'     =>  $subject ,
-          'message'     =>  $message ,
-          'queuedate'   =>  date("Y-m-d") ,
+          'id'         =>  $id ,
+          'toname'     =>  !empty($toname) ? $toname : $email ,
+          'toemail'    =>  $email ,
+          'subject'    =>  $subject ,
+          'message'    =>  $message ,
+          'queuedate'  =>  date("Y-m-d") ,
          ];
 
     $save  = $this->db->insert( 'queuemail', $data );
@@ -176,9 +176,9 @@ class Common_model extends CI_Model{
      if($send_now){
       $this->load->library('email');
       $this->config->load('product');
-      $companyname       = $this->config->item('companyname');
-      $companyemail      = $this->config->item('companyemail');
-      $productname       = $this->config->item('productname');
+      $companyname        = $this->config->item('companyname');
+      $companyemail       = $this->config->item('companyemail');
+      $productname        = $this->config->item('productname');
 
       $this->email->clear();
       $this->email->from( $companyemail, $companyname );
@@ -609,6 +609,20 @@ class Common_model extends CI_Model{
 
     $db->insert('syshist', $data);
 
+  }
+
+   function insert_orcid_log( $request, $responsecode, $message , $body  ){
+
+    $data = [
+          'request'       =>  $request ,
+          'responsecode'  =>  $responsecode ,
+          'message'       =>  $message ,
+          'body'          =>  $body ,
+          'auditdate'     =>  date('Y-m-d H:i:s') ,
+          'audittime'     =>  time(),
+         ];
+
+    $save  = $this->db->insert( 'orcidlogs', $data );
   }
 
 

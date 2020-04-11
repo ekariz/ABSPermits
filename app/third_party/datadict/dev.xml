@@ -1,6 +1,20 @@
 <?xml version="1.0"?>
 <schema version="0.3">
- 
+
+
+<table name="approvesteps">
+ <descr>approve steps</descr>
+  <field name="id"            type="I" size="11"  ><NOTNULL/></field>
+  <field name="stepno"        type="I" size="11"  ><KEY/><NOTNULL/></field>
+  <field name="stepname"      type="C" size="100" ><NOTNULL/></field>
+  <field name="stepdesc"      type="C" size="100" ><NOTNULL/></field>
+  <field name="instcode"      type="C" size="10"  ><NULL/></field>
+  <field name="emtplaplapr"   type="I" size="2"   ><descr>Workflow - Approved Notification to Applicant</descr></field>
+  <field name="emtplapldsp"   type="I" size="2"   ><descr>Workflow - DisApproval Notification to Applicant</descr></field>
+  <field name="emtplinsapr"   type="I" size="2"   ><descr>Workflow - Approval Notification to Approver</descr></field>
+  <field name="emtplinsdsp"   type="I" size="2"   ><descr>Workflow - DisApproval Notification to Approver</descr></field>
+</table>
+
 
 </schema>
 

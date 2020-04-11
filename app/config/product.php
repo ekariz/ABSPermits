@@ -11,6 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['companyname']   = 'ABS PERMIT APPLICATION';
 $config['companyemail']  = 'absprototype@gmail.com';
-$config['productname']   = 'ABS KENYA';
-$config['baseurl']       = 'abs.co.ke';
+$config['productname']   = 'ABS IT PERMIT APPLICATION SYSTEM';
+$config['baseurl']       = 'http://absprototype.net/';
 

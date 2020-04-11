@@ -92,8 +92,8 @@ $bgheader   = 'background-color:#9ED3EC;';
  </tr>
 
  <tr>
-  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >ORCHID</td>
-  <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $orchid  ?></b></td>
+  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >ORCID</td>
+  <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $orcid  ?></b></td>
   <td nowrap  style="<?php echo "{$bottom}{$right}";?>" >Other Researcher ID</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $researcherid  ?></b></td>
  </tr>
@@ -269,7 +269,7 @@ $bgheader   = 'background-color:#9ED3EC;';
  </tr>
 
  <tr>
-  <td width="50%"  style="<?php echo "{$bottom}{$right}{$left}";?>"  >Will you be Researching/Collecting and or exporting a genetic resource from Kenya? </td>
+  <td width="50%"  style="<?php echo "{$bottom}{$right}{$left}";?>"  >Will you be Researching / Collecting and or exporting a genetic resource from The BAHAMAS? </td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo  valueof($export_answer_list, $exportanswer );  ?></td>
  </tr>
 
@@ -340,7 +340,7 @@ $bgheader   = 'background-color:#9ED3EC;';
  </tr>
 
  <tr>
-  <td    style="<?php echo "{$bottom}{$right}{$left}";?>" >Will you need to export the collected genetic resources from Kenya ?   </td>
+  <td    style="<?php echo "{$bottom}{$right}{$left}";?>" >Will you need to export the collected genetic resources from The BAHAMAS ?   </td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $exportgeneticresources;  ?></td>
  </tr>
 

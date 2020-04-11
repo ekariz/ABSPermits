@@ -1,13 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
+//backend connection
+
 $db['admin'] = array(
     'dsn'   => '',
     'hostname' => 'localhost',
 
-    'username' => 'abs',
-    'password' => 'abs',
-    'database' => 'abs',
+    'username' => 'absprototype',
+    'password' => 'absprototype',
+    'database' => 'absprototype',
 
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

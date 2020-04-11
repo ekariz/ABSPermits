@@ -26,6 +26,13 @@ $required_documentip       =  $exists_documentip  ? '' : 'required';
 
 $required_documentmta      =  $exportanswer ==1 ? 'required' : '';
 
+
+//overide required docs
+$required_documentpic      =  '';
+$required_documentmat      =  '';
+$required_documentip       =  '';
+$required_documentmta      =  '';
+
 ?>
 
 <table class="table table-bordered table-condensed" >
@@ -53,46 +60,7 @@ $required_documentmta      =  $exportanswer ==1 ? 'required' : '';
   <td id="status-documentip" ><i class="fa fa-<?php echo $icon_documentip;?>"></i></td>
  </tr>
 
-
- <tr   id="table_row_exporter_pic"  >
-  <td  ><strong>Prior Informed Consent (PIC)</strong></td>
-<!--
-  <td><a href="<?php  echo base_url();?>assets/frontend/pdf/Prior_Informed_Consent_template.pdf" target="_blank" ><i class="fa fa-file-pdf-o" style="color:red"></i> Downlod PIC Template</a></td>
--->
-  <td><div class="form-group">
-     <input type="file" id="documentpic" name="documentpic"  onchange="upload_files();" <?php echo $required_documentpic;?>  >
-    <div class="help-block with-errors"></div>
-   </div>
-  </td>
-  <td id="status-documentpic" ><i class="fa fa-<?php echo $icon_documentpic;?>"></i></td>
- </tr>
-
- <tr id="table_row_exporter_mat" >
-  <td><strong>Mutually Agreed Terms (MAT) </strong></td>
-<!--
-  <td><a href="<?php  echo base_url();?>assets/frontend/pdf/Mutually_Agreed_Terms_Template.pdf" target="_blank" ><i class="fa fa-file-pdf-o" style="color:red"></i> Downlod MAT Template</a></td>
--->
-  <td><div class="form-group">
-     <input type="file" id="documentmat" name="documentmat"  onchange="upload_files();" <?php echo $required_documentmat;?>  >
-    <div class="help-block with-errors"></div>
-   </div>
-  </td>
-  <td id="status-documentmat" ><i class="fa fa-<?php echo $icon_documentmat;?>"></i></td>
- </tr>
-
- <tr  id="table_row_exporter_mta"  >
-  <td class="td-mta"   ><strong>Material Transfer Agreement (MTA)</strong></td>
-<!--
-  <td class="td-mta"   ><a href="<?php  echo base_url();?>assets/frontend/pdf/Materials_Transfer_Agreement_Template.pdf" target="_blank" ><i class="fa fa-file-pdf-o" style="color:red"></i> Downlod MTA Template</a></td>
-   <?php // echo $required_documentmta;?>
--->
-  <td class="td-mta"   ><div class="form-group">
-     <input type="file" id="documentmta" name="documentmta" onchange="upload_files();"    >
-    <div class="help-block with-errors"></div>
-   </div>
-  </td>
-  <td class="td-mta"  id="status-documentmta" ><i class="fa fa-<?php echo $icon_documentmta;?>"></i></td>
- </tr>
+ 
  </table>
 
 

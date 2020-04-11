@@ -21,6 +21,7 @@ class Scheduler extends CI_Controller {
      $this->load->library('email');
      $this->config->load('product');
 
+//print_pre($this->email);//remove 
 
      $companyname       = $this->config->item('companyname');
      $companyemail      = $this->config->item('companyemail');
@@ -44,11 +45,20 @@ class Scheduler extends CI_Controller {
       $this->email->subject( $subject );
       $this->email->message( $message );
 
-      $this->email->send();
-
-     //echo $this->email->print_debugger();
-
-      $this->db->query( "update queuemail set sent=1  where id={$id} " );
+      
+       $sent = 0;
+      
+      if( $this->email->send() ){
+	   $sent = 1; 
+	  }else{
+		echo $this->email->print_debugger();
+	  }
+	  
+	  //echo $this->email->print_debugger();
+	  
+	  $this->email->clear(TRUE);
+	  
+      $this->db->query( "update queuemail set sent={$sent} where id={$id} " );
 
      }
     }
@@ -70,6 +80,7 @@ class Scheduler extends CI_Controller {
 
     if(sizeof($mail)>0){
 
+
       $id       = valueof($mail, 'id');
       $toemail  = valueof($mail, 'toemail');
       $subject  = valueof($mail, 'subject');
@@ -81,11 +92,20 @@ class Scheduler extends CI_Controller {
       $this->email->subject( $subject );
       $this->email->message( $message );
 
-      $this->email->send();
+      $sent = 0;
+      
+      if( $this->email->send() ){
+	   $sent = 1; 
+	  }else{
+		echo $this->email->print_debugger();
+	  }
+	  
+	  //clear attachments
+	  
+	  $this->email->clear(TRUE);
+	  
+      $this->db->query( "update queuemail set sent={$sent} where id={$id} " );
 
-      //echo $this->email->print_debugger();
-
-      $this->db->query( "update queuemail set sent=1  where id={$id} " );
 
     }
 

@@ -6,9 +6,10 @@ class Profile extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('crud_model','signups');
+        $this->load->model('crud_model','researchers');
         $this->load->model('Common_model','common');
-        $this->signups->table  = 'signups';
+        $this->load->model('Researcher_model','researcher');
+        $this->researchers->table  = 'researchers';
     }
 
    public function index(){
@@ -19,7 +20,7 @@ class Profile extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( $this->signups->table , [ 'email' => $email  ] )->row();
+     $signup            = $this->db->select("*")->get_where( $this->researchers->table , [ 'email' => $email  ] )->row();
 
      $data = [];
      $data['countries']  =  $this->Common_model->select_assoc(  'countries',  'ctncode',  'ctnname' );
@@ -44,10 +45,10 @@ class Profile extends CI_Controller{
      $data['message']  = '';
 
 
-    $signups                = [];
-    $signups['password']    = sha1($password);
+    $researchers                = [];
+    $researchers['password']    = sha1($password);
 
-    //$this->signups->save($signups);
+    //$this->researchers->save($researchers);
 
     $data['success']  = 1;
     $data['message']  = "Password Changed";

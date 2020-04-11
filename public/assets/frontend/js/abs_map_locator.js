@@ -1,7 +1,7 @@
 function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map-canvas'), {
-          center: {lat: -0.023559, lng: 37.90619300000003},
-          zoom: 7,
+          center: {lat: 24.6752859, lng: -77.9984987},  
+          zoom: 10,
           mapTypeId: 'hybrid'
         });
 

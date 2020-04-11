@@ -46,10 +46,12 @@
                             <li><a href="#step-4">Step 4<br /><small>Requirements</small></a></li>
                             <li><a href="#step-5">Step 5<br /><small>Project Area</small></a></li>
                             <li><a href="#step-6">Step 6<br /><small>Research & Samples</small></a></li>
+<!--
                             <li><a href="#step-7">Step 7<br /><small>PIC/MAT Desk</small></a></li>
                             <li><a href="#step-8">Step 8<br /><small>PIC/MAT/MTA</small></a></li>
                             <li><a href="#step-9">Step 9<br /><small>Payment</small></a></li>
-                            <li><a href="#step-10">Step 10<br /><small>Finish</small></a></li>
+-->
+                            <li><a href="#step-7">Step 7<br /><small>Finish</small></a></li>
                         </ul>
 
                         <div>
@@ -75,14 +77,14 @@
                                 </div>
                             </div>
 
-                            <div id="step-4" style="display:none;min-height:600px;" >
+                            <div id="step-4" style="display:none;min-height:700px;" >
                                 <div id="form-step-3" role="form" data-toggle="validator">
                                     <br>
                                     <?php $this->load->view('main/frontend/appform/steps/requirements_view'); ?>
                                 </div>
                             </div>
 
-                            <div id="step-5" style="display:none;min-height:600px;" >
+                            <div id="step-5" style="display:none;min-height:800px;" >
                                 <div id="form-step-4" role="form" data-toggle="validator">
                                     <br>
                                     <?php $this->load->view('main/frontend/appform/steps/gis_location_view'); ?>
@@ -96,32 +98,38 @@
                                 </div>
                             </div>
 
+<!--
                             <div id="step-7" style="display:none;min-height:500px;" >
                                 <div id="form-step-6" role="form" data-toggle="validator">
                                     <br>
-                                    <?php $this->load->view('main/frontend/appform/steps/doclinks_view'); ?>
+                                    <?php // $this->load->view('main/frontend/appform/steps/doclinks_view'); ?>
                                 </div>
                             </div>
+-->
 
+<!--
                             <div id="step-8" style="display:none;min-height:500px;" >
                                 <div id="form-step-7" role="form" data-toggle="validator">
                                     <br>
-                                    <?php $this->load->view('main/frontend/appform/steps/exporting_view'); ?>
+                                    <?php //$this->load->view('main/frontend/appform/steps/exporting_view'); ?>
                                 </div>
                             </div>
+-->
 
+<!--
                             <div id="step-9" style="display:none;min-height:500px;" >
                                 <div id="form-step-8" role="form" data-toggle="validator">
                                    <br>
                                    <div id="div_payments">
-                                    <?php $this->load->view('main/frontend/appform/steps/payment_view'); ?>
+                                    <?php  //$this->load->view('main/frontend/appform/steps/payment_view'); ?>
                                     </div>
 
                                 </div>
                             </div>
+-->
 
-                            <div id="step-10" style="display:none;min-height:500px;" >
-                                <div id="form-step-9" role="form" data-toggle="validator">
+                            <div id="step-7" style="display:none;min-height:500px;" >
+                                <div id="form-step-6" role="form" data-toggle="validator">
                                    <br>
                                    <div id="div_confirmation">
                                     <?php $this->load->view('main/frontend/appform/steps/finish_view'); ?>
@@ -174,16 +182,16 @@
     <script type="text/javascript">
 
         function test_rid(){
-         var orchid = $('#orchid').val();
+         var orcid = $('#orcid').val();
          var researcherid = $('#researcherid').val();
 
-         if(orchid!=""){
+         if(orcid!=""){
           $('#researcherid').removeAttr( "required" );
          }else if(researcherid!=""){
-          $('#orchid').removeAttr( "required" );
+          $('#orcid').removeAttr( "required" );
          }else{
           $('#researcherid').attr('required', 'required');
-          $('#orchid').attr('required', 'required');
+          $('#orcid').attr('required', 'required');
          }
 
         }
@@ -263,10 +271,10 @@
                   /*upload_files();*/
                  break;
                  case 2:
-                  handle_is_export();
+                  //handle_is_export();
                   break;
                  case 7:
-                  show_payment();
+                  //show_payment();
                   break;
                  }
                }
@@ -327,13 +335,14 @@
                 return true;
             });
 
-            <?php if($stepnumber<8){?>
+            <?php if($stepnumber<6){?>
              $('button.btn-finish').prop('disabled', true);
             <?php }?>
 
 
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection) {
-                if(stepNumber == 9){
+                console.log('stepNumber='+stepNumber);
+                if(stepNumber == 6){
                  $('button.btn-finish').prop('disabled', false);
                  $('.btn-finish').removeClass('disabled');
                  show_confirmation();
@@ -356,8 +365,8 @@
            $('#table_row_mta').hide();
            $('#table_row_import_permit').hide();
 
-           if(confirm("You are about to be redirected to https://oris.nacosti.go.ke ")){
-             top.location = 'https://oris.nacosti.go.ke';
+           if(confirm("You are about to be redirected to www.best.gov.bs ")){
+             top.location = 'http://www.best.gov.bs/';
            }
 
            return false;
@@ -375,14 +384,14 @@
            $('#table_row_exporter_mat').show();
            $('#table_row_exporter_mta').hide();
            $('.td-mta').hide();
-           $('.resources_deposit').show();
+           $('.resources_deposit').hide();
            $('#resourcesdeposit').prop('required', 'required');
           }else if(geneticresourcerc==1 && exportanswer==1){
            $('#table_row_exporter_pic').show();
            $('#table_row_exporter_mat').show();
            $('#table_row_exporter_mta').show();
            $('.td-mta').show();
-           $('.resources_deposit').hide();
+           $('.resources_deposit').show();
            $('#resourcesdeposit').val('');
            $('#resourcesdeposit').removeProp('required');
           }else{
@@ -447,7 +456,46 @@
                    }
                 });
               }
-              show_confirmation();
+
+             }else if(data.success==0){
+              if(typeof data.message ==='string'){
+               swal({ text: data.message, icon: "error"});
+              }
+             }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              swal({ text: textStatus, icon: "warning"});
+            }
+          });
+       } 
+       
+       
+        function  upload_files_payment( stepno,instcode ){
+            var data = new FormData($('#form-harmonized')[0]);
+            $.ajax({
+            url: '<?php  echo base_url();?>ApplicationForm/upload_payment_evidence/'+stepno +'/'+instcode,
+            type: 'POST',
+            data: data,
+            cache: false,
+            async: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function(data, textStatus, jqXHR){
+             if(data.success==1){
+             
+              if(typeof data.message ==='string'){
+                 swal({
+                     text: data.message,
+                     icon: "success",
+                     buttons: false,
+                     timer: 1500,
+                    }).then((state) => {
+                      /*return to payments list*/ 
+                      show_payments();
+                   });
+
+              }
 
              }else if(data.success==0){
               if(typeof data.message ==='string'){
@@ -460,6 +508,7 @@
             }
           });
        }
+
 
         function submit_application(){
         $('#form-harmonized').ajaxSubmit({
@@ -490,6 +539,27 @@
             }
         });
        }
+
+     var PayGate ={
+        initiate:function(id,stepno){
+         $.ajax({
+            url : "<?php  echo base_url();?>Payments/paygate_init/temp/<?php echo $id;?>/"+stepno,
+            type: "POST",
+            /*data : 'id='+id+'&stepno='+stepno,*/
+            dataType: "JSON",
+            success: function(data) {
+            if(data.success==1) {
+              $.submitForm( data.PROCESS_URL, {'PAY_REQUEST_ID': data.PAY_REQUEST_ID,'CHECKSUM': data.CHECKSUM }, {'method': 'POST'});
+            }else{
+             swal({ text: data.message, icon: "error"});
+            }
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+             swal({ text: errorThrown, icon: "error"});
+            }
+         });
+       }
+     };
 
 
      var payments ={

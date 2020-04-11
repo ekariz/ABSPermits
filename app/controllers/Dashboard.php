@@ -20,23 +20,36 @@ class Dashboard extends CI_Controller {
     $approvals = [];
     $stage = [];
     $num_docs = [];
+    
+    foreach($approvalsteps as $stepno => $stepname){
+		 
+      if(!isset($approvals[$stepno]['approved'])){
+		$approvals[$stepno]['approved'] = 0;  
+	  }
+		 
+      if(!isset($approvals[$stepno]['{'])){
+		$approvals[$stepno]['pending'] = 0;  
+	  }
+	  
+	}
+	
     foreach($applications as $application){
      foreach($approvalsteps as $stepno => $stepname){
 
       $column_approval  = "approved{$stepno}";
       $approved         = valueof($application, $column_approval);
       $appno            = valueof($application, 'appno');
-
+     
       if($approved==1){
-        $approvals[$stepno]['approved'][] = $appno;
+        $approvals[$stepno]['approved']  += 1;
       }else{
-        $approvals[$stepno]['pending'][]  = $appno;
+        $approvals[$stepno]['pending']   += 1;
       }
 
-      if(is_null($approved) && !isset($stage[$appno]) ){
-       $stage[$appno]  = $stepno;
-       $num_docs[$stepno][]  = $appno;
-      }
+      //if(is_null($approved) && !isset($stage[$appno]) ){
+       //$stage[$appno]  = $stepno;
+       //$num_docs[$stepno][]  = $appno;
+      //}
 
      }
     }
@@ -44,6 +57,7 @@ class Dashboard extends CI_Controller {
     $data['num_applications']  = sizeof($applications);
     $data['approvalsteps']  = $approvalsteps;
     $data['num_docs']       = $num_docs;
+    $data['approvals']       = $approvals;
 //print_pre($data);//remove
 //exit();//remove
 

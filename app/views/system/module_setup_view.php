@@ -82,7 +82,7 @@
           $allow_reconfig_mod = true;
          }
 
-         if(sizeof($modcfg)>0) {
+         if($modcfg) {
 
           $chk_minimizable    = valueof($modcfg, 'chk_minimizable');
           $chk_maximizable    = valueof($modcfg, 'chk_maximizable');

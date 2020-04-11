@@ -23,6 +23,10 @@ input.has-success { border:1px solid green }
     background-color: #F9FAFD;
 }
 
+.header-top.colored {
+    background-color: #3050ee;
+    border-bottom: 1px solid #575af2;
+}
 /***************map*********************************/
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */

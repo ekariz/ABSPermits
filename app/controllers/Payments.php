@@ -14,21 +14,82 @@ class Payments extends CI_Controller{
         $this->load->model('crud_model','applications');
         $this->load->model('Common_model','common');
         $this->load->model('Abs_model','abs');
+        $this->load->model('Researcher_model','researcher');
 
         $this->applications->table         = 'applicationstmp';
         $this->applications->dataview      = 'applicationstmp';
     }
-
+   
+   
    public function payment(){
+
+     $email             = $this->session->userdata('email');
+
+     if(empty($email)){
+       redirect( base_url() .'login?continue='. current_url() );
+     }
+
+    $data                  = [];
+
+    $id                    = $this->input->post('id');
+    $stepno                = $this->input->post('stepno');
+    $email                 = $this->session->userdata('email');
+
+    $instcode              = $this->abs->get_step_institution( $stepno );
+    $applicant             = $this->researcher->get_researcher_by_email( $email );
+    $apptemp               = $this->abs->get_application_temp( $email );
+    
+    $bank_accounts         = $this->abs->get_payment_bank_accounts_by_institution( $instcode  );
+//print_pre($apptemp); exit();//remove 
+
+ 
+     if($apptemp){
+      foreach($apptemp as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
+     }
+
+    $data['stepno']        = $stepno;
+    $data['instcode']      = $instcode;
+    $data['invno']         = 'INV'.$apptemp->id;
+    $data['appno']         = 'APP'.$apptemp->id;
+    $data['charge']        = $this->abs->get_institution_charge( $instcode );
+    $data['payamount']     = $data['charge'];
+    $data['charge_usd']    = $data['charge'];
+    $data['institution']   = $this->abs->get_institutions_by_code( $instcode );
+    $data['paybillno']     = $this->abs->get_payment_mpesa_paybill_by_institution( $instcode );
+
+    $data['companyname']    = $this->config->item('companyname');
+    $data['productname']    = $this->config->item('productname');
+
+    $data['id']             = $id;
+    $data['stepno']         = $stepno;
+    $data['mobile']         = valueof($applicant, 'mobile');
+    $data['refno']          = valueof($applicant, 'idpassno');
+    $data['currcode_pay']       = 'USD';
+    $data['currname']       = 'USD';
+    $data['apptypedesc']    = 'ABS PERMIT';
+    $data['bankaccounts']   = $bank_accounts;
+
+    $this->load->view("main/frontend/appform/steps/payment_all_view", $data );
+
+    }
+   
+   public function payment1(){
 
     $id                = $this->input->post('id');
     $stepno            = $this->input->post('stepno');
     $instcode          = $this->abs->get_step_institution( $stepno );
+    //echo $this->db->last_query()."<hr><br>";//remove 
+	//echo "\$instcode={$instcode} <br>";//remove 
+	
     $data['id']        = $id;
     $data['stepno']    = $stepno;
     $data['instcode']  = $instcode;
     $data['charges']   = $this->abs->get_institutions_charges( );
     $data['institution']   = $this->abs->get_institutions_by_code( $instcode );
+    //echo $this->db->last_query()."<hr><br>";//remove 
+	
     $data['approvalsteps']  =  $this->abs->get_approval_steps( );
     $data['email']     = $this->session->userdata('email');
     $data['mobile']    = $this->session->userdata('mobile');
@@ -41,9 +102,10 @@ class Payments extends CI_Controller{
       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
      }
     }
-    //print_pre($data);//remove
+    //print_pre($data['institution']);//remove
+//exit();//remove 
 
-     $this->load->view("main/frontend/appform/steps/payment_mpesa_view", $data );
+     $this->load->view("main/frontend/appform/steps/payment_all_view", $data );
 
     }
 

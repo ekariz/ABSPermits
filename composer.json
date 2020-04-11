@@ -13,7 +13,9 @@
     "require": {
         "php": ">=5.2.4",
         "dompdf/dompdf": "^0.8.0",
-        "mailgun/mailgun-php": "^2.3"
+        "mailgun/mailgun-php": "^2.3",
+        "guzzlehttp/guzzle": "~6.0",
+        "stripe/stripe-php": "^6.21"
 
     },
     "suggest": {

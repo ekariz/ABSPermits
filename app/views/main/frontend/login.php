@@ -49,6 +49,7 @@
                         <!-- main start -->
                         <!-- ================ -->
                         <div class="main object-non-visible" data-animation-effect="fadeInUpSmall" data-effect-delay="100">
+
                             <div class="form-block center-block p-30 light-gray-bg border-clear">
                                 <h2 class="title">Login</h2>
                                 <form class="form-horizontal" id="form-login" method="POST"  action="Login/auth"  >
@@ -69,6 +70,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-3 col-sm-8">
                                             <button type="submit" class="btn btn-group btn-default btn-animated">Log In <i class="fa fa-user"></i></button>
+
                                             <ul class="space-top">
                                                 <li><a href="page-login.html#">Forgot your password?</a></li>
                                             </ul>
@@ -77,7 +79,11 @@
                                     </div>
                                 </form>
                             </div>
+
+
+<!--
                             <p class="text-center space-top">Don't have an account yet? <a href="signup.html">Sign up</a> Now.</p>
+-->
                         </div>
                         <!-- main end -->
                     </div>
@@ -172,6 +178,8 @@
                 });
 
             });
+
+
         </script>
 
     </body>

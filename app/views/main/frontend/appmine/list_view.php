@@ -18,14 +18,14 @@
 <tbody>
 
 <?php
-if(isset($applications) && sizeof($applications>0 )){
+if( ($applications) ){
 foreach($applications as $row){
     $id = valueof($row, 'id');
     $appno = valueof($row, 'appno');
     $email = valueof($row, 'email');
     $position = valueof($row, 'position');
     $applyingas = valueof($row, 'applyingas');
-    $orchid = valueof($row, 'orchid');
+    $orcid = valueof($row, 'orcid');
     $researcherid = valueof($row, 'researcherid');
     $legalofficername = valueof($row, 'legalofficername');
     $legalofficeremail = valueof($row, 'legalofficeremail');

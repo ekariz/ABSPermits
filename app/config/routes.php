@@ -51,17 +51,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 //ekariz
-$server_name       =  $_SERVER['SERVER_NAME'];
-$server_name       = str_replace('www', '', $server_name);
-$server_name_array = explode('.', $server_name);
+$server_name       =  isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : null;
+$script_uri        =  isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : null;
+ 
 
-if(sizeof($server_name_array)>=4){
-  $is_subdomain = true;
+if(strstr($server_name,'admin'))
+{
+$route['default_controller']    =  'admin' ;
 }else{
-  $is_subdomain = false;
+$route['default_controller']    =   'home';	
 }
-
-$route['default_controller']    = $is_subdomain ? 'admin' : 'home';
 
 $route['translate_uri_dashes']  = TRUE;
 $route['DataCrud/(:num)']       = 'DataCrud/index/$1';
+$route['ApplicationsList/viewref/(:any)/(:any)']       = 'ApplicationsList/viewref/$1/$2';

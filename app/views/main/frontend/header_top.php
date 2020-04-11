@@ -31,9 +31,9 @@
                                         </div>
                                     </div>
                                     <ul class="list-inline hidden-sm hidden-xs">
-                                        <li><i class="fa fa-map-marker pr-5 pl-10"></i>ABS  Permit Application System</li>
-                                        <li><i class="fa fa-phone pr-5 pl-10"></i>+254 722 000 111</li>
-                                        <li><i class="fa fa-envelope-o pr-5 pl-10"></i> info@abs.co.ke</li>
+                                        <li><i class="fa fa-map-marker pr-5 pl-10"></i>The BAHAMAS ABS  Permit Application System</li>
+                                        <li><i class="fa fa-phone pr-5 pl-10"></i>(242) 322.4546</li>
+                                        <li><i class="fa fa-envelope-o pr-5 pl-10"></i> inquiries@best.gov.bs</li>
                                     </ul>
                                 </div>
                                 <!-- header-top-first end -->
@@ -47,9 +47,15 @@
                                     <!-- header top dropdowns start -->
                                     <!-- ================ -->
                                     <div class="header-top-dropdown text-right">
+
                                         <div class="btn-group">
-                                            <a href="signup.html" class="btn btn-default btn-sm"><i class="fa fa-user pr-10"></i> Sign Up</a>
+                                           <a href="login.html" class="btn btn-primary btn-sm"><i class="fa fa-user pr-10"></i> Login</a>
                                         </div>
+                                         &nbsp; or &nbsp;
+                                        <div class="btn-group">
+                                            <a href="signup.html" class="btn btn-warning btn-sm"><i class="fa fa-pencil pr-10"></i> Sign Up</a>
+                                        </div>
+<!--
                                         <div class="btn-group dropdown">
                                             <button type="button" class="btn dropdown-toggle btn-default btn-sm" data-toggle="dropdown"><i class="fa fa-lock pr-10"></i> Login</button>
                                             <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
@@ -75,6 +81,7 @@
                                                 </li>
                                             </ul>
                                         </div>
+-->
                                     </div>
                                     <!--  header top dropdowns end -->
                                 </div>

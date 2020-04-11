@@ -1,6 +1,50 @@
 <?php
 class Abs_model extends CI_Model{
 
+ public function  get_titles(  )
+  {
+
+      $this->db->select(' titlecode code,titlename name');
+      $this->db->from('titles ');
+      $this->db->order_by("id","ASC");
+      $result = $this->db->get();
+      $data   = [];
+      $data[''] = 'Choose option';
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+            $code   =  $row['code'];
+            $name   =  $row['name'];
+            $data[$code] =  $name;
+         }
+      }
+
+      return $data;
+
+  }
+
+ public function  get_countries(  )
+  {
+
+      $this->db->select('ctncode code,ctnname name');
+      $this->db->from('countries ');
+      $this->db->order_by("ctnname","ASC");
+      $result = $this->db->get();
+      $data   = [];
+      $data[''] = 'Choose option';
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+            $code   =  $row['code'];
+            $name   =  $row['name'];
+            $data[$code] =  $name;
+         }
+      }
+
+      return $data;
+
+  }
+
   public function  get_requiredocs(  )
   {
 
@@ -50,7 +94,7 @@ class Abs_model extends CI_Model{
       $this->db->order_by("id","ASC");
       $result = $this->db->get();
       $data   = [];
-      $data[''] = 'Choose option';
+      //$data[''] = 'Choose option';
       if($result->num_rows() > 0){
         foreach ($result->result_array() as $row)
          {
@@ -151,7 +195,48 @@ class Abs_model extends CI_Model{
       return $data;
 
   }
+  
+  
+   public function  get_application_temp( $email )
+  {
 
+      $this->db->select('*');
+      $this->db->from('applicationstmp ');
+      $this->db->where("email",$email);
+      $result = $this->db->get();
+      $row    = $result->row();
+
+        if (isset($row))
+        {
+         return $row;
+        }
+
+        return null;
+
+  }
+  
+  
+  
+   public function  get_application_by_email_appno( $email, $appno )
+  {
+
+      $this->db->select('*');
+      $this->db->from('viewapplications ');
+      $this->db->where("email",$email);
+      $this->db->where("appno",$appno);
+      $result = $this->db->get();
+      $row    = $result->row();
+
+        if (isset($row))
+        {
+         return $row;
+        }
+
+        return null;
+
+  }
+  
+  
   public function  get_applications( $email )
   {
 
@@ -211,6 +296,88 @@ class Abs_model extends CI_Model{
       return $data;
 
   }
+  
+  public function  get_approval_steps_details( )
+  {
+
+      $this->db->select('*');
+      $this->db->from('approvesteps ');
+      $this->db->order_by("stepno","asc");
+      $result = $this->db->get();
+      $data   = [];
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+           $stepno   =  $row['stepno'];
+           $data[$stepno] =  $row;
+         }
+      }
+
+      return $data;
+
+  }
+  
+  
+  public function  get_institutions( )
+  {
+    
+    $this->db->select('*');
+    $this->db->from('viewinstitutions ');
+    $result = $this->db->get();
+    $data   = [];
+    if($result->num_rows() > 0){
+    foreach ($result->result_array() as $row)
+     {
+        $instcode        =  $row['instcode'];
+        $data[$instcode] =  $row;
+     }
+    }
+
+   return $data;
+   
+  }
+  
+  
+  public function  get_institutions_assoc( )
+  {
+    
+    $this->db->select('instcode,instname');
+    $this->db->from('viewinstitutions ');
+    $result = $this->db->get();
+    $data   = [];
+    if($result->num_rows() > 0){
+    foreach ($result->result_array() as $row)
+     {
+        $instcode        =  $row['instcode'];
+        $instname        =  $row['instname'];
+        $data[$instcode] =  $instname;
+     }
+    }
+
+   return $data;
+   
+  }
+  
+  
+  public function  get_institution( $instcode )
+  {
+
+    $this->db->select('*');
+    $this->db->from('viewinstitutions ');
+    $this->db->where("instcode",$instcode);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row;
+    }
+
+    return null;
+
+  }
+  
+  
 
   public function  get_institutions_charges( )
   {
@@ -232,6 +399,85 @@ class Abs_model extends CI_Model{
       return $data;
 
   }
+  
+  
+  public function  get_institution_charge( $instcode )
+  {
+
+    $this->db->select('charges');
+    $this->db->from('institutions ');
+    $this->db->where("instcode",$instcode);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row->charges;
+    }
+
+    return null;
+
+  }
+  
+  
+  public function  get_payment_bank_accounts ( )
+  {
+
+      $this->db->select('*');
+      $this->db->from('viewbankaccounts ');
+      $result = $this->db->get();
+      $data   = [];
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+           $data[]  =  $row;
+         }
+      }
+
+      return $data;
+
+  }
+
+  
+  public function  get_payment_bank_accounts_by_institution ( $instcode )
+  {
+
+      $this->db->select('*');
+      $this->db->from('viewbankaccounts ');
+      $this->db->where("instcode",$instcode);
+
+      $result = $this->db->get();
+      $data   = [];
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+           $data[]  =  $row;
+         }
+      }
+
+      return $data;
+
+  }
+
+  public function  get_payment_mpesa_paybill_by_institution ( $instcode )
+  {
+
+    $this->db->select('paybillno');
+    $this->db->from('mpesaaccount ');
+    $this->db->where("instcode",$instcode);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row->paybillno;
+    }
+
+    return null;
+
+  }
+
+
 
   public function  my_approvalstep( $instcode )
   {
@@ -245,6 +491,24 @@ class Abs_model extends CI_Model{
     if (isset($row))
     {
      return $row->stepno;
+    }
+
+    return null;
+  }
+
+
+  public function  get_approvalstep( $stepno )
+  {
+
+    $this->db->select('*');
+    $this->db->from('approvesteps ');
+    $this->db->where("stepno",$stepno);
+    $result = $this->db->get();
+    $row    = $result->row();
+
+    if (isset($row))
+    {
+     return $row;
     }
 
     return null;
@@ -339,6 +603,75 @@ class Abs_model extends CI_Model{
   }
 
 
+  public function  get_email_template_list(   )
+  {
+
+    $this->db->select('id,templatename');
+    $this->db->from('etemplates ');
+    $result = $this->db->get();
+    $row    = $result->row();
+    $data   =   [];
+    $data[]   =  '--select--';
+      if($result->num_rows() > 0){
+        foreach ($result->result_array() as $row)
+         {
+            $id                =  $row['id'];
+            $data[$id]   =  $row['templatename'];
+         }
+      }
+      return $data;
+  }
+
+
+  public function  get_email_template( $setup_applicant_template  )
+  {
+      $template_setup = $this->db->select($setup_applicant_template)->from('etemplateasg ')->get()->row();
+
+      if(!$template_setup){
+          return;
+      }
+
+      $template_id = 0;
+
+      if( isset($template_setup->$setup_applicant_template)){
+         $template_id = $template_setup->$setup_applicant_template;
+      }
+
+      $this->db->select('template');
+      $this->db->from('etemplates ');
+      $this->db->where("id",$template_id);
+      $result = $this->db->get();
+      $row    = $result->row();
+
+        if (isset($row))
+        {
+         return $row->template;
+        }
+        return null;
+  }
+
+
+    function search_records( $src, $col_val,$col_text, $keyword,$limit=10 ){
+    $data   = [];
+
+    $result = $this->db->select("{$col_val} id,{$col_text} name ")
+       ->from($src)
+       ->where(" {$col_val} LIKE '%{$keyword}%' ")
+       ->or_where(" {$col_text} LIKE '%{$keyword}%' ")
+       ->limit($limit)
+       ->get();
+
+    if($result->num_rows() > 0){
+     foreach ($result->result_array() as $row)
+     {
+     $id         =  $row['id'];
+     $name   =  $row['name'];
+     $data[]  = ['id' =>$id , 'name' => $name ];
+     }
+    }
+
+    return $data;
+  }
 
 
 }

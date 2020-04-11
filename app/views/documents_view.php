@@ -80,29 +80,8 @@ $exists_documentmta              =  !empty($documentmta_id)               ? true
   <td><a href="javascript:void(0);"  onclick="workflow.view_document('<?php echo $documentcv_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentcv_name; ?></a></td>
   <?php } ?>
  </tr>
+ 
 
- <tr>
-  <td>Prior Informed Consent (PIC)</td>
-  <?php if($exists_documentpic){ ?>
-  <td><a href="javascript:void(0);"  onclick="workflow.view_document('<?php echo $documentpic_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentpic_name; ?></a></td>
-  <?php } ?>
- </tr>
-
- <tr>
-  <td>Mutually Agreed Terms (MAT) </td>
-  <?php if($exists_documentmat){ ?>
-  <td><a href="javascript:void(0);"  onclick="workflow.view_document('<?php echo $documentmat_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentmat_name; ?></a></td>
-  <?php } ?>
- </tr>
-
-
-<?php if($exportanswer ==1){ ?>
- <tr>
-  <td>Material Transfer Agreement (MTA)</td>
-  <?php if($exists_documentmta){ ?>
-  <td><a href="javascript:void(0);"  onclick="workflow.view_document('<?php echo $documentmta_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentmta_name; ?></a></td>
-  <?php } ?>
- </tr>
 <?php } ?>
 
 </table>

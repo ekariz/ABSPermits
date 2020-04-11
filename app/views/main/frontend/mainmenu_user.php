@@ -4,6 +4,9 @@
  <a href="<?php  echo base_url();?>"  >Home</a>
 </li>
 
+<li class="">
+<a href="<?php  echo base_url();?>uploads/Applicant-Checklist.pdf"  target="_blank" >Applicant Checklist</a>
+</li>
 
 <li class="dropdown ">
 <a href="#" class="dropdown-toggle" data-toggle="dropdown">My ABS Permits</a>
@@ -12,17 +15,16 @@
      <li> <a href="<?php  echo base_url();?>ApplicationsList">My Applications</a> </li>
 </ul>
 </li>
-
+ 
 <li class="">
- <a href="<?php  echo base_url();?>messages.html"  >My Messages</a>
+ <a href="<?php  echo base_url();?>#"  >News</a>
 </li>
 
 <li class="">
- <a href="<?php  echo base_url();?>news.html"  >News</a>
-</li>
-
-<li class="">
- <a href="<?php  echo base_url();?>help.html"  >Support Desk</a>
+ <a href="<?php  echo base_url();?>#"  >Support Desk</a>
 </li>
 
 </ul>
+
+ 
+ 

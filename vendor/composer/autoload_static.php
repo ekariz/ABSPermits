@@ -7,8 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit7e7c3ad405189e6bcc3c7b2a22b1149a
 {
     public static $files = array (
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'ddc0a4d7e61c0286f0f8593b1903e894' => __DIR__ . '/..' . '/clue/stream-filter/src/functions.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -24,6 +27,7 @@ class ComposerStaticInit7e7c3ad405189e6bcc3c7b2a22b1149a
         array (
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\OptionsResolver\\' => 34,
+            'Stripe\\' => 7,
         ),
         'P' => 
         array (
@@ -37,6 +41,12 @@ class ComposerStaticInit7e7c3ad405189e6bcc3c7b2a22b1149a
             'Http\\Discovery\\' => 15,
             'Http\\Client\\Common\\' => 19,
             'Http\\Client\\' => 12,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
         'F' => 
         array (
@@ -72,6 +82,10 @@ class ComposerStaticInit7e7c3ad405189e6bcc3c7b2a22b1149a
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
@@ -100,6 +114,18 @@ class ComposerStaticInit7e7c3ad405189e6bcc3c7b2a22b1149a
         'Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-http/httplug/src',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
         'FontLib\\' => 
         array (

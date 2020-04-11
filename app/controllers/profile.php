@@ -6,9 +6,9 @@ class Profile extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('crud_model','signups');
+        $this->load->model('crud_model','researchers');
         $this->load->model('Common_model','common');
-        $this->signups->table  = 'signups';
+        $this->researchers->table  = 'researchers';
     }
 
     public function index(){
@@ -19,7 +19,7 @@ class Profile extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ,'verifycode' => $verifycode ] )->row();
+     $signup            = $this->db->select("*")->get_where( $this->researchers->table , [ 'email' => $email ,'verifycode' => $verifycode ] )->row();
 
      $data = [];
      $data['countries']  =  $this->Common_model->select_assoc(  'countries',  'ctncode',  'ctnname' );
@@ -57,12 +57,12 @@ class Profile extends CI_Controller{
      $data['success']  = 0;
      $data['message']  = '';
 
-     $signups = $this->db->select('email,verified')
-     ->from('signups')
+     $researchers = $this->db->select('email,verified')
+     ->from('researchers')
      ->where("email='{$email}' ")
      ->get();
 
-     $row    = $signups->row();
+     $row    = $researchers->row();
 
     if(isset($row)){
 
@@ -80,17 +80,17 @@ class Profile extends CI_Controller{
 
     $verifycode           = generateRandomString(10);
 
-    $signups                = [];
-    $signups['firstname']   = $firstname;
-    $signups['lastname']    = $lastname;
-    $signups['gender']      = $gender;
-    $signups['ctncode']     = $ctncode;
-    $signups['mobile']      = $mobile;
-    $signups['email']       = $email;
-    $signups['password']    = sha1($password);
-    $signups['verifycode']  = $verifycode;
+    $researchers                = [];
+    $researchers['firstname']   = $firstname;
+    $researchers['lastname']    = $lastname;
+    $researchers['gender']      = $gender;
+    $researchers['ctncode']     = $ctncode;
+    $researchers['mobile']      = $mobile;
+    $researchers['email']       = $email;
+    $researchers['password']    = sha1($password);
+    $researchers['verifycode']  = $verifycode;
 
-    $this->signups->save($signups);
+    $this->researchers->save($researchers);
 
     $data['success']  = 0;
     $data['message']  = "We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
@@ -108,7 +108,7 @@ class Profile extends CI_Controller{
     public function uploads( ){
 
       $email         = $this->session->userdata('email');
-      $signup        = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
+      $signup        = $this->db->select("*")->get_where( $this->researchers->table , [ 'email' => $email ] )->row();
 
        $upload_dir_id        = "./uploads/ids/{$signup->id}";
        $upload_dir_passport  = "./uploads/passports/{$signup->id}";
@@ -152,7 +152,7 @@ class Profile extends CI_Controller{
         }
 
        $documents_str = json_encode($documents);
-       $this->db->query( "update {$this->signups->table} set hasuploads=1, documents='{$documents_str}'  where email='{$email}' " );
+       $this->db->query( "update {$this->researchers->table} set hasuploads=1, documents='{$documents_str}'  where email='{$email}' " );
 
        $user_data = [];
        $user_data['userid']     = $signup->id;

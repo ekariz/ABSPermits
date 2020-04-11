@@ -7,12 +7,23 @@ class Login extends CI_Controller{
     {
         parent::__construct();
         $this->load->model('crud_model','login');
+        $this->load->model('Common_model','common');
+        $this->load->model('Researcher_model','researcher');
+        $this->config->load('product');
+        $this->config->load('orcid');
+
     }
 
     public function index(){
-     $this->reset();
-     //redirect( base_url() );
-     $this->load->view('main/frontend/login'  );
+    $this->reset();
+
+    $data = [];
+    $data['orcid_client_id']      = $this->config->item('orcid_client_id');
+    $data['orcid_redirect_uri']   = $this->config->item('orcid_redirect_uri');
+    $data['orcid_scope']          = $this->config->item('orcid_scope');
+
+    $this->load->view('main/frontend/login',$data );
+
     }
 
     public function reset(){
@@ -39,7 +50,7 @@ class Login extends CI_Controller{
      $password_check  = sha1($password);
 
      $user = $this->db->select('*')
-     ->from('signups')
+     ->from(' researchers')
      ->where("email='{$email}' ")
      ->where("password='{$password_check}' ")
      ->get();

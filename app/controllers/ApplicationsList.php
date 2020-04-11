@@ -11,11 +11,10 @@ class ApplicationsList extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('crud_model','apps');
-        //$this->load->model('crud_model','temp');
         $this->load->model('crud_model','applications');
         $this->load->model('Common_model','common');
         $this->load->model('Abs_model','abs');
+        $this->load->model('Researcher_model','researcher');
 
         $this->applications->table         = 'applications';
         $this->applications->dataview      = 'viewapplications';
@@ -29,15 +28,12 @@ class ApplicationsList extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+     $researcher =  $this->researcher->get_researcher_by_email($email);
 
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
+     if($researcher){
+      foreach($researcher as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
      }
 
      $data['approvalsteps']  =  $this->abs->get_approval_steps( );
@@ -55,15 +51,12 @@ class ApplicationsList extends CI_Controller{
        redirect( base_url() .'login' );
      }
 
-     $signup            = $this->db->select("firstname,lastname,gender,ctncode,mobile,email")->get_where( 'signups', [ 'email' => $email  ] )->row();
+     $researcher        = $this->researcher->get_researcher_by_email($email);
 
-     if($signup){
-     $data['firstname']  = $signup->firstname;
-     $data['lastname']   = $signup->lastname;
-     $data['gender']     = $signup->gender;
-     $data['ctncode']    = $signup->ctncode;
-     $data['mobile']     = $signup->mobile;
-     $data['email']      = $signup->email;
+     if($researcher){
+      foreach($researcher as $field=>$value){
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
      }
 
      $data['approvalsteps']  =  $this->abs->get_approval_steps( );
@@ -89,6 +82,60 @@ class ApplicationsList extends CI_Controller{
     $data['charges']   =  $this->abs->get_institutions_charges( );
 
     $data_raw = $this->applications->get_by_id($id);
+
+    if($data_raw){
+     foreach($data_raw as $field=>$value){
+
+      if(strstr($field,'paid')  ){
+       $data['paids'][$field] = $value;
+      }elseif(strstr($field,'payref')  ){
+       $data['payrefs'][$field] = $value;
+      }elseif(strstr($field,'paytime')  ){
+       $data['paytimes'][$field] = $value;
+      }elseif(strstr($field,'paymode')  ){
+       $data['paymodes'][$field] = $value;
+      }elseif(strstr($field,'approved')  ){
+       $data['approves'][$field] = $value;
+      }elseif(strstr($field,'aprcomment')  ){
+       $data['aprcomments'][$field] = $value;
+      }elseif(strstr($field,'discomment')  ){
+       $data['discomments'][$field] = $value;
+      }else{
+       $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
+      }
+     }
+    }
+
+     $this->load->view("main/frontend/appmine/my_app_view.php", $data );
+
+    }
+
+   public function viewref($refno_part1, $refno_part2){
+
+    $email             = $this->session->userdata('email');
+
+    if(empty($email)){
+     redirect( base_url() .'login' );
+    }
+
+    $data = [];
+    $data['email']     = $this->session->userdata('email');
+    $data['mobile']    = $this->session->userdata('mobile');
+    $data['firstname'] = $this->session->userdata('firstname');
+    $data['approvalsteps']  =  $this->abs->get_approval_steps( );
+    $data['charges']   =  $this->abs->get_institutions_charges( );
+    
+    $refno =  "{$refno_part1}/{$refno_part2}";
+
+    $data_raw = $this->abs->get_application_by_email_appno($email, $refno);
+    
+    if(!($data_raw))
+    {
+	  die("Application Not Found");
+	}
+	
+	
+    //$data_raw = $this->applications->get_by_id($id);
 
     if($data_raw){
      foreach($data_raw as $field=>$value){
@@ -185,20 +232,33 @@ class ApplicationsList extends CI_Controller{
     $data['export_answer_list']['']  = 'Choose option';
     $data['export_answer_list'][1]   = 'Yes';
     $data['export_answer_list'][2]   = 'No';
+    $data['urlphoto'] = '';
+    
 
     $data_raw = $this->applications->get_by_id($id);
 
 
       if($data_raw){
        foreach($data_raw as $field=>$value){
-        //if(!strstr($field,'document')  ){
         $data[$field]      = isJSON($value) ? json_decode($value , true) : $value;
-        //}
        }
       }
-
+       
+     
+     $resourcetypes       =  valueof($data, 'resourcetypes'); 
+     $resourcetypes_array =  []; 
+	 
+	 if(is_array($resourcetypes)){
+	  foreach($resourcetypes as $k=>$v){
+		$resourcetypes_array[] = valueof($data['resource_list'], $v); 
+		
+	  }
+	 }
+	 
+     $data['resourcetypes_str'] =   implode(' , ', $resourcetypes_array);
+     
      $this->load->library('pdfgenerator');
-     $html     = $this->load->view("application_form_view.php", $data, true);
+     $html     = $this->load->view("application_form_view", $data, true);
      //exit($html);//remove
 
      $filename = "ABS_PERMIT_REF_{$data_raw->appno}";

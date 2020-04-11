@@ -5,12 +5,82 @@
  <descr>required documents</descr>
   <field name="id"      type="I" size="10"><NOTNULL/></field>
   <field name="docname" type="C" size="50"><NOTNULL/></field>
+  <field name="doctemplate" type="C" size="50"><NULL/></field>
 </table>
 
 <table name="docnos">
  <descr>docnos</descr>
   <field name="id"     type="I" size="10"><NOTNULL/></field>
   <field name="appnos" type="I" size="10"><NOTNULL/></field>
+</table>
+
+
+<table name="etemplatevars">
+ <descr>email template vars</descr>
+    <field name="id"         type="I" size="2"       ><NOTNULL/></field>
+    <field name="colno"    type="C" size="30"  ><KEY/><NOTNULL/></field>
+    <field name="coldesc"  type="C" size="50"/>
+
+    <index name="idx_pk">
+     <col>colno</col>
+     <UNIQUE/>
+    </index>
+
+    <index name="idx_nm">
+     <col>coldesc</col>
+     <FULLTEXT/>
+     <BITMAP/>
+     <NONCLUSTERED/>
+   </index>
+
+ </table>
+
+<table name="etemplates">
+ <descr>email templates</descr>
+    <field name="id"                       type="I" size="2"          ><NOTNULL/></field>
+    <field name="tmplref"               type="I" size="10"      ><NULL/></field>
+    <field name="templatename"    type="C" size="50"    ><NOTNULL/></field>
+    <field name="template"            type="XL"  />
+
+    <index name="idx_nm">
+     <col>templatename</col>
+     <FULLTEXT/>
+     <BITMAP/>
+     <NONCLUSTERED/>
+   </index>
+
+ </table>
+
+ <table name="appsetup">
+ <descr>applications config key-value pairs</descr>
+  <field name="id"                  type="C"  size="10"  ><KEY/><NOTNULL/></field>
+  <field name="emtpllc"         type="I" size="2" />
+  <field name="emtplfr"         type="I" size="2" />
+  <field name="emtplap"        type="I" size="2" />
+  <field name="emtplwanl"    type="I" size="2" ><descr>Workflow - Approved Notification to Applicant</descr></field>
+  <field name="emtplwanr"    type="I" size="2" ><descr>Workflow - Approved Notification to Approver</descr></field>
+
+  <field name="audituser"     type="C"  size="20"/>
+  <field name="auditdate"     type="D" />
+  <field name="audittime"     type="I" size="10"/>
+  <field name="auditip"         type="I" size="10"/>
+
+  <data>
+   <row>
+    <f>1</f>
+   </row>
+  </data>
+
+ </table>
+
+<table name="orcidlogs">
+ <descr>orcid logs</descr>
+  <field name="request"       type="XL"><NULL/></field>
+  <field name="responsecode"  type="C" size="5"><NULL/></field>
+  <field name="message"       type="C" size="255" ><NULL/></field>
+  <field name="body"          type="XL" ><NULL/></field>
+  <field name="auditdate"     type="T" />
+  <field name="audittime"     type="I" size="10"/>
 </table>
 
 <table name="countries">
@@ -26,26 +96,54 @@
   <field name="auditip" type="I" size="10"/>
 </table>
 
+
 <table name="institutions">
  <descr>institutions</descr>
-  <field name="id"        type="I" size="11"><NOTNULL/></field>
-  <field name="instcode"  type="C" size="10"><KEY/><NOTNULL/></field>
-  <field name="instname"  type="C" size="100"><NOTNULL/></field>
-  <field name="charges"   type="N" size="9.2" ><NOTNULL/></field>
-  <field name="instphoto" type="XL"   ><NULL/></field>
-  <field name="photourl"  type="C" size="255"  ><NULL/></field>
-  <field name="thumburl"  type="C" size="255"  ><NULL/></field>
+  <field name="id"             type="I" size="11"><NOTNULL/></field>
+  <field name="instcode"       type="C" size="10"><KEY/><NOTNULL/></field>
+  <field name="instname"       type="C" size="100"><NOTNULL/></field>
+  <field name="charges"        type="N" size="9.2" ><NOTNULL/></field>
+  <field name="instphoto"      type="XL"   ><NULL/></field>
+  <field name="consultemail"   type="C" size="100"><NOTNULL/></field>
+  <field name="consultperson"  type="C" size="100"><NOTNULL/></field>
+  <field name="licmdcode"      type="C" size="5"><descr>how licence/permit is issues</descr></field>
+  <field name="paytimecode"    type="C" size="5"><descr>when payment is requested</descr></field>
+  <field name="photourl"       type="C" size="255"  ><NULL/></field>
+  <field name="thumburl"       type="C" size="255"  ><NULL/></field>
+  <field name="permitdesc"     type="C" size="255"  ><NOTNULL/></field>
+  <field name="api_username"    type="C" size="20"   ><NULL/></field>
+  <field name="api_password"    type="C" size="50"   ><NULL/></field>
+  <field name="api_baseurl"     type="C" size="100"  ><NULL/></field>
+            
+  <index name="idx_pk">
+   <col>instcode</col>
+   <UNIQUE/>
+  </index>
 
+  <index name="idx_search">
+     <col>instcode</col>
+     <col>instname</col>
+     <FULLTEXT/>
+     <BITMAP/>
+     <NONCLUSTERED/>
+  </index>
+  
 </table>
+
 
 <table name="approvesteps">
  <descr>approve steps</descr>
-  <field name="id"        type="I" size="11" ><NOTNULL/></field>
-  <field name="stepno"    type="I" size="11" ><NOTNULL/></field>
-  <field name="stepname"  type="C" size="100" ><NOTNULL/></field>
-  <field name="stepdesc"  type="C" size="100" ><NOTNULL/></field>
-  <field name="instcode"  type="C" size="10" ><NULL/></field>
+  <field name="id"            type="I" size="11"  ><NOTNULL/></field>
+  <field name="stepno"        type="I" size="11"  ><KEY/><NOTNULL/></field>
+  <field name="stepname"      type="C" size="100" ><NOTNULL/></field>
+  <field name="stepdesc"      type="C" size="100" ><NOTNULL/></field>
+  <field name="instcode"      type="C" size="10"  ><NULL/></field>
+  <field name="emtplaplapr"   type="I" size="2"   ><descr>Workflow - Approved Notification to Applicant</descr></field>
+  <field name="emtplapldsp"   type="I" size="2"   ><descr>Workflow - DisApproval Notification to Applicant</descr></field>
+  <field name="emtplinsapr"   type="I" size="2"   ><descr>Workflow - Approval Notification to Approver</descr></field>
+  <field name="emtplinsdsp"   type="I" size="2"   ><descr>Workflow - DisApproval Notification to Approver</descr></field>
 </table>
+
 
 <table name="applyas">
  <descr>apply as</descr>
@@ -89,28 +187,88 @@
   <field name="uomname" type="C" size="100"><NOTNULL/></field>
 </table>
 
-<table name="signups">
- <descr>signups</descr>
-  <field name="id" type="I" size="10"><NOTNULL/></field>
-  <field name="firstname" type="C" size="30"><NOTNULL/></field>
-  <field name="lastname" type="C" size="30"><NOTNULL/></field>
-  <field name="gender" type="C" size="10"><NOTNULL/></field>
-  <field name="ctncode" type="C" size="10"><NOTNULL/></field>
-  <field name="mobile" type="C" size="15"><NOTNULL/></field>
-  <field name="email" type="C" size="50"><NOTNULL/></field>
-  <field name="password" type="C" size="100"><NOTNULL/></field>
-  <field name="verifycode" type="C" size="10"/>
-  <field name="verifydate" type="D" />
-  <field name="verified" type="I" size="1"/>
-  <field name="hasuploads" type="I" size="1"/>
-  <field name="docid" type="XL"  />
-  <field name="docpassport" type="XL"  />
-  <field name="active" type="I" size="1"/>
-  <field name="setup" type="I" size="1"/>
-  <field name="auditdate" type="D" ><NOTNULL/></field>
-  <field name="audittime" type="I" size="10"><NOTNULL/></field>
-  <field name="auditip" type="C" size="15"><NOTNULL/></field>
+
+<table name="researchers">
+ <descr>researchers profiles</descr>
+
+  <field name="id"           type="I" size="10" ><NOTNULL/></field>
+  <field name="idpassno"     type="C" size="30" ><NULL/></field>
+
+  <field name="email"        type="C" size="50" ><NOTNULL/></field>
+
+  <field name="firstname"   type="C" size="30"><NOTNULL/></field>
+  <field name="lastname"    type="C" size="30"><NOTNULL/></field>
+  <field name="midname"     type="C" size="30"><NOTNULL/></field>
+  <field name="fullname"    type="C" size="30"><NULL/></field>
+  <field name="gender"      type="C" size="10"><NOTNULL/></field>
+  <field name="ctncode"     type="C" size="10"><NOTNULL/></field>
+  <field name="pinno"       type="C" size="20"><NULL/></field>
+  <field name="title"       type="C" size="50"/>
+  <field name="dob"         type="D" />
+
+  <field name="idpassip"    type="C" size="50" ><descr>passport issue place</descr></field>
+  <field name="idpassdi"    type="D" ><descr>passport issue date</descr></field>
+  <field name="idpassdx"    type="D" ><descr>passport expires date</descr></field>
+
+  <field name="institutionname"   type="C" size="100" />
+  <field name="qualification"     type="C" size="100" />
+  <field name="specarea"          type="C" size="50" ><descr>area of specialization</descr></field>
+
+  <field name="mobile"            type="C" size="15"><NOTNULL/></field>
+
+  <field name="postaddress"       type="C" size="20" />
+  <field name="postcode"          type="C" size="10" />
+  <field name="town"              type="C" size="50" />
+
+  <field name="prmaddress"              type="C" size="100"><NOTNULL/></field>
+  <field name="prmpcode"                type="C" size="100"><NOTNULL/></field>
+  <field name="prmtown"                 type="C" size="100"><NOTNULL/></field>
+  <field name="prmphone"                type="C" size="100"><NOTNULL/></field>
+  <field name="prmresidence"            type="C" size="100" />
+
+  <field name="secaddress"                type="C" size="100"><NULL/></field>
+  <field name="secpcode"                  type="C" size="100"><NULL/></field>
+  <field name="sectown"                   type="C" size="100"><NULL/></field>
+  <field name="secphone"                  type="C" size="100"><NULL/></field>
+  <field name="secresidence"              type="C" size="100" />
+
+  <field name="empaddress"                type="C" size="100"><NULL/></field>
+  <field name="emppcode"                  type="C" size="100"><NULL/></field>
+  <field name="emppzip"                   type="C" size="100"><NULL/></field>
+  <field name="emptown"                   type="C" size="100"><NULL/></field>
+  <field name="emphone"                   type="C" size="100"><NULL/></field>
+  <field name="empctncode"                type="C" size="10"><NULL/></field>
+  <field name="empcountry"                type="C" size="40"><NULL/></field>
+
+  <field name="password"        type="C" size="100" ><NULL/></field>
+  <field name="verifycode"      type="C" size="10" />
+  <field name="verifydate"      type="D" />
+  <field name="verified"        type="I" size="1" />
+  <field name="hasuploads"      type="I" size="1" />
+  <field name="docid"           type="XL"  />
+  <field name="docidpass"       type="XL"  />
+  <field name="docpassport"     type="XL"  />
+  <field name="urlphoto"        type="C" size="100" ><NULL/></field>
+  <field name="active"          type="I" size="1"/>
+  <field name="setup"           type="I" size="1"/>
+
+  <field name="regdate"         type="D"                 ><NULL/></field>
+  <field name="regtime"         type="I" size="10"    ><NULL/></field>
+
+  <field name="orcidid"      type="C" size="100"><NULL/></field>
+  <field name="orcidname"    type="C" size="100"><NULL/></field>
+  <field name="accesstoken"  type="C" size="100"><NULL/></field>
+  <field name="tokentype"    type="C" size="100"><NULL/></field>
+  <field name="refreshtoken" type="C" size="100"><NULL/></field>
+  <field name="tokenexpiry"  type="I" size="10"><NULL/></field>
+  <field name="tokenscope"   type="C" size="100"><NULL/></field>
+
+  <field name="auditdate"       type="D"                  ><NOTNULL/></field>
+  <field name="audittime"       type="I" size="10"    ><NOTNULL/></field>
+  <field name="auditip"         type="C" size="15"  ><NOTNULL/></field>
+
 </table>
+
 
 <table name="applicationstmp">
  <descr>applicationstmp</descr>
@@ -119,11 +277,12 @@
   <field name="email" type="C" size="100"><NOTNULL/></field>
   <field name="position" type="C" size="10"/>
   <field name="applyingas" type="C" size="50"/>
-  <field name="orchid" type="C" size="50"/>
+  <field name="orcid" type="C" size="50"/>
   <field name="researcherid" type="C" size="30"/>
   <field name="legalofficername" type="C" size="100"/>
   <field name="legalofficeremail" type="C" size="100"/>
-  <field name="resourcetype" type="C" size="100"/>
+  <field name="resourcetype" type="C" size="100" />
+  <field name="resourcetypes" type="C" size="255" ><NULL/></field>
   <field name="speciesname" type="C" size="100"/>
   <field name="scientificname" type="C" size="100"/>
   <field name="commonname" type="C" size="100"/>
@@ -135,6 +294,11 @@
   <field name="geneticresourcerc" type="C" size="10"/>
   <field name="resourcesdeposit" type="C" size="10"/>
   <field name="resourcetypeother" type="C" size="100"/>
+  
+  <field name="resourcetypeother" type="C" size="100"/>
+  <field name="export_port"       type="C" size="100"/>
+  <field name="export_country"    type="C" size="100"/>
+
   <field name="purpose" type="C" size="255"/>
   <field name="purposeother" type="C" size="255"/>
   <field name="documentregistration" type="XL" />
@@ -146,6 +310,7 @@
   <field name="documentmat"  type="XL" />
   <field name="documentmta"  type="XL" />
   <field name="documentip"  type="XL" />
+  <field name="docpayment"  type="XL" />
   <field name="researchtype" type="C" size="10"/>
   <field name="samplesamount" type="I" size="10"/>
   <field name="conservestatus" type="C" size="10"/>
@@ -207,11 +372,12 @@
   <field name="email" type="C" size="100"><NOTNULL/></field>
   <field name="position" type="C" size="10"><NOTNULL/></field>
   <field name="applyingas" type="C" size="50"><NOTNULL/></field>
-  <field name="orchid" type="C" size="50"/>
+  <field name="orcid" type="C" size="50"/>
   <field name="researcherid" type="C" size="30"/>
   <field name="legalofficername" type="C" size="100"><NOTNULL/></field>
   <field name="legalofficeremail" type="C" size="100"><NOTNULL/></field>
-  <field name="resourcetype" type="C" size="100"><NOTNULL/></field>
+  <field name="resourcetype" type="C" size="100"><NULL/></field>
+  <field name="resourcetypes" type="C" size="255"><NULL/></field>
   <field name="speciesname" type="C" size="100"><NOTNULL/></field>
   <field name="scientificname" type="C" size="100"><NULL/></field>
   <field name="commonname" type="C" size="100"/>
@@ -223,6 +389,10 @@
   <field name="geneticresourcerc" type="C" size="10"/>
   <field name="resourcesdeposit" type="C" size="10"/>
   <field name="resourcetypeother" type="C" size="100"/>
+  
+  <field name="export_port"       type="C" size="100"/>
+  <field name="export_country"    type="C" size="100"/>
+  
   <field name="purpose" type="C" size="255"/>
   <field name="purposeother" type="C" size="255"/>
   <field name="documentregistration"  type="XL" ><NOTNULL/></field>
@@ -234,6 +404,7 @@
   <field name="documentmat"  type="XL" />
   <field name="documentmta"  type="XL" />
   <field name="documentip"  type="XL" />
+  <field name="docpayment"  type="XL" />
   <field name="researchtype" type="C" size="10"/>
   <field name="samplesamount" type="I" size="10"/>
   <field name="conservestatus" type="C" size="10"><NOTNULL/></field>
@@ -242,7 +413,11 @@
   <field name="exportgeneticresources" type="C" size="100"/>
   <field name="legislationagree" type="C" size="5"/>
   <field name="sampleuom" type="C" size="5"/>
-  <field name="apptime" type="I" size="10"/>
+  <field name="apptime" type="I" size="10" />
+  <field name="routed"           type="I" size="10"/>
+  <field name="instcode"         type="C" size="10"  ><NULL/></field>
+  <field name="routed_time"      type="I" size="10" />
+  <field name="routed_comments"  type="C" size="255"/>
 
   <field name="paid1" type="I" size="1"/>
   <field name="paid2" type="I" size="1"/>

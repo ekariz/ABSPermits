@@ -60,43 +60,35 @@ class User_model extends CI_Model
 
   }
 
- public function read($staffno=null){
- $sql = "select id, staffno,namefirst,namemid,namelast,emtname employterms,jbtname position ,brcname branch, dptname department,
- dob,gndname gender , nationalid, email, mobile from viewstaff";
 
- if(!is_null($staffno)){
-  $sql .= " where staffno='{$staffno}' ";
- }
+ public function read($userid=null){
+	 
+ //$sql = "select * from viewusers";
 
- $query  = $this->db->query($sql);
- $staff  = $query->result_array();
-
- //$sql_users  = "select email,rolecode,username,password from sysusers where disabled is null";
- //$sysusers   = $this->db->query($sql_users);
- //$logins     = $sysusers->result_array();
-
- //if(sizeof($staff)>0 && sizeof($logins)>0) {
-  //foreach($staff as $index=>$row){
-   //$email =  valueof($row, 'email');
-
-   //if(!empty($email)){
-
-    //foreach($logins as $login){
-    //$email_login =  valueof($login, 'email');
-
-     //if($email_login==$email){
-      //$staff[$index]['password'] = valueof($login, 'password');
-     //}
-
-    //}
-   //}
-  //}
+ //if(!is_null($userid)){
+  //$sql .= " where id='{$userid}' ";
  //}
+ //$query  = $this->db->query($sql);
 
- //print_pre($staff);//remove
- //print_pre($logins);//remove
+   $this->db->select('*');
+   $this->db->from('viewusers ');
+   
+   if(!is_null($userid))
+   {
+    $this->db->where("id",$userid);
+   }
+   
+   $result = $this->db->get();
 
- return $staff;
+  if(!is_null($userid))
+  {
+   $data  = $result->row();
+  }else{
+   $data  = $result->row_array();
+  }
+  //$this->db->reset();
+  
+  return $data;
 
  }
 

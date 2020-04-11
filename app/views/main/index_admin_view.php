@@ -306,7 +306,7 @@ $username = $this->session->userdata('username');
         <div class="page-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
-                    <span class="txt-color-white">abs &reg; <span class="hidden-xs"> - ABS KENYA</span>  <?php  echo date('Y');?></span>
+                    <span class="txt-color-white">ABS &reg; <span class="hidden-xs"> - BAHAMAS</span>  <?php  echo date('Y');?></span>
                 </div>
 
                 <div class="col-xs-6 col-sm-6 text-right hidden-xs">
@@ -391,6 +391,8 @@ $username = $this->session->userdata('username');
         <script src="<?php echo base_url();?>assets/js/jquery.contextMenu.min.js"></script>
 
         <script src="<?php echo base_url();?>assets/js/plugin/jquery-form/jquery-form.min.js"  type="text/javascript"></script>
+
+        <script src="<?php echo base_url();?>assets/js/plugin/ckeditor/ckeditor.js"></script>
 
         <script>
             function open_app(appid){

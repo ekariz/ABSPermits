@@ -14,13 +14,29 @@ class CustomCrud
  private $gridcolumns;
  private $nosearchcolumns=[];
  private $route;
+ private $grid_id;
  private $mnid;
 
  public function __construct($params)
     {
 
      if(isset($params['route'])){
+		 
+	 /*
+	  * if we got  folder/controller.html, strip / to get classname
+	  * */
+	  if(strstr($params['route'],'/'))
+	  {
+	  $route_arr   = explode('/', $params['route']);
+	  //$this->route = isset($route_arr[1]) ? $route_arr[1] : null;
+	  $this->grid_id = isset($route_arr[1]) ? $route_arr[1] : null;
+	  }else{
+       //$this->route = $params['route'];
+       $this->grid_id = $params['route'];
+      }
+      
       $this->route = $params['route'];
+      
      }
 
      if(isset($params['mnid'])){
@@ -51,9 +67,9 @@ class CustomCrud
 
 public function drawDT( $btn_add_visible = true ){
 
-  if(sizeof($this->gridcolumns)>0){
+  if(($this->gridcolumns)){
      $gridcolumns = $this->gridcolumns;
-  }elseif(sizeof($this->columns)>0){
+  }elseif(($this->columns)){
      $gridcolumns = $this->columns;
   }
 //print_pre($gridcolumns);//remove
@@ -62,7 +78,7 @@ public function drawDT( $btn_add_visible = true ){
   $btn_add_text    = 'Add';
   $btn_add         =  $btn_add_visible ? '<button class="btn btn-primary btn-sm" id="btnAdd" onclick="crud.add()"><i class="fa fa-plus"></i> '.$btn_add_text.'</button>' : '';
 
-  $table   = "<table id=\"{$this->route}\" class=\"table table-striped table-bordered table-hover table-condensed responsive nowrap\" cellspacing=\"0\" width=\"100%\" >";
+  $table   = "<table id=\"{$this->grid_id}\" class=\"table table-striped table-bordered table-hover table-condensed responsive nowrap\" cellspacing=\"0\" width=\"100%\" >";
    $table .= "<thead>\r\n";
 
 //---------------------------------------------------------------------
@@ -72,7 +88,8 @@ public function drawDT( $btn_add_visible = true ){
     $index = 0;
    foreach($gridcolumns as $column =>$column_name){
       if(!array_key_exists($column, $this->nosearchcolumns)){
-       $column_name =  ($column_name);
+       $column_name =  Shorten($column_name, 40) ;
+       //$column_name               = strlen($column_name)>5 ? Shorten($column_name, $width=15, $postfix_str='...') : $column_name ;
        $table .= "<td><input type=\"text\" style=\"width:125px\"   id=\"search_{$column}\" placeholder=\"Search {$column_name}\" data-index=\"{$index}\" onkeyup=\"crud.filterData(this.id,{$index})\" /></td>";
       }else{
        $table .= "<td>&nbsp;</td>\r\n";
@@ -90,8 +107,10 @@ public function drawDT( $btn_add_visible = true ){
   $table .= "<tr>\r\n";
   if(sizeof($gridcolumns)>0){
    foreach($gridcolumns as $column =>$column_name){
-      $column_name = ($column_name);
-      $table .= "<th>{$column_name}</th>";
+      //$column_name = ($column_name);
+      $column_name_short =  Shorten($column_name, 40) ;
+      //$table .= "<td style=\"color:#ccc\">{$column_name}</td>";
+      $table .= "<th  title=\"{$column_name}\">{$column_name_short}</th>";
    }
   }
    $table .= "<th>Action</th>\r\n";
@@ -108,8 +127,9 @@ public function drawDT( $btn_add_visible = true ){
 
   if(sizeof($gridcolumns)>0){
    foreach($gridcolumns as $column =>$column_name){
-      $column_name = Camelize($column_name);
-      $table .= "<td style=\"color:#ccc\">{$column_name}</td>";
+      $column_name_short =  Shorten($column_name, 40) ;
+      //$table .= "<td style=\"color:#ccc\">{$column_name}</td>";
+      $table .= "<td style=\"color:#ccc\" title=\"{$column_name}\">{$column_name_short}</td>";
    }
   }
 
@@ -149,7 +169,7 @@ public function genJS(
  if($load_datagrid){
 ?>
 var table;
-    table = $('#<?php echo $this->route; ?>').DataTable({
+    table = $('#<?php echo $this->grid_id; ?>').DataTable({
         "responsive": true,
         "processing": true,
         "serverSide": true,
@@ -170,12 +190,12 @@ var table;
     });
 
 <?php if( $btn_add_visible || !$btn_import_visible || $btn_export_visible ){ ?>
- $("div#<?php echo $this->route;?>_length").html('<div class="tb_buttons" style="float:left;padding-right:50px;margin-right:100px;" ><?php echo $tb_buttons; ?></div>');
- $("div#<?php echo $this->route;?>_length").hide();
+ $("div#<?php echo $this->grid_id;?>_length").html('<div class="tb_buttons" style="float:left;padding-right:50px;margin-right:100px;" ><?php echo $tb_buttons; ?></div>');
+ $("div#<?php echo $this->grid_id;?>_length").hide();
  $('#btnAdd').html('<i class="fa fa-plus"></i> <?php echo $btn_add_text; ?>');
 <?php } ?>
 
-$("#<?php echo $this->route;?>_filter").css("display","none");
+$("#<?php echo $this->grid_id;?>_filter").css("display","none");
 
 <?php
 }
@@ -209,18 +229,20 @@ var crud={
      after_add_hook();
     }
  },
- edit:function (id, triggerFn){
+edit:function (id, triggerFn){
     $('#form-data')[0].reset();
     $('select').val('');
     $('.form-group').removeClass('has-error');
     $('.help-block').empty();
     $('#btnSave').html('<?php echo $btn_save_text; ?>');
     $('#btnSave').attr('disabled',false);
+    var response_data = [];
     $.ajax({
         url : '<?php echo "{$this->route}/edit{$this->mnid}";?>/'+id,
         type: "GET",
         dataType: "JSON",
         success: function(data){
+            response_data = data;
             ui.fp(data);
             $('#modal_form').modal('show');
             <?php if($modal_title_change){ ?>
@@ -234,7 +256,7 @@ var crud={
         }
     });
     if (typeof after_edit_hook !== 'undefined' && $.isFunction(after_edit_hook)) {
-     after_edit_hook();
+     after_edit_hook(response_data);
     }
  },
  reload_table:function (){

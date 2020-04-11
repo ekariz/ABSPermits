@@ -14,8 +14,10 @@
         <link href="<?php  echo base_url();?>assets/frontend/plugins/hover/hover-min.css" rel="stylesheet">
         <link href="<?php  echo base_url();?>assets/frontend/css/animations.css" rel="stylesheet">
         <link href="<?php  echo base_url();?>assets/frontend/css/style.css" rel="stylesheet" >
-        <link href="<?php  echo base_url();?>assets/frontend/css/skins/cool_green.css" data-style="styles-no-cookie" rel="stylesheet">
+ 
         <link href="<?php  echo base_url();?>assets/frontend/css/custom.css" rel="stylesheet">
+        <link href="<?php  echo base_url();?>assets/frontend/css/academicons.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="<?php  echo base_url();?>assets/img/favicon/favicon.ico" type="image/x-icon">
 <!--
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 -->

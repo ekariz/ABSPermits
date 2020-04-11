@@ -73,3 +73,6 @@ i.success  { color:#090; }
 i.gray     { color:#ccc; }
 
 
+input[type="checkbox"] {
+ height: 20px;
+}

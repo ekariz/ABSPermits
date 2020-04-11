@@ -32,6 +32,14 @@ $required_documentcv               =  $exists_documentcv  ? '' : 'required';
 $required_documentpic              =  $exists_documentpic  ? '' : 'required';
 $required_documentmat              =  $exists_documentmat  ? '' : 'required';
 
+$required_documentregistration     =  '';
+$required_documentresearchproposal =  '';
+$required_documentaffiliation      =  '';
+$required_documentresearchbudget   =  '';
+$required_documentcv               =  '';
+$required_documentpic              =  '';
+$required_documentmat              =  '';
+
 ?>
 
 <table class="table table-bordered table-condensed">
@@ -68,9 +76,9 @@ $required_documentmat              =  $exists_documentmat  ? '' : 'required';
 
  <tr>
   <td><strong>Letter of Affiliation With local institution</strong></td>
-  <td>All applicants for research in Kenya must have a local partner.To access a list of approved local institutions and for more information <a href="<?php echo base_url(); ?>assets/frontend/pdf/List_Of_Institutions.pdf" target="_blank" >click here</a></td>
+  <td>All applicants for research in The Bahamas must have a local partner.To access a list of approved local institutions and for more information <a href="<?php echo base_url(); ?>assets/frontend/pdf/List_Of_Institutions.pdf" target="_blank" >click here</a></td>
   <td><div class="form-group">
-     <input type="file" id="documentaffiliation" name="documentaffiliation"   onchange="upload_files();"  <?php echo $required_documentaffiliation;?>  data-toggle="tooltip" data-placement="bottom" title="All applicants for research in Kenya must have a local partner.To access a list of approved local institution" >
+     <input type="file" id="documentaffiliation" name="documentaffiliation"   onchange="upload_files();"  <?php echo $required_documentaffiliation;?>  data-toggle="tooltip" data-placement="bottom" title="All applicants for research in The Bahamas must have a local partner.To access a list of approved local institution" >
     <div class="help-block with-errors"></div>
    </div>
   </td>

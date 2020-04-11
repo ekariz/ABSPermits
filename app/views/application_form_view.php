@@ -67,23 +67,42 @@ $bgheader   = 'background-color:#9ED3EC;';
  <tr>
   <td  nowrap style="<?php echo "{$bottom}{$right}{$left}";?>" >Application Reference No</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $appno;  ?></b></td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" >Application Date</td>
-  <td  nowrap style="<?php echo "{$bottom}{$right}";?>"  ><b><?php echo  date('D d M Y',$apptime);  ?></b></td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" colspan="2" rowspan="6" align="center"><img src="<?=$urlphoto;?>" style="width:100px;"  ></td>
+
  </tr>
 
  <tr>
   <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Full Name</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $firstname;  ?>&nbsp;<?php echo  $lastname;  ?></b></td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" > Country</td>
+ </tr>
+
+ <tr>
+  <td  style="<?php echo "{$left}{$bottom}{$right}";?>" >Application Date</td>
+  <td  nowrap style="<?php echo "{$bottom}{$right}";?>"  ><b><?php echo  date('D d M Y',$apptime);  ?></b></td>
+ </tr>
+
+ <tr>
+  <td  style="<?php echo "{$left}{$bottom}{$right}";?>" > Country</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $ctnname;  ?></b></td>
  </tr>
+ 
  <tr>
   <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Applicant Email</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $email;  ?></b></td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" >Applicant mobile</td>
+ </tr>
+
+ <tr>
+  <td  style="<?php echo "{$left}{$bottom}{$right}";?>" >Applicant mobile</td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $mobile;  ?></b></td>
  </tr>
 
+ <tr>
+  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >ORCID</td>
+  <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $orcid  ?></b></td>
+  <td nowrap  style="<?php echo "{$bottom}{$right}";?>" >Other Researcher ID</td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $researcherid  ?></b></td>
+ </tr>
+ 
  <tr>
   <td    style="<?php echo "{$bottom}{$right}{$left}";?>"  >Are you a student?</td>
   <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  valueof($positions, $position );  ?></b></td>
@@ -91,12 +110,6 @@ $bgheader   = 'background-color:#9ED3EC;';
   <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  valueof($applyingas_list, $applyingas );  ?></b></td>
  </tr>
 
- <tr>
-  <td   style="<?php echo "{$bottom}{$right}{$left}";?>" >ORCHID</td>
-  <td    style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $orchid  ?></b></td>
-  <td nowrap  style="<?php echo "{$bottom}{$right}";?>" >Other Researcher ID</td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><b><?php echo  $researcherid  ?></b></td>
- </tr>
 
  <tr>
   <td nowrap   style="<?php echo "{$bottom}{$right}{$left}";?>" >Institution Contact person Name</td>
@@ -164,37 +177,8 @@ $bgheader   = 'background-color:#9ED3EC;';
     <td  style="<?php echo "{$bottom}{$right}";?>" ><i style="color:red">*Not Attached</i></td>
   <?php } ?>
 
- </tr>
-
- <tr>
-  <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Prior Informed Consent (PIC)</td>
-  <?php if($exists_documentpic){ ?>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><a href="<?php echo base_url() ."Workflow/view_document/{$id}/{$documentpic_id}"; ?>"   > <?php echo $documentpic_name; ?></td>
-  <?php }else{ ?>
-    <td  style="<?php echo "{$bottom}{$right}";?>" ><i style="color:red">*Not Attached</i></td>
-  <?php } ?>
- </tr>
-
- <tr>
-  <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Mutually Agreed Terms (MAT) </td>
-  <?php if($exists_documentmat){ ?>
-    <td  style="<?php echo "{$bottom}{$right}";?>" ><a href="<?php echo base_url() ."Workflow/view_document/{$id}/{$documentmat_id}"; ?>"   > <?php echo $documentmat_name; ?></td>
-  <?php }else{ ?>
-    <td  style="<?php echo "{$bottom}{$right}";?>" ><i style="color:red">*Not Attached</i></td>
-  <?php } ?>
- </tr>
-
-
-<?php if($exportanswer ==1){ ?>
- <tr>
-  <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Material Transfer Agreement (MTA)</td>
-  <?php if($exists_documentmta){ ?>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><a href="<?php echo base_url() ."Workflow/view_document/{$id}/{$documentmta_id}"; ?>"   > <?php echo $documentmta_name; ?></td>
-  <?php } ?>
- </tr>
-<?php } ?>
-
-
+ </tr> 
+ 
 </table>
 
 <br>
@@ -207,7 +191,9 @@ $bgheader   = 'background-color:#9ED3EC;';
 
  <tr>
   <td width="50%"  style="<?php echo "{$bottom}{$right}{$left}";?>" >Type of genetic resource to be collected </td>
-  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo  valueof($resource_list, $resourcetype );  ?></td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php 
+      echo $resourcetypes_str;
+  ?></td>
  </tr>
 
  <tr>
@@ -283,6 +269,7 @@ $bgheader   = 'background-color:#9ED3EC;';
   <th  style="<?php echo "{$top}{$bottom}{$right}";?>" >Attached File</th>
  </tr>
  </thead>
+<!--
 
  <tbody>
    <tr>
@@ -299,6 +286,7 @@ $bgheader   = 'background-color:#9ED3EC;';
    <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Mutually Agreed Terms (MAT)</td>
    <td  style="<?php echo "{$bottom}{$right}";?>" ><a href="<?php echo base_url() ."Workflow/view_document/{$id}/{$documentmat_file_name}"; ?>"   > <?php echo $documentmat_name; ?></td>
    </tr>
+-->
 
  </tbody>
 </table>
@@ -340,9 +328,20 @@ $bgheader   = 'background-color:#9ED3EC;';
  </tr>
 
  <tr>
-  <td    style="<?php echo "{$bottom}{$right}{$left}";?>" >Will you need to export the collected genetic resources from Kenya ?   </td>
+  <td    style="<?php echo "{$bottom}{$right}{$left}";?>" >Will you need to export the collected genetic resources from  the BAHAMAS  ?   </td>
   <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo valueof($yesno_list, $exportgeneticresources);  ?></td>
  </tr>
+
+ <tr>
+  <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >What will be the genetic resource port of export? </td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $export_port;  ?></td>
+ </tr>
+ 
+ <tr>
+  <td  style="<?php echo "{$bottom}{$right}{$left}";?>" >Which country is the genetic resource to be exported to? </td>
+  <td  style="<?php echo "{$bottom}{$right}";?>" ><?php echo $export_country;  ?></td>
+ </tr>
+  
 
 </table>
 

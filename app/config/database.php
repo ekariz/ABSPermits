@@ -72,30 +72,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 /**
- * erastus
+ * default
  */
 
-include('databases.php');
 
-$server_name       =  $_SERVER['SERVER_NAME'];
-$server_name       = str_replace('www', '', $server_name);
-$server_name_array = explode('.', $server_name);
-
-if(sizeof($server_name_array)==4){
- $active_group = isset($server_name_array[0]) ? $server_name_array[0] : null;
-
- if(!isset($db[$active_group])){
-  $active_group = null;
- }
-
-}else{
- $active_group = 'default';
-}
-
-
-if(is_null($active_group)){
- die("Ops!");
-}
+$active_group = 'default';
 
 $query_builder = TRUE;
 
@@ -103,10 +84,9 @@ $db['default'] = array(
     'dsn'   => '',
 
     'hostname' => 'localhost',
-
-    'username' => 'abs',
-    'password' => 'abs',
-    'database' => 'abs',
+    'username' => 'absprototype',
+    'password' => 'absprototype',
+    'database' => 'absprototype',
 
     'dbdriver' => 'mysqli',
     'dbprefix' => '',

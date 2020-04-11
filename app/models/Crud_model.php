@@ -106,7 +106,8 @@ class Crud_model extends CI_Model {
 
     public function count_all()
     {
-        $this->db->from($this->table);
+        $datasrc = isset($this->dataview) && !empty($this->dataview) ? $this->dataview : $this->table;
+        $this->db->from($datasrc);
         return $this->db->count_all_results();
     }
 

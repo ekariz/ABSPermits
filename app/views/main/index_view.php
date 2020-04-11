@@ -387,6 +387,8 @@
         <script src="<?php echo base_url();?>assets/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
         <script src="<?php echo base_url();?>assets/js/plugin/sparkline/jquery.sparkline.min.js"></script>
 
+        <script src="<?php echo base_url();?>assets/js/plugin/ckeditor/ckeditor.js"></script>
+
         <script>
             function open_app(appid){
              $.post('Home/switch_to_app/'+appid, '', function(data) {

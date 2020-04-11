@@ -116,45 +116,39 @@ $exists_documentmta              =  !empty($documentmta_id)               ? true
   <td>&nbsp;</td>
   <?php } ?>
  </tr>
-
- <tr>
-  <td><strong>Prior Informed Consent (PIC)</strong></td>
-  <td ><i class="fa fa-<?php echo $icon_documentpic;?>"></i></td>
-  <?php if($exists_documentpic){ ?>
-  <td><a href="#" onclick="view_file('<?php echo $documentpic_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentpic_name; ?></a></td>
-  <td><a href="#" onclick="delete_file('documentpic','<?php echo $documentpic_id; ?>','<?php echo $documentpic_name; ?>');" class="danger" data-toggle="tooltip" data-placement="top" title="Delete File"><i class="fa fa-remove "></i> Remove</a></td>
-  <?php }else{ ?>
-  <td><a href="#step-2" data-toggle="tooltip" data-placement="top" title="attach now"><i class="fa fa-paperclip"></i> attach now</a></td>
-  <td>&nbsp;</td>
-  <?php } ?>
- </tr>
-
- <tr>
-  <td><strong>Mutually Agreed Terms (MAT) </strong></td>
-  <td ><i class="fa fa-<?php echo $icon_documentmat;?>"></i></td>
-  <?php if($exists_documentmat){ ?>
-  <td><a href="#" onclick="view_file('<?php echo $documentmat_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentmat_name; ?></a></td>
-  <td><a href="#" onclick="delete_file('documentcv','<?php echo $documentmat_id; ?>','<?php echo $documentmat_name; ?>');" class="danger" data-toggle="tooltip" data-placement="top" title="Delete File"><i class="fa fa-remove "></i> Remove</a></td>
-  <?php }else{ ?>
-  <td><a href="#step-2" data-toggle="tooltip" data-placement="top" title="attach now"><i class="fa fa-paperclip"></i> attach now</a></td>
-  <td>&nbsp;</td>
-  <?php } ?>
- </tr>
-
-
-<?php if($exportanswer ==1){ ?>
- <tr>
-  <td><strong>Material Transfer Agreement (MTA)</strong></td>
-  <td ><i class="fa fa-<?php echo $icon_documentmta;?>"></i></td>
-  <?php if($exists_documentmta){ ?>
-  <td><a href="#" onclick="view_file('<?php echo $documentmta_id; ?>');"  data-toggle="tooltip" data-placement="top" title="View File"><i class="fa fa-file-pdf-o danger"></i> <?php echo $documentmta_name; ?></a></td>
-  <td><a href="#" onclick="delete_file('documentmta','<?php echo $documentmta_id; ?>','<?php echo $documentmta_name; ?>');" class="danger" data-toggle="tooltip" data-placement="top" title="Delete File"><i class="fa fa-remove "></i> Remove</a></td>
-  <?php }else{ ?>
-  <td><a href="#step-2" data-toggle="tooltip" data-placement="top" title="attach now"><i class="fa fa-paperclip"></i> attach now</a></td>
-  <td>&nbsp;</td>
-  <?php } ?>
- </tr>
-<?php } ?>
-
+  
 </tbody>
 </table>
+ 
+ 
+  <?php 
+ if(isset($required_field) && count($required_field)>0 ){
+	 
+ 
+ ?>
+<div class="alert alert-danger">
+  <strong>Error!</strong> The Following Fields Are Required
+</div>
+
+<table class="table table-bordered table-condensed">
+ 
+<tbody>
+
+ <?php 
+  foreach($required_field as $field=> $description){	 
+ ?>
+ 
+ <tr>
+  <td><strong><?php echo $description;?></strong></td>
+  <td><a href="#step-1" data-toggle="tooltip" data-placement="top" title="fill fielld now"><i class="fa fa-pencil"></i> Enter Data</a></td>
+ </tr>
+ 
+<?php 
+   }
+?>
+</tbody>
+</table>
+ 
+<?php 
+  }
+?>

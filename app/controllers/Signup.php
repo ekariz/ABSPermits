@@ -8,7 +8,10 @@ class Signup extends CI_Controller{
         parent::__construct();
         $this->load->model('crud_model','signups');
         $this->load->model('Common_model','common');
-
+        $this->load->model('Abs_model','abs');
+        $this->load->model('Researcher_model','researcher');
+        $this->config->load('product');
+        $this->config->load('orcid');
         $this->signups->table  = 'signups';
 
     }
@@ -16,9 +19,14 @@ class Signup extends CI_Controller{
     public function index(){
      $this->reset();
      $data = [];
-     $data['countries']  =  $this->Common_model->select_assoc(  'countries',  'ctncode',  'ctnname' );
+
+
+     $data['titles']     =  $this->abs->get_titles();
+     $data['countries']  =  $this->abs->get_countries();
      $data['genders']    =  ['male' => 'Male','female' => 'female'];
-     $this->load->view('main/frontend/signup', $data );
+
+     $this->load->view('main/frontend/signup_view', $data );
+
     }
 
     public function reset(){
@@ -28,10 +36,17 @@ class Signup extends CI_Controller{
 
     }
 
+   /**
+    * save sign up
+    */
+
    public function save(){
 
+     $titlecode        = $this->input->post('titlecode');
      $firstname        = $this->input->post('firstname');
+     $midname          = $this->input->post('midname');
      $lastname         = $this->input->post('lastname');
+     $fullname         = "{$firstname} {$midname} {$lastname}";
      $gender           = $this->input->post('gender');
      $ctncode          = $this->input->post('ctncode');
      $mobile           = $this->input->post('mobile');
@@ -41,302 +56,388 @@ class Signup extends CI_Controller{
      $terms            = $this->input->post('terms');
      $password_check   = sha1($password);
 
-     $this->db->where('email',$email)->delete( 'signups' );
+     if(empty($titlecode)){
+      $error = "select title";
+     }elseif(empty($gender)){
+      $error = "select gender";
+     }elseif(empty($ctncode)){
+      $error = "select country";
+     }elseif(empty($firstname)){
+      $error = "enter first name";
+     //}elseif(empty($midname)){
+      //$error = "enter middle name";
+     }elseif(empty($lastname)){
+      $error = "enter sur name";
+     }elseif(empty($mobile)){
+      $error = "enter mobile number";
+     }elseif(empty($email)){
+      $error = "enter email";
+     }elseif(empty($password)){
+      $error = "enter password";
+     }elseif(empty($passwordconfirm)){
+      $error = "enter confirmation password";
+     }elseif($password !=$passwordconfirm){
+      $error = "confirmation password does not match password";
+     }
+
+     /**
+      * return error via JSON
+      */
+     if(!empty($error)){
+       $response['success'] = 0;
+       $response['message'] = $error;
+       echo json_encode( $response );
+     }else{
+
 
      $response['success']  = 0;
      $response['message']  = '';
 
-     $signups = $this->db->select('email,verified')
-     ->from('signups')
-     ->where("email='{$email}' ")
-     ->get();
+     /**
+      * check if exists
+      */
+     $researcher    = $this->researcher->get_researcher_by_email($email , TRUE );
 
-     $row    = $signups->row();
+    if(empty($researcher)) {
 
-    if(isset($row)){
+     $verifycode         = generateRandomString(10);
 
-     $extra = "<hr>We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
+     $data = [];
+     $data['firstname']  = $firstname;
+     $data['midname']    = $midname;
+     $data['lastname']   = $lastname;
+     $data['fullname']   = $fullname;
+     $data['gender']     = $gender;
+     $data['ctncode']    = $ctncode;
+     $data['email']      = $email;
+     $data['mobile']     = $mobile;
+     $data['title']      = $titlecode;
+     $data['password']   = sha1($password);
+     $data['regdate']    = date('Y-m-d');
+     $data['regtime']    = time();
+     $data['verifycode'] = $verifycode;
 
-     if(isset($row->verified) && $row->verified==1){
-      $extra = "<hr>Click here <a href=\"login.html\" class=\"btn btn-danger\">Sign In</a> ";
+     /*
+      * save researcher
+      **/
+     $save    = $this->researcher->create($data);
+
      }
 
-     $response['success'] = 0;
-     $response['message'] = "{$email} is already registered.";
-     $response['extra']   =  $extra;
-     //$this->load->view( 'main/frontend/register_error' , $data );
-    }else{
+     $response['success']  = 1;
+     $response['message']  = "We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
 
-    $verifycode           = generateRandomString(10);
+     /*
+      * send verification email
+      **/
+    $researcher      = $this->researcher->get_researcher_by_email( $email , true );
+    $verifycode      =  $researcher['verifycode'];
+    $host            = base_url();
+    $emailvars       = $researcher;
+    $emailvars['verificationurl']  = "<a href=\"{$host}Signup/verification/{$verifycode}/?email={$email}\">Click Here</a>";
 
-    $signups                = [];
-    $signups['firstname']   = $firstname;
-    $signups['lastname']    = $lastname;
-    $signups['gender']      = $gender;
-    $signups['ctncode']     = $ctncode;
-    $signups['mobile']      = $mobile;
-    $signups['email']       = $email;
-    $signups['password']    = sha1($password);
-    $signups['verifycode']  = $verifycode;
 
-    $this->signups->save($signups);
+    $subject = "ABS Email Verification ";
+    $message = self::get_email_template( $emailvars , 'emtpl_sev' );
+    $this->common->queue_mail( $email, $subject, $message , $firstname , true);
 
-    $response['success']  = 1;
-    $response['message']  = "We sent  email verification link to {$email} .Check your inbox for the verification email. If not found , please check you SPAM folder.";
-
-    $subject = "ABS Email Verification ";//Account Registration
-    $message = self::make_email_body_notify( $firstname ,$email , $verifycode );
-    $this->common->queue_mail( $email, $subject, $message , true);
-
-    }
+    //}
 
     echo json_encode( $response );
 
+   }
   }
 
+   /**
+    * verify email address
+    */
    public function verification( $verifycode ){
+
+      /**
+       * clear existing sessions
+       */
+
       $this->reset();
 
       $email            = $this->input->get('email');
 
-     //verify
-      $signups        = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
+    /*
+     * verify  email
+    **/
+     $researcher      = $this->researcher->get_researcher_by_email( $email   );
 
-      if(isset($signups) && isset($signups->verifycode)){
-
+      if(isset($researcher) && isset($researcher->verifycode))
+      {
 
         //if verified, login
-       if($signups->verified == 1 && $signups->hasuploads == 1){
-        //redirect( base_url() .'login' );
+       if($researcher->verified == 1 && $researcher->hasuploads == 1){
+        redirect( base_url() .'login' );
        }
 
-       if($signups->verifycode == $verifycode){
-         $this->db->query( "update {$this->signups->table} set verified=1  where email='{$email}' " );
+       if($researcher->verifycode == $verifycode){
+          $data_update = [];
+          $data_update['verified']   = 1;
+          $data_update['verifydate'] = date("Y-m-d");
+          $update    = $this->researcher->update( $email, $data_update );
+
        }else{
          die("Invalid Verification Code. Verify from the email we sent to your inbox");
        }
+
       }
 
+      /**
+       * create session
+       */
 
       $register_data               = [];
-      $register_data['email']      = $signups->email;
-      $register_data['firstname']  = $signups->firstname;
-      $register_data['lastname']   = $signups->lastname;
+      $register_data['id']         = $researcher->id;
+      $register_data['email']      = $researcher->email;
+      $register_data['firstname']  = $researcher->firstname;
+      $register_data['midname']    = $researcher->midname;
+      $register_data['lastname']   = $researcher->lastname;
+      $register_data['fullname']   = $researcher->fullname;
 
       $this->session->set_userdata( $register_data );
 
-      redirect( base_url() .'signup/profile/'.$verifycode );
+      redirect( base_url() .'Signup/profile/' );
 
    }
 
    /*
-    *http://abs.co.ke/signup/verification/Wxt6YN40oQ/?email=abspermitsprototype@gmail.com
-    * */
-   public function profile( $verifycode ){
+    * open profile to upload documents
+    **/
+
+   public function profile( ){
 
      $email             = $this->session->userdata('email');
-     $signup            = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ,'verifycode' => $verifycode ] )->row();
+
+     if(empty($email))
+     {
+      die("Session Expired.Please Reopen the email verification link");
+     }
+
+     $researcher        = $this->researcher->get_researcher_by_email( $email   );
 
      $data = [];
-     $data['countries']   =  $this->Common_model->select_assoc(  'countries',  'ctncode',  'ctnname' );
-     $data['genders']     =  ['male' => 'Male','female' => 'female'];
-     $data['firstname']   = $signup->firstname;
-     $data['lastname']    = $signup->lastname;
-     $data['gender']      = $signup->gender;
-     $data['ctncode']     = $signup->ctncode;
-     $data['mobile']      = $signup->mobile;
-     $data['email']       = $signup->email;
-     $data['docid']       = isJSON($signup->docid) ? json_decode($signup->docid , true) : [];
-     $data['docpassport'] = isJSON($signup->docpassport) ? json_decode($signup->docpassport , true) : [];
+     $data['titles']      = $this->abs->get_titles();
+     $data['countries']   = $this->abs->get_countries();
+     $data['genders']     = ['male' => 'Male','female' => 'female'];
+     $data['title']       = $researcher->title;
+     $data['firstname']   = $researcher->firstname;
+     $data['midname']     = $researcher->midname;
+     $data['lastname']    = $researcher->lastname;
+     $data['gender']      = $researcher->gender;
+     $data['ctncode']     = $researcher->ctncode;
+     $data['mobile']      = $researcher->mobile;
+     $data['email']       = $researcher->email;
+	 
+     $data['docpassport']    = isJSON($researcher->docpassport) ? json_decode($researcher->docpassport , true) : [];
+     $data['docidpass']   = isJSON($researcher->docid) ? json_decode($researcher->docid , true) : [];
 
-     $this->load->view('main/frontend/signup-profile', $data );
+     $this->load->view('main/frontend/signup_profile_view', $data );
     }
 
-    public function uploads( ){
+   /**
+    * upload documemnts
+    */
 
-      $required_docs  = 2;
-      $email          = $this->session->userdata('email');
-      $signup         = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
+   public function upload(){
 
-       $upload_dir           = "./uploads/userdocs/";
+    $email              = $this->session->userdata('email');
+
+    if(empty($email)){
+     echo json_encode( ["success" => 0, 'message' => "login session expired.Please re-login" ] );
+     die;
+    }
+
+    /**
+     * presave form
+     */
+
+    if(isset($_FILES)){
+
+        $folderid    = sha1($email);
+        $upload_dir  = "./uploads/appdocs/{$folderid}";
 
         if(!is_dir($upload_dir)){
          if (!mkdir($upload_dir, 0777, true)) {
           echo json_encode( ["success" => 0, 'message' => 'Failed to create folders...'] );
           die;
+         }else{
+          @touch($upload_dir.'index.html');
+          @touch($upload_dir.'index.php');
          }
         }
 
         $config['upload_path']          = $upload_dir;
-        $config['allowed_types']        = 'gif|jpg|jpeg|png';
+        $config['allowed_types']        = 'pdf';
+        $config['allowed_types']        = 'pdf|jpg|jpeg|png';
+        $config['encrypt_name']         = true;
         $config['remove_spaces']        = true;
         $config['overwrite']            = true;
-        $config['encrypt_name']         = true;
         $config['file_ext_tolower']     = true;
 
         $this->load->library('upload', $config);
 
-        $documents_id =  '';
-        $documents_passport =  '';
-        $documents_id_str =  '';
-        $documents_passport_str =  '';
+        $expected_files                         =  [];
+        $expected_files['docpassport']          = 'Passport Photo';
+        //$expected_files['docidpass']            = 'ID/Passport';
+        $expected_files['docid']                = 'ID/Passport';
 
-        if ($this->upload->do_upload('myid')){
-         $documents_id        = $this->upload->data();
-         $documents_id_str   = json_encode($documents_id);
+        $documents =  [];
+
+        foreach($expected_files as $expected_file_id => $expected_file_name){
+          if( isset($_FILES[$expected_file_id]) && isset($_FILES[$expected_file_id]['tmp_name']) && !empty($_FILES[$expected_file_id]['tmp_name']) ){
+           if($this->upload->do_upload($expected_file_id)){
+            $upload_response              = $this->upload->data();
+            $documents[$expected_file_id] = json_encode($upload_response);
+           }else{
+            $error =  $this->upload->display_errors();
+            $error = strip_tags($error);
+            echo json_encode( ["success" => 0, 'message' => "{$expected_file_name}:".$error ] );
+            die;
+           }
+         }
         }
 
-        if ($this->upload->do_upload('passport')){
-         $documents_passport     = $this->upload->data();
-         $documents_passport_str = json_encode($documents_passport);
-        }
+       if(sizeof($documents)>0)
+       {
 
-       $hasuploads             =  0;
+        /**
+         * update table
+        */
 
-       if(!empty($documents_id)){
-        $data['docid'] = $documents_id_str;
-        $hasuploads +=1;
-       }
+        $num_documents          = count($documents);
+        $documents_ids          = array_keys($documents);
 
-       if(!empty($documents_passport)){
-        $data['docpassport'] = $documents_passport_str;
-        $hasuploads +=1;
-       }
+        $data_update               = $documents;
+        $data_update['hasuploads'] = 1;
+        $data_update['auditdate']  = date("Y-m-d");
+        $data_update['audittime']  = time();
 
-       if($hasuploads<$required_docs){
-        echo json_encode( ["success" => 0, 'message' => 'Upload all required documents' ] );
+        $update    = $this->researcher->update( $email, $data_update );
+
+        $s  = $num_documents>1 ? 's' : '';
+        echo json_response( 1,  "Uploaded {$num_documents} document{$s}" ,[ 'documents' => $documents_ids] );
         die;
        }
 
-       if(!empty($data)){
-         $this->signups->update( ['email' => $email], $data);
-       }
+    }
 
-       $user_data = [];
-       $user_data['userid']     = $signup->id;
-       $user_data['ctncode']    = $signup->ctncode;
-       $user_data['firstname']  = $signup->firstname;
-       $user_data['lastname']   = $signup->lastname;
-       $user_data['email']      = $signup->email;
-       $user_data['mobile']     = $signup->mobile;
-       $user_data['gender']     = $signup->gender;
-       $user_data['logged_in']  = 1;
-
-       $this->session->set_userdata( $user_data );
-
-       //notify
-       $subject = "ABS Sign Up Complete";//Account completion
-       $message = self::make_email_body_complete( $signup->firstname, $signup->email );
-       $this->common->queue_mail( $email, $subject, $message );
-
-       echo json_encode( ["success" => 1, 'message' => 'Documents Uploaded' ] );
-
+    echo json_encode( ["success" => 0, 'message' => "Nothing Uploaded"] );
+    die;
    }
 
-    public function saveProfile( ){
+  public function saveProfile( ){
 
        $required_docs  = 2;
        $email          = $this->session->userdata('email');
-       $signup         = $this->db->select("*")->get_where( $this->signups->table , [ 'email' => $email ] )->row();
-       $upload_dir     = "./uploads/userdocs/";
 
-        if(!is_dir($upload_dir)){
-         if (!mkdir($upload_dir, 0777, true)) {
-          echo json_encode( ["success" => 0, 'message' => 'Failed to create folders...'] );
-          die;
-         }
-        }
-
-        $config['upload_path']          = $upload_dir;
-        $config['allowed_types']        = 'gif|jpg|jpeg|png';//alert if not type
-        $config['remove_spaces']        = true;
-        $config['overwrite']            = true;
-        $config['encrypt_name']         = true;
-        $config['file_ext_tolower']     = true;
-
-        $this->load->library('upload', $config);
-
-        $documents_id       =  [];
-        $documents_passport =  [];
-        $data               =  [];
-        $replace_tags       =  ['<p>','</p>'];
-        $numuploads         =  0;
-
-        if (isset($_FILES['myid'])){
-         if ($this->upload->do_upload('myid')){
-          $document    = $this->upload->data();
-          $documents_id = $document;
-          $numuploads +=1;
-         }else{
-          $success  = 0;
-          $message  = $this->upload->display_errors();
-          $message  = str_replace($replace_tags,'',$message);
-          echo json_encode( [ 'success' => $success, 'message' => $message ] );
-          die;
-         }
-        }
-
-        if (isset($_FILES['passport'])){
-         if ($this->upload->do_upload('passport')){
-         $document    = $this->upload->data();
-         $documents_passport = $document;
-         $numuploads +=1;
-        }else{
-          $success  = 0;
-          $message  = $this->upload->display_errors();
-          $message  = str_replace($replace_tags,'',$message);
-          echo json_encode( [ 'success' => $success, 'message' => $message ] );
-          die;
-        }
-        }
-
-       $documents_id_str       = json_encode($documents_id);
-       $documents_passport_str = json_encode($documents_passport);
-
-       if(!empty($documents_id)){
-        $data['docid'] = $documents_id_str;
+       if(empty($email)){
+        echo json_encode( ["success" => 0, 'message' => "Session Expired"] );
+        die;
        }
 
-       if(!empty($documents_passport)){
-        $data['docpassport'] = $documents_passport_str;
+       $researcher     = $this->researcher->get_researcher_by_email( $email   );
+       $docpassport    = isJSON($researcher->docpassport) ? json_decode($researcher->docpassport , true) : [];
+       $docid          = isJSON($researcher->docid) ? json_decode($researcher->docid , true) : [];
+
+       /**
+        * check if upload documents
+        */
+       
+       
+       /* upload is optional
+        *
+        $expected_files                         =  [];
+        $expected_files['docpassport']          = 'Passport Photo';
+        $expected_files['docid']                = 'ID/Passport';
+
+       
+       if(!isset($docpassport['file_name']))
+       {
+           echo json_encode( [ 'success' => 0, 'message' => "Upload {$expected_files['docpassport']}" ] );
+           die;
+       }elseif(!isset($docid['file_name']))
+       {
+           echo json_encode( [ 'success' => 0, 'message' => "Upload {$expected_files['docid']}" ] );
+           die;
        }
+       */
+        
+       if(isset($docpassport['file_name']))
+       {
+        $file_name   = $docpassport['file_name'];
+        $folderid    = sha1($email);
+        $upload_dir  = "uploads/appdocs/{$folderid}/";
+        $urlphoto    = base_url() . "{$upload_dir}{$file_name}";
 
-       $data['hasuploads']   = $numuploads;
+        $data_update = [];
+        $data_update['active']   = 1;
+        $data_update['urlphoto'] = $urlphoto;
+        $update    = $this->researcher->update( $email, $data_update );
+	    }
+	    
+        /**
+         *auto-login user
+        */
 
-       if(!empty($data)){
-         $this->signups->update( ['email' => $email], $data );
-       }
+          $register_data               = [];
+          $register_data['id']         = $researcher->id;
+          $register_data['email']      = $researcher->email;
+          $register_data['firstname']  = $researcher->firstname;
+          $register_data['midname']    = $researcher->midname;
+          $register_data['lastname']   = $researcher->lastname;
+          $register_data['fullname']   = $researcher->fullname;
+          $register_data['logged_in']  = 1;
+
+          $this->session->set_userdata( $register_data );
 
 
-       if($numuploads<$required_docs){
-        $subject = "ABS Complete Your profile ";//Account completion
-        $message = self::make_email_body_save_continue( $signup->firstname, $signup->email, $signup->verifycode );
-        $this->common->queue_mail( $email, $subject, $message );
-        $message = 'Saved.We sent email with a link to continue uploading all documents';
-       }else{
-        $message = 'Uploaded all documents.Click Next to Continue';
-       }
+         $success = 1;
+         $message = 'Profile Saved';
 
-       if(!empty($data)){
-        $success = 1;
-        //$message = 'Saved.We sent email with a link to continue uploading all documents';
-       }else{
-        $success = 0;
-        $message = 'Nothing Saved';
-       }
-
-       echo json_encode( [ 'success' => $success, 'message' => $message ] );
+         echo json_encode( [ 'success' => $success, 'message' => $message ] );
 
    }
 
-   private function make_email_body_notify( $firstname, $email, $verifycode ){
+  public function LinkOrcid(){
+
+    $data    = [];
+    $email   = $this->session->userdata('email');
+
+    if(empty($email)){
+     echo json_encode( ["success" => 0, 'message' => "login session expired.Please re-login" ] );
+     die;
+    }
+
+    $researcher        = $this->researcher->get_researcher_by_email( $email   );
+
+    $data = [];
+    $data['title']       = $researcher->title;
+    $data['firstname']   = $researcher->firstname;
+    $data['midname']     = $researcher->midname;
+    $data['lastname']    = $researcher->lastname;
+    $data['gender']      = $researcher->gender;
+    $data['mobile']      = $researcher->mobile;
+    $data['email']       = $researcher->email;
+
+    $data['orcid_client_id']      = $this->config->item('orcid_client_id');
+    $data['orcid_redirect_uri']   = $this->config->item('orcid_redirect_uri');
+    $data['orcid_scope']          = $this->config->item('orcid_scope');
+
+    $this->load->view('main/frontend/signup_orcid_view', $data );
+  }
+
+  private function make_email_body_notify( $firstname, $email, $verifycode ){
 
           $this->config->load('product');
 
           $companyname   = $this->config->item('companyname');
           $productname   = $this->config->item('productname');
           $host          = base_url();
-          $url           = "{$host}signup/verification/{$verifycode}/?email={$email}";
+          $url           = "{$host}Signup/verification/{$verifycode}/?email={$email}";
 
           return  <<<HTML
 
@@ -389,14 +490,14 @@ class Signup extends CI_Controller{
 HTML;
 }
 
-   private function make_email_body_save_continue( $firstname, $email, $accesscode ){
+  private function make_email_body_save_continue( $firstname, $email, $accesscode ){
 
           $this->config->load('product');
 
           $companyname   = $this->config->item('companyname');
           $productname   = $this->config->item('productname');
           $host          = base_url();
-          $url           = "{$host}signup/profile/{$accesscode}/?email={$email}";
+          $url           = "{$host}Signup/profile/{$accesscode}/?email={$email}";
 
           return  <<<HTML
 
@@ -412,7 +513,7 @@ HTML;
 
           <tr>
            <td><br>Your signed up with {$productname}  Portal.<br>
-            Please follow the link below to complete your signup.<br>
+            Please follow the link below to complete your researcher.<br>
              <a href="{$url}">Complete Signup</a><br>
             <br> </td>
           </tr>
@@ -449,7 +550,7 @@ HTML;
 HTML;
 }
 
-   private function make_email_body_complete( $firstname, $email ){
+  private function make_email_body_complete( $firstname, $email ){
 
           $this->config->load('product');
 
@@ -507,5 +608,27 @@ HTML;
 
 HTML;
 }
+
+   private function get_email_template( $data, $applicant_template  ){
+
+
+          $data['companyname']    =  $this->config->item('companyname');
+          $data['productname']    =  $this->config->item('companyname');
+          $email_template         =  $this->abs->get_email_template( $applicant_template );
+
+          if(empty($email_template)) return;
+
+          foreach($data as $col=>$value)
+          {
+              $template_val = "[[{$col}]]";
+              if(strstr($email_template, $template_val)){
+             $email_template = str_replace($template_val, $value, $email_template);
+            }
+          }
+
+          return   $email_template;
+
+    }
+
 
  }
